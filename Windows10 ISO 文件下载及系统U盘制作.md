@@ -10,7 +10,7 @@
 
 # 非 Windows 系统下载 iso 镜像文件
 
-如果你的系统不是 windows，相对而言比较简单。因为点击链接后会自动识别出你的系统信息，如果你的系统不是 windows 会直接进入 iso 下载选择页面：
+点击链接后会自动识别你的操作系统信息，如果系统不是 windows 会直接进入 iso 下载选择页面：
 
 ![nonwindows10system-webpage-1644480115AvYU5J](http://blog-media.knowledge.ituknown.cn/DownloadWin10ISO/nonwindows10system-webpage-1644480115AvYU5J.png)
 
@@ -18,7 +18,7 @@
 
 ![chiose-system-version-1644480351wVseBd](http://blog-media.knowledge.ituknown.cn/DownloadWin10ISO/chiose-system-version-1644480351wVseBd.png)
 
-确认后自动进入系统价格选择栏，选择你的机器架构点击即可下载了：
+确认后接着提示选择系统架构，点击对应的架构即可下载了：
 
 ![select-iso-arch-1644480373Z3SenB](http://blog-media.knowledge.ituknown.cn/DownloadWin10ISO/select-iso-arch-1644480373Z3SenB.png)
 
@@ -48,3 +48,10 @@
 **5：** iso 文件下载并校验完成后就结束了，点击完成即可。不过如果你想要刻录DVD的话点击 <u>打开刻录机即可</u>：
 
 ![burn-or-done-1644481341kcs81U](http://blog-media.knowledge.ituknown.cn/DownloadWin10ISO/burn-or-done-1644481341kcs81U.png)
+
+
+--
+
+参考链接：
+
+https://support.microsoft.com/en-us/windows/create-an-iso-file-for-windows-10-38547366-1dcb-7afd-1726-9eb222d72705
