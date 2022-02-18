@@ -17,13 +17,13 @@ yt-dlp 是基于 youtube-dl 二次开发。看着名称像是 YouTube 的专属�
 
 |**Note**|
 |:-------|
-|因为 yt-dlp 是基于 youtube-dl 和 youtube-dlc 做的二次开发，所以在使用时他们的命令及参数基本一直。所以下面的命令说明同样适用于 youtube-dl 和 youtube-dlc。|
+|因为 yt-dlp 是基于 youtube-dl 和 youtube-dlc 做的二次开发，所以在使用时他们的命令及参数基本一致。所以下面的命令说明同样适用于 youtube-dl 和 youtube-dlc。|
 
 # 下载及安装
 
 yt-dlp 的 Github 仓库地址是：[https://github.com/yt-dlp/yt-dlp](https://github.com/yt-dlp/yt-dlp)。
 
-在仓库的 README 说明中有介绍 Unix/Mac/Windows 的安装方式。另外，也可以直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制安装包，下面说下 Unix 和 Mac 的命令行安装方式：
+在仓库的 README 说明中有介绍各种操作系统（Unix/Mac/Windows）的安装方式。另外，也可以直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制安装包进行安装。
 
 下面是类Unix（MacOS、Linux、BSD）操作系统使用 `curl`、`wget` 及 `aria2c` 三种下载工具的安装方式：
 
@@ -48,7 +48,7 @@ sudo chmod a+rx /usr/local/bin/yt-dlp
 brew install yt-dlp
 ```
 
-如果你使用 Pip 的可以使用下面命令进行安装：
+如果你使用 Pip 可以使用下面命令进行安装：
 
 ```bash
 python3 -m pip install -U yt-dlp
@@ -68,9 +68,7 @@ python3 -m pip install --no-deps -U yt-dlp
 
 # 默认方式下载
 
-默认情况下，yt-dlp 会自动选择一个视频，但是这个视频不一定是质量最好的，我们可以自己选择需要下载的视频。
-
-只需要拷贝 youtube 地址栏上的视频链接即可：
+yt-dlp 下载 Youtube 视频很简单，只需要拷贝浏览器地址栏上的视频链接即可：
 
 ```bash
 yt-dlp https://www.youtube.com/watch?v=lHvamusTCK0
@@ -80,7 +78,10 @@ yt-dlp https://www.youtube.com/watch?v=lHvamusTCK0
 |:-------|
 |YouTube 上的视频都是使用 v 参数指定（就是 av 的意思，同 bilibili）。v 后面的值就是视频号，我们可以直接通过视频号找到指定视频。对于视频专栏（系列视频）则使用 list 参数指定系列号。|
 
-另外，YouTube 采用了音视频分离的方式，如果安装了 ffmpeg，yt-dlp 会下载质量最好的视频和音频进行合并。不过我们也可以列出所有的音视频文件后手动选择指定质量的音视频：
+
+默认情况下，yt-dlp 会自动选择一个视频。除了默认的下载方式，我们也可以借助 `-F` 和 `-f` 参数选择下载指定质量的视频（见下文）。
+
+另外，YouTube 上的视频基本上采用音视频分离的方式，如果安装了 ffmpeg，yt-dlp 会下载质量最好的视频和音频进行合并。不过我们也可以列出所有的音视频文件后手动选择指定质量的音视频：
 
 
 ## 列出所有的音视频文件
@@ -93,5 +94,6 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 
 输出实例：
 
-![yt-dlp-v-F-1645152032S7mauw](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-1645152032S7mauw.png)
+![yt-dlp-v-F-1645153235ABnGuv](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-1645153235ABnGuv.png)
+
 
