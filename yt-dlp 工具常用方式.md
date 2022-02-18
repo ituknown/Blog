@@ -97,6 +97,42 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 ![yt-dlp-v-F-1645153235ABnGuv](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-1645153235ABnGuv.png)
 
 
+# 断点续传
+
+```
+[youtube] Q6rCpelpwIk: Downloading webpage
+[youtube] Q6rCpelpwIk: Downloading android player API JSON
+[youtube] Q6rCpelpwIk: Downloading MPD manifest
+[youtube] Q6rCpelpwIk: Downloading MPD manifest
+[info] Q6rCpelpwIk: Downloading 1 format(s): 248+251
+[dashsegments] Total fragments: 177
+[download] Destination: 一念永恒 第51 集 1080 【高清】【无广告】 [Q6rCpelpwIk].f248.webm
+[download]  87.6% of ~126.29MiB at 517.79KiB/s ETA 00:45 (frag 155/177)ERROR: unable to download video data: <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>
+[download] Downloading video 9 of 9
+[youtube] lUqJ7uFEXEQ: Downloading webpage
+WARNING: [youtube] Unable to download webpage: <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>
+[youtube] lUqJ7uFEXEQ: Downloading android player API JSON
+WARNING: [youtube] <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>. Retrying ...
+[youtube] lUqJ7uFEXEQ: Downloading android player API JSON (retry #1)
+WARNING: [youtube] <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>. Retrying ...
+[youtube] lUqJ7uFEXEQ: Downloading android player API JSON (retry #2)
+WARNING: [youtube] <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>. Retrying ...
+[youtube] lUqJ7uFEXEQ: Downloading android player API JSON (retry #3)
+[youtube] lUqJ7uFEXEQ: Downloading iframe API JS
+WARNING: [youtube] Unable to download webpage: <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)>
+[youtube] lUqJ7uFEXEQ: Downloading web player API JSON
+WARNING: [youtube] Unable to download API page: <urlopen error EOF occurred in violation of protocol (_ssl.c:1131)> (caused by URLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1131)')))
+WARNING: [youtube] nsig extraction failed: You may experience throttling for some formats
+n = XCh__1fyLeAzGpZOW ; player = None
+Cannot decrypt nsig without player_url; please report this issue on  https://github.com/yt-dlp/yt-dlp , filling out the "Broken site" issue template properly. Confirm you are on the latest version using -U
+WARNING: [youtube] nsig extraction failed: You may experience throttling for some formats
+n = Qq8f78Kk5yiw32p4F ; player = None
+Cannot decrypt nsig without player_url; please report this issue on  https://github.com/yt-dlp/yt-dlp , filling out the "Broken site" issue template properly. Confirm you are on the latest version using -U
+[youtube] lUqJ7uFEXEQ: Downloading initial data API JSON
+[info] lUqJ7uFEXEQ: Downloading 1 format(s): 248+251
+ERROR: unable to download video data: HTTP Error 403: Forbidden
+```
+
 # 什么是 WebM 格式
 
 WebM由Google提出，是一个开放、免费的媒体文件格式。
