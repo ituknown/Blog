@@ -188,7 +188,7 @@ yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 |在下载播放列表指定集之前可以先使用 `-F` 参数看下有哪些选集|
 
 
-# 断点续传
+## 断点续传
 
 如果在下载过程中网络突然断了是一件很麻烦的视频（如下日志）：
 
