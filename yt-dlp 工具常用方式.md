@@ -9,7 +9,7 @@ yt-dlp 工具将 youtube-dl 与 youtube-dlc 做了整合，同时内部增加了
 
 下面以某国漫（[https://www.youtube.com/watch?v=lHvamusTCK0](https://www.youtube.com/watch?v=lHvamusTCK0)）为例，使用 youtube-dl 和 yt-dlp 的下载速度对比：
 
-![yt-dlp-vs-youtube-dl-16451013518FPkr3nP](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-vs-youtube-dl-16451013518FPkr3nP.png)
+![yt-dlp-vs-youtube-dl-1645151899Jfx19M](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-vs-youtube-dl-1645151899Jfx19M.png)
 
 很明显，yt-dlp 的下载速度将 youtube-dl 甩了几条街。
 
@@ -93,4 +93,5 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 
 输出实例：
 
-![yt-dlp-v-F-16451039241JEt0tLb](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-16451039241JEt0tLb.png)
+![yt-dlp-v-F-1645152032S7mauw](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-1645152032S7mauw.png)
+
