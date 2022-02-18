@@ -66,7 +66,7 @@ python3 -m pip install --no-deps -U yt-dlp
 
 # 常用方式
 
-## 默认方式命令
+## 默认下载命令
 
 yt-dlp 下载 Youtube 视频很简单，只需要拷贝浏览器地址栏上的视频链接即可：
 
