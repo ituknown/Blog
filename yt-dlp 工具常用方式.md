@@ -13,7 +13,7 @@ yt-dlp 工具将 youtube-dl 与 youtube-dlc 做了整合，同时内部增加了
 
 很明显，yt-dlp 的下载速度将 youtube-dl 甩了几条街。
 
-yt-dlp 是基于 youtube-dl 二次开发。看着名称像是 YouTube 的专属下载工具，其实不然。该工具不仅支持 YouTube，还支持非常多的视频网站。比如国内的优酷、爱奇艺、 bilibili 等。
+yt-dlp 是基于 youtube-dl 二次开发，**是 YouTube 的专属下载工具**。另外，该工具还支持其他的视频网站。比如国内的优酷、爱奇艺、 bilibili 等。
 
 |**Note**|
 |:-------|
@@ -74,27 +74,92 @@ yt-dlp 下载 Youtube 视频很简单，只需要拷贝浏览器地址栏上的�
 yt-dlp https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
+默认情况下，yt-dlp 会自动选择一个视频。
+
 |**Note**|
 |:-------|
 |YouTube 上的视频都是使用 v 参数指定（就是 av 的意思，同 bilibili）。v 后面的值就是视频号，我们可以直接通过视频号找到指定视频。对于视频专栏（系列视频）则使用 list 参数指定系列号。|
 
+需要特别强调了是：YouTube 上的视频采用音视频分离的方式。如果安装了 ffmpeg，yt-dlp 默认会下载质量最高的视频和音频并进行合并，这也是为什么在之前推荐单独安装 ffmpeg 的原因。
 
-默认情况下，yt-dlp 会自动选择一个视频。除了默认的下载方式，我们也可以借助 `-F` 和 `-f` 参数选择下载指定质量的视频（见下文）。
-
-另外，YouTube 上的视频基本上采用音视频分离的方式，如果安装了 ffmpeg，yt-dlp 会下载质量最好的视频和音频进行合并。不过我们也可以列出所有的音视频文件后手动选择指定质量的音视频：
+默认情况下，yt-dlp 会自动下载适合的音视频进行合并（如果操作系统中有 ffmpeg 的话默认会下载质量最高的音视频），不过我们也可以借助 `-F` 和 `-f` 参数选择下载指定质量的音视频。
 
 
 ## 列出所有的音视频文件
 
-可以使用 `-F` 参数列出视频的指定视频的音视频文件：
+使用 `-F` 参数可以列出指定视频链接的全部音视频文件：
 
 ```bash
 yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
-输出实例：
+输出示例：
 
 ![yt-dlp-v-F-1645153235ABnGuv](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-v-F-1645153235ABnGuv.png)
+
+注意看输出示例中的 VCODEC 栏信息，共分为三类，分别是 images、audio only 和 videi only。也就是说 Youtube 上的视频是音视频分开的。如果你仅仅下载 video only 文件是只有画面没有声音，只下载 audio only 文件则只有声音没有画面。因此在下载时需要同时下载一个 audio only 文件和一个 video only 文件（yt-dlp 默认下载方式会自动下载音视频文件）。
+
+另外，video only 文件分为两类流媒体格式，分别是 mp4 和 webm。webm 是谷歌推出的流媒体格式，与 mp4 区别不大，可以参考文章最后的 webm 文件说明。
+
+输出栏中还有一列 ID 字段，这个是流媒体文件标识，如果想要下载指定的质量的流媒体就需要使用 `-f` 参数指定该 ID（下面会进行说明）。
+ 
+
+## 下载指定文件
+
+`-f` 参数则用于下载指定的文件。比如上面示例中的 1920x1080 的 mp4 视频文件，对应的 ID 为 137：
+
+```
+137 mp4   1920x1080   25 │    1.24GiB 1158k https │ avc1.640028   1158k video only              1080p, mp4_dash
+```
+
+下载命令如下：
+
+```bash
+yt-dlp -f 137 https://www.youtube.com/watch?v=lHvamusTCK0
+```
+
+另外，`-f` 参数可同时指定下载多个文件，也可以指定范围下载文件。示例：
+
+`-f 399,137,248`：下载指定文件。
+`-f 135-137,248-250`：范围指定下载文件（ID 不存在没关系，会在你指定的范围内查找要下载的 ID 文件）。
+
+需要强调的一点是，Youtube 上的流媒体文件是音视频分离的。因此，你如果使用 `-f` 这种方式下载视频文件必须同时指定要下载的音频文件，否则下载完成后的视频要么只要画面咩有声音要么只有声音没有画面。
+
+视频文件和音频文件使用 `+` 分隔，比如要下载的视频文件 ID 为 137，音频文件为 140。则命令如下：
+
+```bash
+yt-dlp -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
+```
+
+不要担心下载完成后会有两个文件，yt-dlp 会使用 ffmpeg 工具自动将下载完成后的视频和音频进行合并成一个流媒体文件。
+
+`-f` 参数除了直接指定 ID 外还可以使用下面这种语法：
+
+```
+-f bestvideo+bestaudio
+```
+
+这种语法会自动下载质量最高的音视频文件并进行合并（前提是按照 ffmpeg 工具了）。比如上面的示例中 1920x1080 的视频文件有两个：
+
+```
+137 mp4   1920x1080   25 │    1.24GiB 1158k https │ avc1.640028   1158k video only              1080p, mp4_dash
+248 webm  1920x1080   25 │    1.08GiB 1014k https │ vp9           1014k video only              1080p, webm_dash
+```
+
+bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下面的语法指定如果没有 mp4 格式的视频文件的话再选择 webm 视频文件：
+
+```
+-f bestvide[ext=mp4]/bestvideo[ext=webm]+bestaudio
+```
+
+对于音频文件也是一样的，可以指定优选选择 m4a 还是 webm 的音频文件（默认选择 webm）：
+
+```
+-f bestvideo[ext=mp4]/bestvideo[ext=webm]+bestaudio[ext=m4a]/bestaudio[ext=webm]
+```
+
+
+
 
 
 # 断点续传
