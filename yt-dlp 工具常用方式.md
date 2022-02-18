@@ -120,10 +120,12 @@ yt-dlp -f 137 https://www.youtube.com/watch?v=lHvamusTCK0
 
 另外，`-f` 参数可同时指定下载多个文件，也可以指定范围下载文件。示例：
 
-`-f 399,137,248`：下载指定文件。
-`-f 135-137,248-250`：范围指定下载文件（ID 不存在没关系，会在你指定的范围内查找要下载的 ID 文件）。
+```
+-f 399,137,248: 下载指定文件
+-f 135-137,248-250范围指定下载文件(ID 不存在没关系, 会在你指定的范围内查找要下载的 ID 文件)
+```
 
-需要强调的一点是，Youtube 上的流媒体文件是音视频分离的。因此，你如果使用 `-f` 这种方式下载视频文件必须同时指定要下载的音频文件，否则下载完成后的视频要么只要画面咩有声音要么只有声音没有画面。
+需要强调的一点是，Youtube 上的流媒体文件是音视频分离的。因此，你如果使用 `-f` 这种方式下载视频文件必须同时指定要下载的音频文件，否则下载完成后的视频要么只要画面没有声音要么只有声音没有画面。
 
 视频文件和音频文件使用 `+` 分隔，比如要下载的视频文件 ID 为 137，音频文件为 140。则命令如下：
 
@@ -139,7 +141,7 @@ yt-dlp -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 -f bestvideo+bestaudio
 ```
 
-这种语法会自动下载质量最高的音视频文件并进行合并（前提是按照 ffmpeg 工具了）。比如上面的示例中 1920x1080 的视频文件有两个：
+这种语法会自动下载质量最高的音视频文件并进行合并（前提是安装了 ffmpeg ）。比如上面的示例中 1920x1080 的视频文件有两个：
 
 ```
 137 mp4   1920x1080   25 │    1.24GiB 1158k https │ avc1.640028   1158k video only              1080p, mp4_dash
@@ -159,10 +161,36 @@ bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下�
 ```
 
 
+## 播放列表
 
+Youtube 视频下载怎么能缺少专栏呢（就是常说的电视剧，在 Youtube 上叫播放列表 playlist）。播放列表的 URL 通常是下面的形式：
+
+```
+https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
+```
+
+yt-dlp 也可以直接下载播放列表：
+
+```
+yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
+```
+
+这样会自动下载播放列表中的全部视频，另外也可以使用 `--playlist` 相关参数下载播放列表指定起始位置：
+
+```
+--playlist-start NUM: 下载播放列表起始位置, 默认1
+--playlist-end NUM: 下载播放列表结束位置, 默认 last
+--playlist-items ITEM_SPEC: 下载播放列表里的特定选集. 如 --playlist-items 1,3,5,7-10, 就会下载 1,3,5,7,8,9,10 集
+```
+
+|**Note**|
+|:-------|
+|在下载播放列表指定集之前可以先使用 `-F` 参数看下有哪些选集|
 
 
 # 断点续传
+
+如果在下载过程中网络突然断了是一件很麻烦的视频（如下日志）：
 
 ```
 [youtube] Q6rCpelpwIk: Downloading webpage
@@ -196,6 +224,20 @@ Cannot decrypt nsig without player_url; please report this issue on  https://git
 [youtube] lUqJ7uFEXEQ: Downloading initial data API JSON
 [info] lUqJ7uFEXEQ: Downloading 1 format(s): 248+251
 ERROR: unable to download video data: HTTP Error 403: Forbidden
+```
+
+难道要重新下载？不需要，可以使用 `-c` 参数指定断点续传。加上该参数之后就会自动接着上次下载的位置下载了：
+
+```bash
+yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
+```
+
+## 网络代理
+
+既然下载 Youtube 上的视频怎们能少的了代理呢？
+
+```bash
+yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
 # 什么是 WebM 格式
