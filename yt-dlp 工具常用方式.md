@@ -290,18 +290,90 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 -p, --password PASSWORD          指定用户密码 
 ```
 
-# 其他
+# 其他参数
 
-查看支持的网站列表：
+## 查看支持的网站列表
+
+如果想要知道 yt-dlp 工具支不支持你想下载的网站的视频可以使用下面参数看下。该参数会列出所有支持的网站列表：
 
 ```
 --list-extractors
 ```
 
-升级 yt-dlp：
+比如我想看看支不支持 bilibili：
+
+```bash
+$ yt-dlp --list-extractors | grep bilibili
+bangumi.bilibili.com
+```
+
+这里显示支持。那我使用 `-F` 参数看下尚硅谷的c语言课程试试：
+
+```bash
+$ yt-dlp -F https://www.bilibili.com/video/BV1qJ411z7Hf
+[BiliBili] 1qJ411z7Hf: Grabbing original ID via API
+[BiliBili] 77774320: Downloading webpage
+[BiliBili] 77774320: Extracting videos in anthology
+[BiliBili] Downloading anthology 77774320 - add --no-playlist to just download video
+[download] Downloading playlist: 尚硅谷C语言零基础快速入门教程
+[BiliBili] playlist 尚硅谷C语言零基础快速入门教程: Downloading 171 videos
+[download] Downloading video 1 of 171
+[BiliBili] 1qJ411z7Hf: Grabbing original ID via API
+[BiliBili] 77774320: Downloading webpage
+[BiliBili] 77774320: Extracting videos in anthology
+[BiliBili] 77774320: Downloading tags
+[info] Available formats for 77774320_part1:
+ID EXT RESOLUTION │  FILESIZE  TBR PROTO │ VCODEC            VBR ACODEC      ABR
+─────────────────────────────────────────────────────────────────────────────────
+0  m4a audio only │ ~ 4.85MiB  67k https │ audio only            mp4a.40.2   67k
+1  m4a audio only │ ~ 9.59MiB 132k https │ audio only            mp4a.40.2  132k
+2  m4a audio only │ ~23.04MiB 319k https │ audio only            mp4a.40.2  319k
+3  m4s unknown    │                https │ unknown               unknown
+4  m4s unknown    │                https │ unknown               unknown
+5  m4s unknown    │                https │ unknown               unknown
+6  m4s unknown    │                https │ unknown               unknown
+7  m4s unknown    │                https │ unknown               unknown
+8  m4s unknown    │                https │ unknown               unknown
+9  m4s unknown    │                https │ unknown               unknown
+10 m4s unknown    │                https │ unknown               unknown
+11 m4s unknown    │                https │ unknown               unknown
+12 m4s unknown    │                https │ unknown               unknown
+13 m4s unknown    │                https │ unknown               unknown
+14 m4s unknown    │                https │ unknown               unknown
+15 m4s unknown    │                https │ unknown               unknown
+16 m4s unknown    │                https │ unknown               unknown
+17 m4s unknown    │                https │ unknown               unknown
+18 m4s unknown    │                https │ unknown               unknown
+19 m4s unknown    │                https │ unknown               unknown
+20 m4s unknown    │                https │ unknown               unknown
+21 m4s unknown    │                https │ unknown               unknown
+22 m4s unknown    │                https │ unknown               unknown
+23 m4s unknown    │                https │ unknown               unknown
+24 m4s unknown    │                https │ unknown               unknown
+25 mp4 600x360    │ ~ 6.57MiB  90k https │ avc1.64001E       90k video only
+26 mp4 600x360    │ ~12.31MiB 170k https │ hev1.1.6.L120.90 170k video only
+27 mp4 800x480    │ ~10.02MiB 138k https │ avc1.64001F      138k video only
+28 mp4 800x480    │ ~12.08MiB 167k https │ hev1.1.6.L120.90 167k video only
+29 mp4 1200x720   │ ~17.16MiB 237k https │ avc1.640020      237k video only
+30 mp4 1200x720   │ ~11.78MiB 163k https │ hev1.1.6.L120.90 163k video only
+31 mp4 1280x768   │ ~15.40MiB 213k https │ avc1.640028      213k video only
+32 mp4 1280x768   │ ~11.96MiB 165k https │ hev1.1.6.L120.90 165k video only
+[download] Downloading video 2 of 171
+[BiliBili] 1qJ411z7Hf: Grabbing original ID via API
+[BiliBili] 77774320: Downloading webpage
+[BiliBili] 77774320: Extracting videos in anthology
+[BiliBili] 77774320: Downloading tags
+[info] Available formats for 77774320_part2:
+...
+```
+
+那现在我下载课程还不轻而易举？
+
+## 升级 yt-dlp
+
 
 ```
--U
+yt-dlp -U
 ```
 
 # 什么是 WebM 格式
