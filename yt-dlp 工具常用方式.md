@@ -290,6 +290,20 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 -p, --password PASSWORD          指定用户密码 
 ```
 
+# 其他
+
+查看支持的网站列表：
+
+```
+--list-extractors
+```
+
+升级 yt-dlp：
+
+```
+-U
+```
+
 # 什么是 WebM 格式
 
 WebM由Google提出，是一个开放、免费的媒体文件格式。
