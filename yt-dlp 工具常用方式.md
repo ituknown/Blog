@@ -64,9 +64,9 @@ python3 -m pip install --no-deps -U yt-dlp
 |yt-dlp 在视频合成时基于 ffmpeg，虽然在程序包中有内置 ffmpeg。但还是推荐在操作系统上单独安装一次，防止视频下载后在进行合并音视频的出现未知错误。|
 
 
-# 常用方式
+# 音视频相关常用方式
 
-## 默认下载命令
+## 默认方式下载命令
 
 yt-dlp 下载 Youtube 视频很简单，只需要拷贝浏览器地址栏上的视频链接即可：
 
@@ -104,7 +104,7 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 输出栏中还有一列 ID 字段，这个是流媒体文件标识，如果想要下载指定的质量的流媒体就需要使用 `-f` 参数指定该 ID（下面会进行说明）。
  
 
-## 下载指定文件
+## 下载指定音视频文件
 
 `-f` 参数则用于下载指定的文件。比如上面示例中的 1920x1080 的 mp4 视频文件，对应的 ID 为 137：
 
@@ -161,7 +161,7 @@ bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下�
 ```
 
 
-## 播放列表
+## 下载播放列表
 
 Youtube 视频下载怎么能缺少专栏呢（就是常说的电视剧，在 Youtube 上叫播放列表 playlist）。播放列表的 URL 通常是下面的形式：
 
@@ -178,9 +178,9 @@ yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 这样会自动下载播放列表中的全部视频，另外也可以使用 `--playlist` 相关参数下载播放列表指定起始位置：
 
 ```
---playlist-start NUM: 下载播放列表起始位置, 默认1
---playlist-end NUM: 下载播放列表结束位置, 默认 last
---playlist-items ITEM_SPEC: 下载播放列表里的特定选集. 如 --playlist-items 1,3,5,7-10, 就会下载 1,3,5,7,8,9,10 集
+--playlist-start NUM            下载播放列表起始位置, 默认1
+--playlist-end NUM              下载播放列表结束位置, 默认 last
+--playlist-items ITEM_SPEC      下载播放列表里的特定选集. 如 --playlist-items 1,3,5,7-10, 就会下载 1,3,5,7,8,9,10 集
 ```
 
 |**Note**|
@@ -232,12 +232,62 @@ ERROR: unable to download video data: HTTP Error 403: Forbidden
 yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
-## 网络代理
+
+# 字幕相关常用方式
+
+有些 Youtube 视频字幕也是分离的，所以对于某些视频来说我们还需要下载下对应的字幕。字幕主要有下面这些参数：
+
+```
+--list-subs               列出所有字幕
+--write-sub               下载字幕文件
+--all-subs                下载所有可用字幕
+--write-auto-sub          下载自动生成的字幕文件
+--sub-lang LANGS          下载指定语言的字幕, 多种语言字符之间使用逗号分隔(如: --sub-lang "")
+--sub-format FORMAT       字幕文件格式, 如 "srt" 或 "ass/srt/vtt"(首选 ass 格式, 没有就选择 srt. 以此类推)
+--embed-sub               把字幕合并到视频中，只支持 mp4、mkv 和 webm 格式的视频
+```
+
+
+# 网络相关常用方式
+
+
+## 设置网络代理
 
 既然下载 Youtube 上的视频怎们能少的了代理呢？
 
+```
+--proxy URL
+```
+
+示例：
+
 ```bash
 yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
+```
+
+## 设置网络超时时间
+
+另外还可以设置连接超时时间：
+
+```
+--socket-timeout SECONDS
+```
+
+## 限制最大下载速度
+
+如果在上班时偷偷使用 yt-dlp 下载 Youtube 上的视频，每秒几十兆几十兆的下载很容易被网管监控到。所以聪明的做法应该限制一下 yt-dlp 的最大下载速度：
+
+```
+-r, --limit-rate      MAX_RATE
+```
+
+参数 `MAX_RATE` 就是你指定的每秒下载速度上限，如 50k、4.2M、1024G。
+
+# 用户认证相关
+
+```
+-u, --username USERNAME          指定用户名 
+-p, --password PASSWORD          指定用户密码 
 ```
 
 # 什么是 WebM 格式
