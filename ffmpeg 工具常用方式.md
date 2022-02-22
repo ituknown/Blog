@@ -62,18 +62,27 @@ ffmpeg -i "concat:1.ts|2.ts|3.ts" -c copy file.mp4
 不过，一般一个完整视频的 ts 文件会比较多（经常会遇到尽百个 ts 文件）。对于这种情况再直接使用命令行的话就很难受了，所以我们可以建立一个 file.txt 文件来告诉它要合并哪些文件。文件内部格式如下：
 
 ```bash
-file '01.ts' 
-file '02.ts' 
-file '03.ts' 
+file /path/01.ts 
+file 02.ts 
+file ./../ 3.ts 
 ```
 
-前面为关键词 file， 后面跟上视频的地址和名字。 ffmpeg 将会按照 txt 文件中的顺序将视频合并。然后在命令行中输入如下命令就可以了：
+前面为关键词 file， 后面跟上视频的地址（绝对路径或相对路径）。 ffmpeg 将会按照 txt 文件中的顺序将视频合并。然后在命令行中输入如下命令就可以了：
 
 ```bash
-$ ls
-01.ts 02.ts 03.ts file.txt
-
 $ ffmpeg -f concat -i file.txt -c copy file.mp4
+```
+
+如果得到一些像下面的错误：
+
+```
+file.txt: Operation not permitted
+```
+
+添加个参数 `-safe 0`：
+
+```bash
+$ ffmpeg -f concat -safe 0 -i file.txt -c copy file.mp4
 ```
 
 如果一切正常的话就会看到多出一个名为 file.mp4 的文件。
