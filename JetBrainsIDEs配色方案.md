@@ -30,11 +30,11 @@ One Dark 主题虽然很好看，但是默认的编辑器区域背景色太晃�
 
 同样的，vs 主题我也特别喜欢。不过对于编辑区域背景色我还是喜欢微调一下，通常会使用两种背景色，分别如下：
 
-使用 `1E1E1E` Background：
+- 使用 `1E1E1E` Background：
 
 ![VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ](http://blog-media.knowledge.ituknown.cn/IDEsEditorColorScheme/VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ.png)
 
-使用 `242425` Background：
+- 使用 `242425` Background：
 
 ![VSCodeDarkPlus-242425-1651024841cJlW2C](http://blog-media.knowledge.ituknown.cn/IDEsEditorColorScheme/VSCodeDarkPlus-242425-1651024841cJlW2C.png)
 
