@@ -102,7 +102,7 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 另外，video only 文件分为两类流媒体格式，分别是 mp4 和 webm。webm 是谷歌推出的流媒体格式，与 mp4 区别不大，可以参考文章最后的 webm 文件说明。
 
 输出栏中还有一列 ID 字段，这个是流媒体文件标识，如果想要下载指定的质量的流媒体就需要使用 `-f` 参数指定该 ID（下面会进行说明）。
- 
+
 
 ## 下载指定音视频文件
 
@@ -160,6 +160,28 @@ bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下�
 -f bestvideo[ext=mp4]/bestvideo[ext=webm]+bestaudio[ext=m4a]/bestaudio[ext=webm]
 ```
 
+### 音视频文件合并
+
+有时候使用 `-f` 参数指定具体音视频文件虽然下载完成了，但是不会自动合并，比如使用下面的命令：
+
+```bash
+yt-dlp -f bestvide+bestaudio https://www.youtube.com/video?v=PLpljE1hzFbZxxx
+```
+
+得到两个音视频文件：
+
+```bash
+bestvide.mp4
+bestaudio.m4a
+```
+
+遇到这种情况不用担心，我们可以使用 `ffmpeg` 手动执行下合并，命令如下：
+
+```bash
+ffmpeg -i bestvide.mp4 -i bestaudio.m4a -c:a copy -c:v copy output.mp4
+```
+
+其中 `bestvide.mp4` 就是你下载后的视频文件，`bestaudio.m4a` 是你下载后的音频文件，而最后的 `output.mp4` 就是你合并之后输出的文件了。
 
 ## 下载播放列表
 
@@ -286,8 +308,8 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 # 用户认证相关
 
 ```
--u, --username USERNAME          指定用户名 
--p, --password PASSWORD          指定用户密码 
+-u, --username USERNAME          指定用户名
+-p, --password PASSWORD          指定用户密码
 ```
 
 # 其他参数
