@@ -100,3 +100,5 @@ go1.18.3
 https://go.dev/dl
 
 https://go.dev/doc/manage-install
+
+https://medium.com/@sherlock297/go-install-version-is-required-when-current-directory-is-not-in-a-module-4ae2d1e0aa86
