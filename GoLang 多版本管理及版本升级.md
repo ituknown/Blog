@@ -8,7 +8,7 @@
 
 至于为什么需要安装多个版本的 Go，除了工作需要外，更多的可能是为了尝鲜。
 
-现在就来看下如何升级 Go 版本。
+现在就来看下如何升级 Go 版本:
 
 # 如何实现版本升级
 
@@ -18,19 +18,19 @@
 $ go install golang.org/dl/<go-version>
 ```
 
-这个命令并不会真正的执行安装操作，只是会将对应的 Go 版本的包装器下载到 `$GOPATH/bin` 目录下（可以理解为创建一个标记）。想要真正的执行安装还需要执行下下面的命令才行：
+这个命令并不会真正的执行安装操作，只是会将对应的 Go 版本的包装器下载到 `$GOPATH/bin` 目录下（可以理解为创建一个标记），想要真正的执行安装还需要执行下下面的命令才行：
 
 ```bash
 $ $GOPATH/bin/<go-version> download
 ```
 
-这个命令会将你指定的版本（`<go-version>`）下载到当前用户下的 sdk 目录中（可以理解为新的 GOROOT，只是没有添加到环境变量中）。另外，需要特别强调的是，这个 sdk 是默认的安装目录，是没法修改。
+这个命令会将你指定的版本（`<go-version>`）下载到当前用户下的 sdk 目录中（可以理解为新的 `GOROOT`，只是没有添加到环境变量中）。另外，需要特别强调的是，这个 sdk 是默认的安装目录，没法修改。
 
 --
 
 这里要额外的说下，Go 多版本安装使用的是 go-dl 工具，对应的仓库地址是：[https://github.com/golang/dl](https://github.com/golang/dl)。
 
-在这个仓库里你会看到很多以各个版本明明的目录（截图如下），也就是说每次发布新版本时就会在这个仓库里创建一个对应的版本目录，所以如果你不知道 go 有哪些版本可以通过这个仓库的目录查看。
+在这个仓库里你会看到很多以各个版本命名的目录（截图如下），也就是说每次发布新版本时就会在这个仓库里创建一个对应的版本目录，所以如果你不知道 go 有哪些版本可以通过这个仓库的目录查看。
 
 ![golang-dl-1655646062UWSaKv](http://blog-media.knowledge.ituknown.cn/Golang-Upgrade/golang-dl-1655646062UWSaKv.png)
 
@@ -57,7 +57,7 @@ GOPROXY="https://proxy.golang.com.cn,direct"
 $ go install golang.org/dl/go1.18.3
 ```
 
-这个命令执行完成后会将该版本的下载包装器下载到 `$GOPATH/bin` 目录下，文件名就是执行的 go 版本号 `go1.18.3`：
+这个命令执行完成后会将该版本的下载包装器下载到 `$GOPATH/bin` 目录下，文件名就是指定的 go 版本号 `go1.18.3`：
 
 ```bash
 $ ls $GOPATH/bin | grep 18
@@ -70,7 +70,7 @@ go1.18.3
 $ $GOPATH/bin/go1.18.3 download
 ```
 
-然后就会显示下载进度条，当下载完成后就会看到有个解压操作。会将下载的 Go 版本安装到当前用户下的 sdk 目录：
+然后就会显示下载进度条，当下载完成后就会看到有个解压操作。会将下载的这个 Go 版本安装到当前用户下的 sdk 目录：
 
 ```
 .....
@@ -84,7 +84,7 @@ Unpacking /home/ituknown/sdk/go1.18.3/go1.18.3.linux-amd64.tar.gz ...   # 看这
 Success. You may now run 'go1.18.3'
 ```
 
-之后就会看到 home 目录下多了个 sdk 目录，我们安装的 Go 也在这个目录下：
+之后就会看到 home 目录下多了个 sdk 目录，我们安装的这个版本的 Go 也在这个目录下：
 
 ```bash
 $ ls ~/sdk/
@@ -96,5 +96,7 @@ go1.18.3
 之后就可以正常使用了，只需要在项目里配置下 `GOROOT` 变量即可，其他的照旧~
 
 --
+
+https://go.dev/dl
 
 https://go.dev/doc/manage-install
