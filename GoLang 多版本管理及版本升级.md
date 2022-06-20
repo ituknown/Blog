@@ -2,7 +2,7 @@
 
 关注 Go Blog 的同学可能都会注意到，官方每次在发布新版本时都会提供类似下面的版本升级策略：
 
-![go-upgrade-1655643842G26ACQ](http://blog-media.knowledge.ituknown.cn/Golang-Upgrade/go-upgrade-1655643842G26ACQ.png)
+![go-upgrade-1655691183Ka99Uw](http://blog-media.knowledge.ituknown.cn/Golang-Upgrade/go-upgrade-1655691183Ka99Uw.png)
 
 这是 Go 官网提供的一种多版本管理方式，也是升级 Go 的主要方式。
 
