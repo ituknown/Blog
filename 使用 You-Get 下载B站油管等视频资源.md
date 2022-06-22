@@ -1,4 +1,5 @@
 # 前言
+
 在B站或有关上看到一个特棒的视频有木有想过将资源下载下载收藏到秘密空间？
 
 你是各种度娘各种谷歌，一顿操作猛如虎 ....
@@ -13,6 +14,7 @@ You-Get Github 仓库地址是：[https://github.com/soimort/you-get](https://g
 
 除此之外，还至此选择清晰度下载~
 # 安装
+
 以 Mac 为例, 使用 `brew` 下载即可：
 
 ```bash
@@ -131,6 +133,20 @@ B 站上有些视频是只有大会员才有权限观看的，`you-get` 没法�
 $ you-get -c cookies.txt --format=flv [大会员视频链接]
 ```
 
+# 使用 Docker
+
+有的时候会觉得直接在机器上安装 `you-get` 不太方便（比如工作电脑？），所以这个时候使用 docker 就显得很有必要的。`you-get` docker 镜像仓库地址是（非作者）：
+
+https://hub.docker.com/r/kmdgeek/you-get
+
+`kmdgeek/you-get` 镜像默认会将文件下载到容器的 `/download` 目录，因此我们只需要将宿主机上的某个目录与该目录做个映射即可。
+
+还是以[《中国惊奇先生》](https://www.bilibili.com/bangumi/play/ss10086/) 为例，使用该镜像将视频下载到我的 `/tmp/download` 目录下：
+
+```bash
+$ docker run --rm -v /tmp/download:/download kmdgeek/you-get --format=flv https://www.bilibili.com/bangumi/play/ss10086
+```
+
 # 写在最后
 
 如果你以为 **You-Get** 仅仅只能下载视频资源你就 **图样图深破** 了
@@ -147,115 +163,7 @@ Size:       0.06 MiB (66482 Bytes)
 $ you-get https://stallman.org/rms.jpg
 ```
 
-## 支持的网站
+--
 
-具体可以直接浏览 [Github仓库说明至此的视频网站哦](https://github.com/soimort/you-get#supported-sites)
-
-下面是列举的部分网站：
-
-| Site | URL | Videos? | Images? | Audios? |
-| :---: | :--- | :---: | :---: | :---: |
-| **YouTube** | [https://www.youtube.com/](https://www.youtube.com/) | ✓ |  |  |
-| **Twitter** | [https://twitter.com/](https://twitter.com/) | ✓ | ✓ |  |
-| VK | [http://vk.com/](http://vk.com/) | ✓ | ✓ |  |
-| Vine | [https://vine.co/](https://vine.co/) | ✓ |  |  |
-| Vimeo | [https://vimeo.com/](https://vimeo.com/) | ✓ |  |  |
-| Vidto | [http://vidto.me/](http://vidto.me/) | ✓ |  |  |
-| Videomega | [http://videomega.tv/](http://videomega.tv/) | ✓ |  |  |
-| Veoh | [http://www.veoh.com/](http://www.veoh.com/) | ✓ |  |  |
-| **Tumblr** | [https://www.tumblr.com/](https://www.tumblr.com/) | ✓ | ✓ | ✓ |
-| TED | [http://www.ted.com/](http://www.ted.com/) | ✓ |  |  |
-| SoundCloud | [https://soundcloud.com/](https://soundcloud.com/) |  |  | ✓ |
-| SHOWROOM | [https://www.showroom-live.com/](https://www.showroom-live.com/) | ✓ |  |  |
-| Pinterest | [https://www.pinterest.com/](https://www.pinterest.com/) |  | ✓ |  |
-| MusicPlayOn | [http://en.musicplayon.com/](http://en.musicplayon.com/) | ✓ |  |  |
-| MTV81 | [http://www.mtv81.com/](http://www.mtv81.com/) | ✓ |  |  |
-| Mixcloud | [https://www.mixcloud.com/](https://www.mixcloud.com/) |  |  | ✓ |
-| Metacafe | [http://www.metacafe.com/](http://www.metacafe.com/) | ✓ |  |  |
-| Magisto | [http://www.magisto.com/](http://www.magisto.com/) | ✓ |  |  |
-| Khan Academy | [https://www.khanacademy.org/](https://www.khanacademy.org/) | ✓ |  |  |
-| Internet Archive | [https://archive.org/](https://archive.org/) | ✓ |  |  |
-| **Instagram** | [https://instagram.com/](https://instagram.com/) | ✓ | ✓ |  |
-| InfoQ | [http://www.infoq.com/presentations/](http://www.infoq.com/presentations/) | ✓ |  |  |
-| Imgur | [http://imgur.com/](http://imgur.com/) |  | ✓ |  |
-| Heavy Music Archive | [http://www.heavy-music.ru/](http://www.heavy-music.ru/) |  |  | ✓ |
-| **Google+** | [https://plus.google.com/](https://plus.google.com/) | ✓ | ✓ |  |
-| Freesound | [http://www.freesound.org/](http://www.freesound.org/) |  |  | ✓ |
-| Flickr | [https://www.flickr.com/](https://www.flickr.com/) | ✓ | ✓ |  |
-| FC2 Video | [http://video.fc2.com/](http://video.fc2.com/) | ✓ |  |  |
-| Facebook | [https://www.facebook.com/](https://www.facebook.com/) | ✓ |  |  |
-| eHow | [http://www.ehow.com/](http://www.ehow.com/) | ✓ |  |  |
-| Dailymotion | [http://www.dailymotion.com/](http://www.dailymotion.com/) | ✓ |  |  |
-| Coub | [http://coub.com/](http://coub.com/) | ✓ |  |  |
-| CBS | [http://www.cbs.com/](http://www.cbs.com/) | ✓ |  |  |
-| Bandcamp | [http://bandcamp.com/](http://bandcamp.com/) |  |  | ✓ |
-| AliveThai | [http://alive.in.th/](http://alive.in.th/) | ✓ |  |  |
-| interest.me | [http://ch.interest.me/tvn](http://ch.interest.me/tvn) | ✓ |  |  |
-| **755
-ナナゴーゴー** | [http://7gogo.jp/](http://7gogo.jp/) | ✓ | ✓ |  |
-| **niconico
-ニコニコ動画** | [http://www.nicovideo.jp/](http://www.nicovideo.jp/) | ✓ |  |  |
-| **163
-网易视频
-网易云音乐** | [http://v.163.com/](http://v.163.com/)
-[http://music.163.com/](http://music.163.com/) | ✓ |  | ✓ |
-| 56网 | [http://www.56.com/](http://www.56.com/) | ✓ |  |  |
-| **AcFun** | [http://www.acfun.cn/](http://www.acfun.cn/) | ✓ |  |  |
-| **Baidu
-百度贴吧** | [http://tieba.baidu.com/](http://tieba.baidu.com/) | ✓ | ✓ |  |
-| 爆米花网 | [http://www.baomihua.com/](http://www.baomihua.com/) | ✓ |  |  |
-| **bilibili
-哔哩哔哩** | [http://www.bilibili.com/](http://www.bilibili.com/) | ✓ |  |  |
-| 豆瓣 | [http://www.douban.com/](http://www.douban.com/) | ✓ |  | ✓ |
-| 斗鱼 | [http://www.douyutv.com/](http://www.douyutv.com/) | ✓ |  |  |
-| Panda
-熊猫 | [http://www.panda.tv/](http://www.panda.tv/) | ✓ |  |  |
-| 凤凰视频 | [http://v.ifeng.com/](http://v.ifeng.com/) | ✓ |  |  |
-| 风行网 | [http://www.fun.tv/](http://www.fun.tv/) | ✓ |  |  |
-| iQIYI
-爱奇艺 | [http://www.iqiyi.com/](http://www.iqiyi.com/) | ✓ |  |  |
-| 激动网 | [http://www.joy.cn/](http://www.joy.cn/) | ✓ |  |  |
-| 酷6网 | [http://www.ku6.com/](http://www.ku6.com/) | ✓ |  |  |
-| 酷狗音乐 | [http://www.kugou.com/](http://www.kugou.com/) |  |  | ✓ |
-| 酷我音乐 | [http://www.kuwo.cn/](http://www.kuwo.cn/) |  |  | ✓ |
-| 乐视网 | [http://www.le.com/](http://www.le.com/) | ✓ |  |  |
-| 荔枝FM | [http://www.lizhi.fm/](http://www.lizhi.fm/) |  |  | ✓ |
-| 秒拍 | [http://www.miaopai.com/](http://www.miaopai.com/) | ✓ |  |  |
-| MioMio弹幕网 | [http://www.miomio.tv/](http://www.miomio.tv/) | ✓ |  |  |
-| MissEvan
-猫耳FM | [http://www.missevan.com/](http://www.missevan.com/) |  |  | ✓ |
-| 痞客邦 | [https://www.pixnet.net/](https://www.pixnet.net/) | ✓ |  |  |
-| PPTV聚力 | [http://www.pptv.com/](http://www.pptv.com/) | ✓ |  |  |
-| 齐鲁网 | [http://v.iqilu.com/](http://v.iqilu.com/) | ✓ |  |  |
-| QQ
-腾讯视频 | [http://v.qq.com/](http://v.qq.com/) | ✓ |  |  |
-| 企鹅直播 | [http://live.qq.com/](http://live.qq.com/) | ✓ |  |  |
-| Sina
-新浪视频
-微博秒拍视频 | [http://video.sina.com.cn/](http://video.sina.com.cn/)
-[http://video.weibo.com/](http://video.weibo.com/) | ✓ |  |  |
-| Sohu
-搜狐视频 | [http://tv.sohu.com/](http://tv.sohu.com/) | ✓ |  |  |
-| **Tudou
-土豆** | [http://www.tudou.com/](http://www.tudou.com/) | ✓ |  |  |
-| 虾米 | [http://www.xiami.com/](http://www.xiami.com/) | ✓ |  | ✓ |
-| 阳光卫视 | [http://www.isuntv.com/](http://www.isuntv.com/) | ✓ |  |  |
-| **音悦Tai** | [http://www.yinyuetai.com/](http://www.yinyuetai.com/) | ✓ |  |  |
-| **Youku
-优酷** | [http://www.youku.com/](http://www.youku.com/) | ✓ |  |  |
-| 战旗TV | [http://www.zhanqi.tv/lives](http://www.zhanqi.tv/lives) | ✓ |  |  |
-| 央视网 | [http://www.cntv.cn/](http://www.cntv.cn/) | ✓ |  |  |
-| Naver
-네이버 | [http://tvcast.naver.com/](http://tvcast.naver.com/) | ✓ |  |  |
-| 芒果TV | [http://www.mgtv.com/](http://www.mgtv.com/) | ✓ |  |  |
-| 火猫TV | [http://www.huomao.com/](http://www.huomao.com/) | ✓ |  |  |
-| 阳光宽频网 | [http://www.365yg.com/](http://www.365yg.com/) | ✓ |  |  |
-| 西瓜视频 | [https://www.ixigua.com/](https://www.ixigua.com/) | ✓ |  |  |
-| 快手 | [https://www.kuaishou.com/](https://www.kuaishou.com/) | ✓ | ✓ |  |
-| 抖音 | [https://www.douyin.com/](https://www.douyin.com/) | ✓ |  |  |
-| TikTok | [https://www.tiktok.com/](https://www.tiktok.com/) | ✓ |  |  |
-| 中国体育(TV) | [http://v.zhibo.tv/](http://v.zhibo.tv/)
-[http://video.zhibo.tv/](http://video.zhibo.tv/) | ✓ |  |  |
-| 知乎 | [https://www.zhihu.com/](https://www.zhihu.com/) | ✓ |  |  |
-
+https://github.com/soimort/you-get
 
