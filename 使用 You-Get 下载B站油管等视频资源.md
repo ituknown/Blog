@@ -145,6 +145,27 @@ https://hub.docker.com/r/kmdgeek/you-get
 
 ```bash
 $ docker run --rm -v /tmp/download:/download kmdgeek/you-get --format=flv https://www.bilibili.com/bangumi/play/ss10086
+Unable to find image 'kmdgeek/you-get:latest' locally
+latest: Pulling from kmdgeek/you-get
+540db60ca938: Pull complete
+d037ddac5dde: Pull complete
+629719f9106a: Pull complete
+f9ef3a05a91e: Pull complete
+a953f4282204: Pull complete
+dad1a55a02de: Pull complete
+Digest: sha256:45ab8bd426a3e17d8c6ef766b84b2dcb586a4bf76186fc0f4b028308974ceb9f
+Status: Downloaded newer image for kmdgeek/you-get:latest
+site:                Bilibili
+title:               中国惊奇先生
+stream:
+    - format:        flv
+      container:     flv
+      quality:       高清 1080P
+      size:          1018.0 MiB (1067408284 bytes)
+    # download-with: you-get --format=flv [URL]
+
+Downloading 中国惊奇先生.mp4 ...
+11.8% ( 120.6/1018.0MB) ├████────────────────────────────────┤[ 5/27]    1 MB/s
 ```
 
 # 写在最后
