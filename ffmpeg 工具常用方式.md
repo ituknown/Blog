@@ -188,6 +188,7 @@ ffmpeg -i video.mp4 -ab 320k video.mp3
 ```
 
 |**Note**|
+|:-------|
 |之所以选择 `320Kbps` 的码率是因为该值是 mp3 格式的最高码率~|
 
 
