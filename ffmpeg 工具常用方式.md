@@ -40,11 +40,11 @@ libpostproc    55.  7.100 / 55.  7.100
 ```
 
 
-# 批量合成视频 
+# 批量合成视频
 
 这个用的最多的就是合成 m3u8 视频，某些视频链接🔗是 m3u8 格式。下载下来后会是一堆 `.ts` 视频，每个 `.ts` 视频仅仅只有几秒钟，所以我们需要将这些 `.ts` 视频按照顺序进行合成为一个大的完整视频。
 
-ffmpeg 合成视频可以使用 concat 参数。比如我当前目录下有三个 `.ts` 视频：
+ffmpeg 合成视频可以使用 `concat` 参数。比如我当前目录下有三个 `.ts` 视频：
 
 ```bash
 $ ls
@@ -59,12 +59,12 @@ ffmpeg -i "concat:1.ts|2.ts|3.ts" -c copy file.mp4
 
 `-c` 参数是 codec 的意思，即编码器。最后指定输出的视频文件名称，如 file.mp4。
 
-不过，一般一个完整视频的 ts 文件会比较多（经常会遇到尽百个 ts 文件）。对于这种情况再直接使用命令行的话就很难受了，所以我们可以建立一个 file.txt 文件来告诉它要合并哪些文件。文件内部格式如下：
+不过，一般一个完整视频的 ts 文件会比较多（经常会遇到几百个 ts 文件）。对于这种情况再直接使用命令行的话就很难受了，所以我们可以建立一个 `file.txt` 文件来告诉它要合并哪些文件。文件内部格式如下：
 
 ```bash
-file /path/01.ts 
-file 02.ts 
-file ./../ 3.ts 
+file /path/01.ts
+file 02.ts
+file ./../ 3.ts
 ```
 
 前面为关键词 file， 后面跟上视频的地址（绝对路径或相对路径）。 ffmpeg 将会按照 txt 文件中的顺序将视频合并。然后在命令行中输入如下命令就可以了：
@@ -148,4 +148,46 @@ total 472920
 -rw-r--r--  1 mingrn97  staff    42M Mar 24 17:33 文件系统2.flv
 -rw-r--r--  1 mingrn97  staff    31M Mar 24 17:33 文件系统3.flv
 ```
+
+# 提取音频
+
+以 video.mp4 提取音频为例：
+
+```bash
+ffmpeg -i video.mp4 -vn -y -acodec copy video.aac
+```
+
+或
+
+```bash
+ffmpeg -i video.mp4 -vn -y -acodec copy video.m4a
+```
+
+以上两条命令方式提取 mp3 的话，会报一下错误：
+
+```
+[mp3 @ 0x7fe2637062c0] Invalid audio stream. Exactly one MP3 audio stream is required.
+Could not write header for output file #0 (incorrect codec parameters ?): Invalid argument
+```
+
+其实呢，如果要提取 mp3 的话，不需要加任何参数，直接这么提取就可以了：
+
+```bash
+ffmpeg -i video.mp4 video.mp3
+```
+
+--
+
+需要说明的是，`ffmpeg` 默认会以 `124kbps` 来提取音频，这样如果视频质量很高的话我们就会得到一个全损音质的音频，所以还可以加上 `-ab` 参数指定音频的比特率。
+
+比如以 320k 的比特率输出音频：
+
+```bash
+ffmpeg -i video.mp4 -ab 320k video.mp3
+```
+
+|**Note**|
+|之所以选择 `320Kbps` 的码率是因为该值是 mp3 格式的最高码率~|
+
+
 
