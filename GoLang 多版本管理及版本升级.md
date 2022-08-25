@@ -18,11 +18,15 @@
 $ go install golang.org/dl/<go-version>
 ```
 
-这个命令并不会真正的执行安装操作，只是会将对应的 Go 版本的包装器下载到 `$GOPATH/bin` 目录下（可以理解为创建一个标记），想要真正的执行安装还需要执行下下面的命令才行：
+这个命令并不会真正的执行安装操作，只是将对应的 Go 版本的包装器下载到 `$GOPATH/bin` 目录下（可以理解为创建一个标记），想要真正的执行安装还需要执行下下面的命令才行：
 
 ```bash
-$ $GOPATH/bin/<go-version> download
+$ <go-version> download
 ```
+
+|**Note**|
+|:-------|
+|直接使用 `<go-version> download` 执行安装的前提是配置了环境变量（`export PATH=$PATH:$GOPATH/bin`），如果你没有配置环境变量需要使用 `$GOPATH/bin/<go-version> download` 代替！|
 
 这个命令会将你指定的版本（`<go-version>`）下载到当前用户下的 sdk 目录中（可以理解为新的 `GOROOT`，只是没有添加到环境变量中）。另外，需要特别强调的是，这个 sdk 是默认的安装目录，没法修改。
 
@@ -67,7 +71,7 @@ go1.18.3
 现在开始执行安装命令：
 
 ```bash
-$ $GOPATH/bin/go1.18.3 download
+$ go1.18.3 download
 ```
 
 然后就会显示下载进度条，当下载完成后就会看到有个解压操作。会将下载的这个 Go 版本安装到当前用户下的 sdk 目录：
