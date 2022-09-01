@@ -59,6 +59,10 @@ GOPROXY="https://proxy.golang.com.cn,direct"
 
 ```bash
 $ go install golang.org/dl/go1.18.3
+
+# 或
+
+$ go install golang.org/dl/go1.18.3@latest
 ```
 
 这个命令执行完成后会将该版本的下载包装器下载到 `$GOPATH/bin` 目录下，文件名就是指定的 go 版本号 `go1.18.3`：
