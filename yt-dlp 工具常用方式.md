@@ -270,11 +270,15 @@ yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 --skip-download           不下载视频(适用于仅下载字幕时使用)
 ```
 
-以 [MIT 6.824: Distributed Systems](https://www.youtube.com/channel/UC_7WrbZTCODu1o_kfUMq88g) 第十三节课（`https://www.youtube.com/watch?v=4eW5SWBi7vs`）为例。该视频没有对应的字幕，正常来说我们无法下载字幕文件。但是 youtube 比较牛逼，可以自动生成字幕，所以我们可以借助 `--write-auto-sub` 参数下载自动生成的字幕文件。
+下面的示例都以 [MIT 6.824: Distributed Systems](https://www.youtube.com/channel/UC_7WrbZTCODu1o_kfUMq88g) 第十三节课（`https://www.youtube.com/watch?v=4eW5SWBi7vs`）为例做说明。
+
+**特别强调：** `--write-auto-sub` 参数用于下载自动生成的字幕文件，意思就是某些视频本身没有字幕，但是 youtube 比较牛逼，可以自动生成多语言字幕。对于这种本身没有字幕的视频我们就可以借助 `--write-auto-sub` 参数来实现字幕下载。因此，在下载 youtube 视频时推荐都加上 `--write-auto-sub` 参数。
 
 看下示例：
 
-**列出可用中/英文字幕：**
+## 列出可用字幕
+
+通常，youtube 自动生成比较多，所以在列出字幕时可以过滤下，比如我只过滤可用的中/英文字幕：
 
 ```bash
 $ yt-dlp --list-subs https://www.youtube.com/watch\?v\=4eW5SWBi7vs | egrep 'en|zh'
@@ -288,10 +292,15 @@ sl       Slovenian             vtt, ttml, srv3, srv2, srv1, json3
 tk       Turkmen               vtt, ttml, srv3, srv2, srv1, json3
 ```
 
-**下载 youtube 自动生成的中/英文字幕文件：**
+## 字幕文件下载
+
+有时我们可能仅需要下载视频的字幕文件，对于这种场景我们可以加上 `--skip-download` 参数，表示不下载视频仅下载字幕。
+
+比如我下载自动生成的中文和英文字幕文件：
+
 
 ```bash
-$ yt-dlp --write-auto-sub --skip-download --sub-lang "zh-Hans,en"  https://www.youtube.com/watch\?v\=4eW5SWBi7vs
+$ yt-dlp --write-auto-sub --sub-lang "zh-Hans,en" --skip-download https://www.youtube.com/watch\?v\=4eW5SWBi7vs
 
 [youtube] 4eW5SWBi7vs: Downloading webpage
 [youtube] 4eW5SWBi7vs: Downloading android player API JSON
@@ -311,9 +320,9 @@ Lecture 13： Spanner [4eW5SWBi7vs].en.vtt
 Lecture 13： Spanner [4eW5SWBi7vs].zh-Hans.vtt
 ```
 
-**将字幕文件内嵌到视频中：**
+## 将字幕内嵌到视频
 
-另外，我们也可以在下载视频时直接将自动生成的字幕文件内嵌到视频中，还是以 [MIT 6.824: Distributed Systems - 第十三节课](https://www.youtube.com/watch?v=4eW5SWBi7vs) 为例。这里我选择将中/英文字幕直接内嵌到视频中：
+另外，我们也可以在下载视频时直接将自动生成的字幕文件内嵌到视频中，这里我选择将中/英文字幕直接内嵌到视频中：
 
 ```bash
 $ yt-dlp --write-auto-sub --sub-lang "en,zh-Hans" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
@@ -324,7 +333,6 @@ $ yt-dlp --write-auto-sub --sub-lang "en,zh-Hans" --embed-sub https://www.youtub
 ![yt-dlp-embed-subtitle-to-video](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-embed-subtitle-to-video.png)
 
 # 网络相关常用方式
-
 
 ## 设置网络代理
 
