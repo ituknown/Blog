@@ -267,8 +267,61 @@ yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 --sub-lang LANGS          下载指定语言的字幕, 多种语言字符之间使用逗号分隔(如: --sub-lang "")
 --sub-format FORMAT       字幕文件格式, 如 "srt" 或 "ass/srt/vtt"(首选 ass 格式, 没有就选择 srt. 以此类推)
 --embed-sub               把字幕合并到视频中，只支持 mp4、mkv 和 webm 格式的视频
+--skip-download           不下载视频(适用于仅下载字幕时使用)
 ```
 
+以 [MIT 6.824: Distributed Systems](https://www.youtube.com/channel/UC_7WrbZTCODu1o_kfUMq88g) 第十三节课（`https://www.youtube.com/watch?v=4eW5SWBi7vs`）为例。该视频没有对应的字幕，正常来说我们无法下载字幕文件。但是 youtube 比较牛逼，可以自动生成字幕，所以我们可以借助 `--write-auto-sub` 参数下载自动生成的字幕文件。
+
+看下示例：
+
+**列出可用中/英文字幕：**
+
+```bash
+$ yt-dlp --list-subs https://www.youtube.com/watch\?v\=4eW5SWBi7vs | egrep 'en|zh'
+hy       Armenian              vtt, ttml, srv3, srv2, srv1, json3
+zh-Hans  Chinese (Simplified)  vtt, ttml, srv3, srv2, srv1, json3
+zh-Hant  Chinese (Traditional) vtt, ttml, srv3, srv2, srv1, json3
+en-orig  English (Original)    vtt, ttml, srv3, srv2, srv1, json3
+en       English               vtt, ttml, srv3, srv2, srv1, json3
+fr       French                vtt, ttml, srv3, srv2, srv1, json3
+sl       Slovenian             vtt, ttml, srv3, srv2, srv1, json3
+tk       Turkmen               vtt, ttml, srv3, srv2, srv1, json3
+```
+
+**下载 youtube 自动生成的中/英文字幕文件：**
+
+```bash
+$ yt-dlp --write-auto-sub --skip-download --sub-lang "zh-Hans,en"  https://www.youtube.com/watch\?v\=4eW5SWBi7vs
+
+[youtube] 4eW5SWBi7vs: Downloading webpage
+[youtube] 4eW5SWBi7vs: Downloading android player API JSON
+[youtube] 4eW5SWBi7vs: Downloading MPD manifest
+[youtube] 4eW5SWBi7vs: Downloading MPD manifest
+[info] 4eW5SWBi7vs: Downloading subtitles: zh-Hans, en
+[info] 4eW5SWBi7vs: Downloading 1 format(s): 243+251
+[info] Writing video subtitles to: Lecture 13： Spanner [4eW5SWBi7vs].zh-Hans.vtt
+[download] Destination: Lecture 13： Spanner [4eW5SWBi7vs].zh-Hans.vtt
+[download] 100% of  512.36KiB in 00:00:01 at 410.79KiB/s
+[info] Writing video subtitles to: Lecture 13： Spanner [4eW5SWBi7vs].en.vtt
+[download] Destination: Lecture 13： Spanner [4eW5SWBi7vs].en.vtt
+[download] 100% of  551.15KiB in 00:00:01 at 526.30KiB/s
+
+$ ls
+Lecture 13： Spanner [4eW5SWBi7vs].en.vtt
+Lecture 13： Spanner [4eW5SWBi7vs].zh-Hans.vtt
+```
+
+**将字幕文件内嵌到视频中：**
+
+另外，我们也可以在下载视频时直接将自动生成的字幕文件内嵌到视频中，还是以 [MIT 6.824: Distributed Systems - 第十三节课](https://www.youtube.com/watch?v=4eW5SWBi7vs) 为例。这里我选择将中/英文字幕直接内嵌到视频中：
+
+```bash
+$ yt-dlp --write-auto-sub --sub-lang "en,zh-Hans" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
+```
+
+现在，当我们播放视频时就可以随意切换字幕了：
+
+![yt-dlp-embed-subtitle-to-video](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-embed-subtitle-to-video.png)
 
 # 网络相关常用方式
 
