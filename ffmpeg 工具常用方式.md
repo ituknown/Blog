@@ -41,7 +41,7 @@ libpostproc    55.  7.100 / 55.  7.100
 ```
 
 
-# 批量合成视频
+# 批量视频文件合成
 
 这个用的最多的就是合成 m3u8 视频，某些视频链接🔗是 m3u8 格式。下载下来后会是一堆 `.ts` 视频，每个 `.ts` 视频仅仅只有几秒钟，所以我们需要将这些 `.ts` 视频按照顺序进行合成为一个大的完整视频。
 
@@ -76,7 +76,7 @@ $ ffmpeg -f concat -i file.txt -c copy file.mp4
 
 如果得到一些像下面的错误：
 
-```
+```log
 file.txt: Operation not permitted
 ```
 
@@ -87,6 +87,17 @@ $ ffmpeg -f concat -safe 0 -i file.txt -c copy file.mp4
 ```
 
 如果一切正常的话就会看到多出一个名为 file.mp4 的文件。
+
+**特别说明：**
+
+上面示例只是以 `.ts` 文件为例做说明，并不代表不能合并其他格式的视频文件。`ffmpeg` 的牛逼之处不在于能够合并视频，还可以将音视频分离的两个文件进行合并。
+
+比如将视频文件（example.mp4）和音频文件（example.m4a）进行合并：
+
+```bash
+ffmpeg -i example.mp4 -i example.m4a -c:a copy -c:v copy output.mp4
+```
+
 
 # 视频截取
 
@@ -99,7 +110,7 @@ ffmpeg -ss 00:00:00 -t 15 -i 源文件名 -vcodec copy -acodec copy 目标文件
 
 参数说明：
 
-```
+```log
 -i                  表示源视频文件
 -ss time_start      设置从视频截取开始位置，如 00:00:10 表示从视频的第10s开始截取
 
@@ -121,7 +132,7 @@ ffmpeg -ss 00:00:00 -t 15 -i 源文件名 -vcodec copy -acodec copy 目标文件
 
 |**注意**|
 |:-------|
-|参数 `-ss` 最好放在 `-i 源文件名` 的前面，如果放在后面则 `-to` 的含义就变了，变成了与 `-t` 一样的效果了。变成了截取多长视频，而不是截取到视频指定的位置。所以一定要注意 `-ss` 的位置。|
+|参数 `-ss` 最好放在 `-i 源文件名` 的前面，如果放在后面则 `-to` 的含义就变了，变成了与 `-t` 一样的效果了。变成了截取多长视频，而不是截取到视频指定的位置。所以一定要特别注意 `-ss` 的位置。|
 
 看个示例：
 
@@ -150,6 +161,10 @@ total 472920
 -rw-r--r--  1 mingrn97  staff    31M Mar 24 17:33 文件系统3.flv
 ```
 
+|**Note**|
+|:-------|
+|注意看第三次截取视频的命令，仅指定了开始截取视频时间（`-ss 00:20:00`），并没有直接截取的结束时间。像这样只有开始没有结束的用法表示的是从指定的开始时间截取到视频结尾。|
+
 # 提取音频
 
 以 video.mp4 提取音频为例：
@@ -164,9 +179,9 @@ ffmpeg -i video.mp4 -vn -y -acodec copy video.aac
 ffmpeg -i video.mp4 -vn -y -acodec copy video.m4a
 ```
 
-以上两条命令方式提取 mp3 的话，会报一下错误：
+如果使用上面两条示例命令提取 mp3 的话，会出现类似如下错误：
 
-```
+```log
 [mp3 @ 0x7fe2637062c0] Invalid audio stream. Exactly one MP3 audio stream is required.
 Could not write header for output file #0 (incorrect codec parameters ?): Invalid argument
 ```
