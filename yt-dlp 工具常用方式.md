@@ -108,7 +108,7 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 
 `-f` 参数则用于下载指定的文件。比如上面示例中的 1920x1080 的 mp4 视频文件，对应的 ID 为 137：
 
-```
+```log
 137 mp4   1920x1080   25 │    1.24GiB 1158k https │ avc1.640028   1158k video only              1080p, mp4_dash
 ```
 
@@ -120,7 +120,7 @@ yt-dlp -f 137 https://www.youtube.com/watch?v=lHvamusTCK0
 
 另外，`-f` 参数可同时指定下载多个文件，也可以指定范围下载文件。示例：
 
-```
+```log
 -f 399,137,248: 下载指定文件
 -f 135-137,248-250: 下载指定范围文件(ID 不存在没关系, 会在你指定的范围内查找要下载的 ID 文件)
 ```
@@ -137,26 +137,26 @@ yt-dlp -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 
 `-f` 参数除了直接指定 ID 外还可以使用下面这种语法（也是 yt-dlp 默认下载形式）：
 
-```
+```log
 -f bestvideo+bestaudio
 ```
 
 这种语法会自动下载质量最高的音视频文件并进行合并（前提是安装了 ffmpeg ）。比如上面的示例中 1920x1080 的视频文件有两个：
 
-```
+```log
 137 mp4   1920x1080   25 │    1.24GiB 1158k https │ avc1.640028   1158k video only              1080p, mp4_dash
 248 webm  1920x1080   25 │    1.08GiB 1014k https │ vp9           1014k video only              1080p, webm_dash
 ```
 
 bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下面的语法指定如果没有 mp4 格式的视频文件的话再选择 webm 视频文件：
 
-```
+```log
 -f bestvide[ext=mp4]/bestvideo[ext=webm]+bestaudio
 ```
 
 对于音频文件也是一样的，可以指定优选选择 m4a 还是 webm 的音频文件（默认选择 webm）：
 
-```
+```log
 -f bestvideo[ext=mp4]/bestvideo[ext=webm]+bestaudio[ext=m4a]/bestaudio[ext=webm]
 ```
 
@@ -193,13 +193,13 @@ https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 
 yt-dlp 也可以直接下载播放列表：
 
-```
+```bash
 yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 ```
 
 这样会自动下载播放列表中的全部视频，另外也可以使用 `--playlist` 相关参数下载播放列表指定起始位置：
 
-```
+```log
 --playlist-start NUM            下载播放列表起始位置, 默认1
 --playlist-end NUM              下载播放列表结束位置, 默认 last
 --playlist-items ITEM_SPEC      下载播放列表里的特定选集. 如 --playlist-items 1,3,5,7-10, 就会下载 1,3,5,7,8,9,10 集
@@ -214,7 +214,7 @@ yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 
 如果在下载过程中网络突然断了是一件很麻烦的视频（如下日志）：
 
-```
+```log
 [youtube] Q6rCpelpwIk: Downloading webpage
 [youtube] Q6rCpelpwIk: Downloading android player API JSON
 [youtube] Q6rCpelpwIk: Downloading MPD manifest
@@ -259,7 +259,7 @@ yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 
 有些 Youtube 视频字幕也是分离的，所以对于某些视频来说我们还需要下载下对应的字幕。字幕主要有下面这些参数：
 
-```
+```log
 --list-subs               列出所有字幕
 --write-sub               下载字幕文件
 --all-subs                下载所有可用字幕
@@ -282,6 +282,7 @@ yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 
 ```bash
 $ yt-dlp --list-subs https://www.youtube.com/watch\?v\=4eW5SWBi7vs | egrep 'en|zh'
+
 hy       Armenian              vtt, ttml, srv3, srv2, srv1, json3
 zh-Hans  Chinese (Simplified)  vtt, ttml, srv3, srv2, srv1, json3
 zh-Hant  Chinese (Traditional) vtt, ttml, srv3, srv2, srv1, json3
@@ -338,7 +339,7 @@ $ yt-dlp --write-auto-sub --sub-lang "en,zh-Hans" --embed-sub https://www.youtub
 
 既然下载 Youtube 上的视频怎们能少的了代理呢？
 
-```
+```log
 --proxy URL
 ```
 
@@ -352,7 +353,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 
 另外还可以设置连接超时时间：
 
-```
+```log
 --socket-timeout SECONDS
 ```
 
@@ -360,7 +361,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 
 如果在上班时偷偷使用 yt-dlp 下载 Youtube 上的视频，每秒几十兆几十兆的下载很容易被网管监控到。所以聪明的做法应该限制一下 yt-dlp 的最大下载速度：
 
-```
+```log
 -r, --limit-rate      MAX_RATE
 ```
 
@@ -368,7 +369,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 
 # 用户认证相关
 
-```
+```log
 -u, --username USERNAME          指定用户名
 -p, --password PASSWORD          指定用户密码
 ```
@@ -379,7 +380,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 
 如果想要知道 yt-dlp 工具支不支持你想下载的网站的视频可以使用下面参数看下。该参数会列出所有支持的网站列表：
 
-```
+```log
 --list-extractors
 ```
 
@@ -394,6 +395,7 @@ bangumi.bilibili.com
 
 ```bash
 $ yt-dlp -F https://www.bilibili.com/video/BV1qJ411z7Hf
+
 [BiliBili] 1qJ411z7Hf: Grabbing original ID via API
 [BiliBili] 77774320: Downloading webpage
 [BiliBili] 77774320: Extracting videos in anthology
@@ -455,7 +457,7 @@ ID EXT RESOLUTION │  FILESIZE  TBR PROTO │ VCODEC            VBR ACODEC     
 ## 升级 yt-dlp
 
 
-```
+```bash
 yt-dlp -U
 ```
 
