@@ -72,6 +72,8 @@ file ./../ 3.ts
 
 ```bash
 $ ffmpeg -f concat -i file.txt -c copy file.mp4
+# 或者
+$ ffmpeg -f concat -i file.txt -acodec copy -vcodec copy -f mp4 file.mp4
 ```
 
 如果得到一些像下面的错误：
