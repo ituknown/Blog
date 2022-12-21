@@ -209,4 +209,6 @@ ffmpeg -i video.mp4 -ab 320k video.mp3
 |之所以选择 `320Kbps` 的码率是因为该值是 mp3 格式的最高码率~|
 
 
+# 倍速播放
 
+https://trac.ffmpeg.org/wiki/How%20to%20speed%20up%20/%20slow%20down%20a%20video
