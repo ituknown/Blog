@@ -174,7 +174,7 @@ total 472920
 ffmpeg -i input.mp4 -vn -c:a copy output.acc
 ```
 
-`-vn` 表示 no video，`-c:a` 是 codec of audio 的意思（也即可直接使用 `-acodec`），copy 是直接拷贝视频中的原始的音频，这里不会涉及音频的编解码，速度会很快。
+`-vn` 表示 no video，`-c:a` 是 codec of audio 的意思（也可直接使用 `-acodec`），copy 是直接拷贝视频中的原始的音频，这里不会涉及音频的编解码，速度会很快。
 
 对于拷贝后的音频流文件应该使用什么后缀名可以使用 `ffprobe` 进行确定视频中的音频流格式，示例：
 
@@ -190,14 +190,14 @@ ffprobe input.mp4
 
 --
 
-如果使用上面两条示例命令提取 mp3 的话，会出现类似如下错误：
+如果使用上面两条示例命令提取 mp3 的话，可能会出现类似下面的错误：
 
 ```log
 [mp3 @ 0x7fe2637062c0] Invalid audio stream. Exactly one MP3 audio stream is required.
 Could not write header for output file #0 (incorrect codec parameters ?): Invalid argument
 ```
 
-其实呢，如果要提取 mp3 的话，不需要加任何参数，直接这么提取就可以了：
+这是因为提取 mp3 不需要加任何参数，直接这么提取就可以了：
 
 ```bash
 ffmpeg -i video.mp4 video.mp3
@@ -217,7 +217,7 @@ ffmpeg -i video.mp4 -ab 320k video.mp3
 |:-------|
 |之所以选择 `320Kbps` 的码率是因为该值是 mp3 格式的最高码率~|
 
-# 提取音频
+# 提取视频
 
 提取视频的命令与音频如出一辙，如下：
 
@@ -236,11 +236,11 @@ ffmpeg -i input.mp4 -an -c:a copy output.mp4
 
 2）使用 setpts 视频过滤器，但是需要重新编码。
 
-## 使用“原始比特流”实现视频倍速播放
+## 方法一：使用“原始比特流”实现视频倍速播放
 
 使用“原始比特流”实现音视频倍速播放是无损的，也是推荐的方式。这种方式除了更改时间戳外，还会原样复制视频流。不过前提是：将视频复制到原始比特流格式。
 
-### 确定视频编码及帧率
+**确定视频编码及帧率：**
 
 将视频复制到原始比特流格式我们需要知道该视频的编码格式，比如 H.264、H.265。如果你不知道目标视频文件是什么编码格式可以借助 `ffprobe` 工具查看。
 
@@ -281,7 +281,7 @@ Stream #0:0[0x1](und): Video: hevc (Main) (hev1 / 0x31766568), yuv420p(tv, bt709
 
 这样，我们就确定了视频编码格式（H.265）和视频帧率（52.47），同时我的视频时长为 1:42.74。
 
-### 将视频复制到原始比特流格式
+**将视频复制到原始比特流格式：**
 
 - 复制 H.264 视频原始比特流格式：
 
@@ -299,7 +299,7 @@ ffmpeg -i input.mp4 -map 0:v -c:v copy -bsf:v hevc_mp4toannexb raw.h265
 
 其中，`-i` 参数后面的 input.mp4 就是你的具体视频文件，最后产生对应的 raw.h264 或 raw.h265 文件，这个文件名是可以自定义的。
 
-### 执行转换
+**执行转换：**
 
 得到原始比特流格式文件之后，我们就可以来实现倍速转换了。倍速转换的原理就是修改 “帧率”。在前面我已经得到的我的视频帧率为 52.47，如果想要实现倍速那我只需要将每秒的帧率按照倍数放大即可，比如我想要实现倍速播放，那么就要将帧率 放大二倍：`52.47 x 2 = 104.94`。
 
@@ -317,11 +317,11 @@ ffmpeg -fflags +genpts -r 104.94 -i raw.h265 -c:v copy output.mp4
 ffmpeg -fflags +genpts -r 104.94 -i raw.h265 -i input.mp4 -map 0:v -c:v copy -map 1:a -af atempo=2 -movflags faststart output.mp4
 ```
 
-## 使用 setpts 视频过滤器
+## 方法二：使用 setpts 视频过滤器
 
 使用视频过滤器来实现倍速播放的原理是过改变每个视频帧的显示时间戳（PTS）来实现。
 
-### 提取视频流并实现倍速播放
+**提取视频流并实现倍速播放：**
 
 基本示例如下：
 
@@ -337,7 +337,7 @@ ffmpeg -i input.mkv -an -c:a copy -filter:v "setpts=1*PTS" output.mkv
 
 注意：该命令只针对没有音频流的视频文件，如果你的视频文件存在音频流不要使用该命令实现倍速转换。
 
-### 提取音频流并实现倍速播放
+**提取音频流并实现倍速播放：**
 
 基本示例如下：
 
@@ -355,7 +355,7 @@ ffmpeg -i input.mkv -vn -c:a copy -filter:a "atempo=1.0" output.acc
 ffmpeg -i input.mkv -vn -c:a copy -filter:a "atempo=2.0,atempo=2.0" output.acc
 ```
 
-### 对音视频实现倍速播放
+**对音视频实现倍速播放：**
 
 这个命令其实就是前面两个命令的混合：
 
