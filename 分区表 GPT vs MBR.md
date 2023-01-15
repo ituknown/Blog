@@ -62,7 +62,7 @@ UEFI 示例：
 
 传统BIOS 示例：
 
-![sysinfo-bios-1673242395plN1tppTTo.png](http://blog-media.knowledge.ituknown.cn/GPTvsMBR/sysinfo-1673242395plN1tppTTo.png)
+![sysinfo-bios-1673242395plN1tppTTo.png](http://blog-media.knowledge.ituknown.cn/GPTvsMBR/sysinfo-bios-1673242395plN1tppTTo.png)
 
 | **NOTE**                                             |
 |:-----------------------------------------------------|
