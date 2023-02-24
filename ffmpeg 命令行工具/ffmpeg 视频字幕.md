@@ -77,27 +77,27 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 不同的字幕文件有其对应的格式（针对外挂字幕和软字幕），常见的字幕格式有：
 
-- SRT（SubRip Text，标准外挂字幕格式）
+**SRT（SubRip Text，标准外挂字幕格式）**
 
 其制作规范简单，一句时间一句字幕，只包含文字和时间码，没有样式，显示效果由播放器决定，不同的播放器显示出的效果可能差别很大（下面是 srt 字幕文件内容示例）。
 
 ![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
-- ASS（Advanced Sub Station，高级外挂字幕格式）
+**ASS（Advanced Sub Station，高级外挂字幕格式）**
 
 用以实现比传统字幕诸如srt等格式更为复杂的功能，ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Events]`、`[Fonts]` 以及 `[Graphics]`。支持样式、字体、字幕定位、淡入淡出、简单的特效。如果不缺字体，不同的播放器显示效果基本一致（下面是 srt 字幕文件内容示例）。
 
 ![subtitles-ass-example-wX57qkv4M136SDPOFB.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
 
-- WebVTT （Web Video Text Tracks）
+**WebVTT （Web Video Text Tracks）字幕格式**
 
 WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一个 `.vtt` 结尾的纯文本文件。不过某些播放器无法正常加载，需要将 vtt 转为 srt 格式（下面是 vtt 字幕文件内容示例）。
 
 ![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
 
-- Sbv格式
+**Sbv 字幕格式**
 
-Youtube的字幕格式，它可以通过youtube自动生成字幕文件，文件后缀.sbv。
+Youtube的字幕格式，它可以通过youtube自动生成字幕文件，文件后缀 `.sbv`。
 
 ## 字幕格式转换
 
@@ -125,7 +125,7 @@ $ ffmpeg -i Mieruko-chan.chs.srt Mieruko-chan.chs.ass
 ```bash
 # mkv 添加软字幕
 $ ffmpeg -i input.mkv -i subtitles.srt -c copy output.mkv
- # 或
+# 或
 $ ffmpeg -i input.mkv -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 ```
 
@@ -134,7 +134,7 @@ $ ffmpeg -i input.mkv -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 ```bash
 # mkv 添加软字幕
 $ ffmpeg -i input.mkv -i subtitles.ass -c copy output.mkv
- # 或
+# 或
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
 ```
 
@@ -143,7 +143,7 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
 ```bash
 # mp4 添加软字幕
 $ ffmpeg -i input.mp4 -i subtitles.srt -c copy output.mkv
- # 或
+# 或
 $ ffmpeg -i input.mp4 -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 ```
 
@@ -166,9 +166,9 @@ $ ffmpeg -i input.mp4 -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 ```bash
 # mkv 添加软字幕
 $ ffmpeg -i input.mkv -i subtitles.ass -c copy output.mkv
- # 等同于
+# 等同于
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
- # 等同于
+# 等同于
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s ass output.mkv
 ```
 
@@ -280,7 +280,7 @@ Stream #0:4(cht): Subtitle: ass           # 第四个轨道是 cht 字幕, 编�
 
 ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入到视频帧中，这个过程需要重新编解码操作视频流，所以速度非常非常的慢。
 
-1. **将外挂字幕文件嵌入到  `output.mkv` **
+**将外挂字幕文件嵌入到  `output.mkv`： **
 
 使用 `subtitles` 滤镜为视频添加字幕（将字幕合成到视频流中，输出文件中不含字幕流）：
 
@@ -288,7 +288,7 @@ ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入�
 $ ffmpeg -i input.mkv -vf subtitles=subtitles.srt output.mkv
 ```
 
-2. **将另一个视频的软字幕流嵌入到 `output.mp4`**
+**将另一个视频的软字幕流嵌入到 `output.mp4`：**
 
 视频流为 `input.mkv`，字幕流从 `other.mkv` 中提取，并嵌入到 `output.mp4` 文件：
 
@@ -302,7 +302,7 @@ $ ffmpeg -i input.mkv -vf subtitles=other.mkv output.mp4
 $ ffmpeg -i input.mkv -vf subtitles=input.mkv output.mp4
 ```
 
-3. **将视频的指定字幕流嵌入到 `output.mp4` **
+**将视频的指定字幕流嵌入到 `output.mp4`： **
 
 比如视频 `input.mkv` 有两个软字幕流，将第二个字幕流嵌入到 `output.mp4` 文件：
 
