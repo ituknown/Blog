@@ -178,6 +178,16 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s ass output.mkv
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s srt output.mkv
 ```
 
+需要强调的一点是，不同的视频格式对字幕编码器的要求也不同，必须使用适合的字幕编解码器才行（如下表格）：
+
+| **视频格式** | **可用字幕编码器**  |
+| :----------- | :------------------ |
+| MKV          | copy、ass、srt、ssa |
+| MOV          | copy、mov_text      |
+| MP4          | copy、mov_text      |
+
+许多飞利浦蓝光播放器、三星智能电视和其他独立播放器只能读取“MKV”文件中的“SRT”字幕流，所以一定根据需要使用。
+
 ## 视频添加软字幕 - 多语言
 
 前面示例中只是添加一个字幕（即单语言），其实我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。缺点是，某些播放器可能不会自动显示字幕，需要手动选择指定语言才会显示。
@@ -341,3 +351,7 @@ $ ffmpeg -i input.mkv output.srt
 https://crifan.github.io/media_process_ffmpeg/website/subtitle/embed/
 
 https://gist.github.com/juliendkim/aa6315c234395d88799b7037bde5f897
+
+https://crifan.github.io/media_process_ffmpeg/website/subtitle/
+
+[wikibooks：FFMPEG An Intermediate Guide/subtitle options](https://en.wikibooks.org/wiki/FFMPEG_An_Intermediate_Guide/subtitle_options)
