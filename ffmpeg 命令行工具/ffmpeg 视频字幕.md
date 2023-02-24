@@ -15,7 +15,7 @@ Mieruko-chan.mkv
 
 当使用视频播放器打开 Mieruko-chan.mkv 文件时，通常会自动加载同级目录下的两个字幕文件，也就有一种 “视频带字幕” 的错觉，这其实是视频播放器的功能（如下图）：
 
-![选择外挂字幕-dC3TePnfS1bZQO6K8F.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/选择外挂字幕-dC3TePnfS1bZQO6K8F.png)
+![select-outside-subtitles-cA6tCrw9ODW03BS5K8.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/select-outside-subtitles-cA6tCrw9ODW03BS5K8.png)
 
 不过有些视频播放器不会自动加载同级目录下的字幕文件，因此就需要手动选择（点击加载字幕按钮选择本地字幕文件）。
 
@@ -81,7 +81,7 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 其制作规范简单，一句时间一句字幕，只包含文字和时间码，没有样式，显示效果由播放器决定，不同的播放器显示出的效果可能差别很大（下面是 srt 字幕文件内容示例）。
 
-![subtitles-srt-example-xZ0R2hL64qWDkH81gu.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu.png)
+![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
 - ASS（Advanced Sub Station，高级外挂字幕格式）
 
@@ -151,11 +151,17 @@ $ ffmpeg -i input.mp4 -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 
 | **Note**                                                     |
 | :----------------------------------------------------------- |
-| 并非所有的容器都支持字幕流（软字幕），软字幕只有部分容器格式比如（mkv）才支持，MP4/MOV等不支持。而且也只有部分播放器支持软字幕或者外挂字幕（如VLC、IINA播放器） |
+| 并非所有的容器都支持字幕流（软字幕），软字幕只有部分容器格式（如mkv）才支持，MP4/MOV等不支持。而且也只有部分播放器支持软字幕或者外挂字幕（如VLC、IINA播放器） |
 
 **扩展**
 
-上面示例命令中第二天都使用了 `-c:s` 参数，这个参数表示对字幕选择指定编码器。`copy` 表示不指定，选择字幕文件所属编码器，如果你是 ass 字幕，那么对应的就是 ass 编码器：
+上面第二条示例命令中都使用了`-c:` 参数，这个参数的意思其实是对指定流指定具体编解码器：
+
+- `-c:v`：选择视频流编解码器
+- `-c:a`：选择音频流编解码器
+- `-c:s`：选择字幕流编解码器
+
+`copy` 表示选择对应流默认编解码器。以 `-c:s copy` 为例，如果字幕文件是 ass，那么对应的就是 ass 编解码器：
 
 ```bash
 # mkv 添加软字幕
@@ -166,7 +172,7 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s ass output.mkv
 ```
 
-字幕编码器可以自行指定，常用的有 srt、ass以及mov_text，具体可以使用 `ffmpeg -codecs` 命令查看。比如这里我的外挂字幕是 ass，但是我可以选择 srt 字幕编码器：
+之所以这么写的原因是为了说明这个编解码器是可以自行指定。以字幕流为例，常用的字幕编解码器有 srt、ass 以及mov_text，具体可以使用 `ffmpeg -codecs` 命令查看。比如这里我的外挂字幕是 ass，但是我可以选择 srt 字幕编解码器：
 
 ```bash
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s srt output.mkv
@@ -174,9 +180,7 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s srt output.mkv
 
 ## 视频添加软字幕 - 多语言
 
-前面示例中只是添加一个字幕（即单语言），在使用播放器进行播放时通常会自动显示。不过，我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。
-
-缺点是，在播放时需要手动选择自定语言才会显示字幕。当然每个人的需求不一样，所以这里也看下怎么实现。
+前面示例中只是添加一个字幕（即单语言），其实我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。缺点是，某些播放器可能不会自动显示字幕，需要手动选择指定语言才会显示。
 
 比如我有一个视频文件 Mieruko-chan.mkv，并且有两个 ass 字幕文件：
 
@@ -262,9 +266,9 @@ Stream #0:4(cht): Subtitle: ass           # 第四个轨道是 cht 字幕, 编�
 
 ## 视频添加硬字幕
 
-要在视频流上面加上字幕，就得使用一个叫做 `subtitles` 的滤镜，要使用这个滤镜，在命令中写上 `-vf subtitles=字幕文件名` ，还是要注意，如果文件名包含空格或其他特殊字符，得用半角引号包起来： `-vf subtitles="字幕 文件名"`。
+<u>实际上并不推荐使用硬字幕，但这里也需要说下</u>。要在视频流上面加上字幕，需要使用一个叫做 `subtitles` 的滤镜。要使用这个滤镜，在命令中写上 `-vf subtitles=字幕文件名` 。另外，如果文件名包含空格或其他特殊字符，需要使用英文引号包起来： `-vf subtitles="字幕 文件名"`。
 
-ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入到视频帧中，这个过程需要重新编解码操作视频流，所以速度很慢。
+ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入到视频帧中，这个过程需要重新编解码操作视频流，所以速度非常非常的慢。
 
 1. **将外挂字幕文件嵌入到  `output.mkv` **
 
@@ -296,7 +300,7 @@ $ ffmpeg -i input.mkv -vf subtitles=input.mkv output.mp4
 ffmpeg -i input.mkv -vf subtitles=input.mkv:si=1 output.mp4
 ```
 
-关于 `subtitles` 滤镜的详细用法：[http://ffmpeg.org/ffmpeg-all.html#subtitles-1](https://p3terx.com/go/aHR0cDovL2ZmbXBlZy5vcmcvZmZtcGVnLWFsbC5odG1sI3N1YnRpdGxlcy0x)
+关于 `subtitles` 滤镜的详细用法见官网文档：[http://ffmpeg.org/ffmpeg-all.html#subtitles-1](https://p3terx.com/go/aHR0cDovL2ZmbXBlZy5vcmcvZmZtcGVnLWFsbC5odG1sI3N1YnRpdGxlcy0x)
 
 另外，对于 ASS 字幕需要使用 `ass` 滤镜，用法和 `subtitles` 滤镜几乎一样，但它只用于 ASS (Ad­vanced Sub­sta­tion Al­pha) 字幕文件：
 
@@ -304,9 +308,11 @@ ffmpeg -i input.mkv -vf subtitles=input.mkv:si=1 output.mp4
 $ ffmpeg -i input.mkv -vf ass=subtitles.ass output.mp4
 ```
 
-关于 `ass` 滤镜的说明：[http://ffmpeg.org/ffmpeg-all.html#ass](https://p3terx.com/go/aHR0cDovL2ZmbXBlZy5vcmcvZmZtcGVnLWFsbC5odG1sI2Fzcw)
+关于 `ass` 滤镜的说明见官网文档：[http://ffmpeg.org/ffmpeg-all.html#ass](https://p3terx.com/go/aHR0cDovL2ZmbXBlZy5vcmcvZmZtcGVnLWFsbC5odG1sI2Fzcw)
 
-在实际使用中发现 `ass` 和 `subtitles` 最终效果并无区别，但 `ass` 只能使用 ASS 字幕文件，不可以直接使用容器中的字幕流，所以直接使用 `subtitles` 即可，省去了手动提取和转换的过程。
+| **Note**                                                     |
+| :----------------------------------------------------------- |
+| 在实际使用中发现 `ass` 和 `subtitles` 最终效果并无区别，但 `ass` 只能使用 ASS 字幕文件，不可以直接使用容器中的字幕流，所以直接使用 `subtitles` 即可，省去了手动提取和转换的过程。 |
 
 ## 提取视频字幕
 
@@ -320,7 +326,7 @@ $ ffmpeg -i input.mkv output.srt
 | :----------------------------------------------------------- |
 | 例子中生成的是 srt 格式的，可以任意生成所需的格式，改一下扩展名即可（如 ass 格式）。 |
 
-# 资源链接
+# 参考链接
 
 [视频中的硬字幕、软字幕和外挂字幕，怎么分别？](https://zhuanlan.zhihu.com/p/138387967)
 
