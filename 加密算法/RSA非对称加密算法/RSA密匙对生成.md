@@ -226,8 +226,6 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wmgGrNDxFWPEW/rTYRud1FI5sBmIFU9Ac94
 
 通俗点讲吧，就是：PKCS1是一把钥匙，PKCS8就是把这个钥匙放到一个盒子里，并在盒子上贴个标签对这把钥匙做了说明，比如采用的是什么算法，密钥长度等，所以PKCS8不仅仅支持RSA算法，还支持其他算法的密钥。说白了，就是给这个钥匙捆绑了一个说明书，从而这个盒子不仅仅可装PKCS1的钥匙，还可以装其他类型的钥匙。
 
-另外，java中的加解密用的包，默认生成的是私钥pkcs1，公钥pkcs8。另外，openssl最早生成的公钥私钥默认都是pkcs1格式的，但是在后来的版本中，公钥默认为了pkcs8格式（私钥还是pkcs1格式，或许是为了迎合java吧，个人猜测）。
-
 ## 将pkcs1格式的私钥转为pkcs8格式
 
 ```bash
