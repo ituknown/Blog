@@ -83,10 +83,6 @@ $ openssl rsa -in rsa_private_key.pem -out rsa_public_key.pem -pubout
 
 `rsa_public_key.pem` 表示要生成的公钥的文件名。
 
-|**Note**|
-|:-------|
-|openssl从私钥中提取公钥比较特殊，他导出的其实是X.509格式的公钥。|
-
 **示例：**
 
 ```bash
@@ -127,10 +123,6 @@ $ openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
 ```
 
 其中 `rsa_private_key_pkcs8.pem` 就是要转换输出的 PSCK8 文件。
-
-|**Note**|
-|:-----|
-|注意将 `rsa_private_key.pem` 替换为你自己的私钥文件。|
 
 **命令示例：**
 
@@ -180,29 +172,7 @@ ik5229f+o8JYuqwW90SRdg==
 
 --
 
-正常来说到此就结束了，但是如果是给程序（如 Java）使用的话还不行，我们还需要对文件内容做下调整：删除文件头尾两段并去掉回车换行符。
-
-|**Note**|
-|:-------|
-|程序（如Java）主要使用的是 PKCS8 私钥文件和公钥文件，因为 PKCS8 私钥文件本质上就是私钥文件内容，只是格式不同而已。所以我们调整私钥PKCS8文件内容和公钥内容即可。|
-
-即删除 PKCS8 私钥文件（id_rsa_pkcs8.pem）首尾行：
-
-```plain
------BEGIN PRIVATE KEY-----
------END PRIVATE KEY-----
-```
-
-删除公钥文件（id_rsa_pub.pem）首尾行：
-
-```plain
------BEGIN PUBLIC KEY-----
------END PUBLIC KEY-----
-```
-
-最后再去掉两个文件中的换行符即可。
-
---
+正常来说到此就结束了，但是如果是给程序（如 Java）使用的话还不行，我们还需要对文件内容做下调整：删除文件首尾两行并去除换行。
 
 调整后的私钥PKCS8：
 
@@ -257,20 +227,20 @@ openssl rsa -RSAPublicKey_in -in pub_pkcs1.pem -pubout -out pub_pkcs8.pem
 
 ## 如何确认密匙对文件格式
 
-生成 RSA 密匙对时在文件收尾都有形如 `-----BEGIN XXXX-----` 的内容，其实一个文件是什么格式我们完全可以通过这些信息进行确认：
+生成 RSA 密匙对时在文件首尾都有形如 `-----BEGIN XXXX-----` 的 PEM header，其实一个文件是什么格式我们完全可以通过 header 信息进行确认：
 
-**Public key formats supported（公钥文件支持的格式）：**
+**Public key formats supported：**
 
 - PKCS#1 RSAPublicKey* (PEM header: BEGIN RSA PUBLIC KEY)
 - X.509 SubjectPublicKeyInfo** (PEM header: BEGIN PUBLIC KEY)
 
-**Private key formats supported (unencrypted)（私钥未加密文件支持的格式）：**
+**Private key formats supported (unencrypted)：**
 
 - PKCS#1 RSAPrivateKey** (PEM header: BEGIN RSA PRIVATE KEY)
 - PKCS#8 PrivateKeyInfo* (PEM header: BEGIN PRIVATE KEY)
 - JSON Web Key (JWK) Plaintext RSA Private Key "kty":"RSA"
 
-**Encrypted private key formats supported（私钥加密文件支持的格式）：**
+**Encrypted private key formats supported：**
 
 - PKCS#8 EncryptedPrivateKeyInfo** (PEM header: BEGIN ENCRYPTED PRIVATE KEY)
 - PKCS#12 (PFX) with PKCS-8ShroudedKeyBag
@@ -285,7 +255,7 @@ openssl rsa -RSAPublicKey_in -in pub_pkcs1.pem -pubout -out pub_pkcs8.pem
 
 ## 使用Java生成RSA密匙对
 
-Java 生成密匙对比较简单，直接上码：
+Java 程序生成的 RSA 密匙对私钥默认为 PKCS#8 格式，公钥则是 X.509 格式。具体的代码也很简单，直接上码：
 
 ```java
 public static void main(String[] args) throws Exception {
@@ -333,6 +303,14 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAq2FXfSN+PCUFVH75w0fgWKwH/sytb/hxY8AW
 ```
 
 ## 使用 Go 生成RSA密匙对
+
+使用 Go 生成 rsa 密匙对需要使用 `golang.org/x/crypto` 密码库：
+
+```bash
+go install golang.org/x/crypto
+```
+
+相比较 Java，使用 Go 生成 rsa 密匙对就方便很多，而且将公钥和私钥转换为其他格式也特别简单，下面是示例：
 
 ```go
 package main
