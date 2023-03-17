@@ -1,6 +1,4 @@
-生成 RSA 密匙对有许多中方式，而在操作系统中使用最多的就是大名鼎鼎的 `openssl`。另外也可以使用 `ssh-keygen`，不过 `ssh-kengen` 本质上也是使用 `openssl` 类库。
-
-如果你的操作系统还没有 openssl，就需要手动安装：
+生成 RSA 密匙对有许多中方式，而在操作系统中使用最多的就是大名鼎鼎的 `openssl`。如果你的操作系统还没有 openssl，就需要手动安装：
 
 Windows 用户需要到官网 [https://www.openssl.org](https://www.openssl.org) 进行下载安装。
 
@@ -8,7 +6,7 @@ Unix-Like 操作系统只需要一条命令即可按照。可以点击链接查�
 
 # OpenSSL 生成 RSA 密匙对
 
-## 生成私钥
+## 生成私钥（默认PKCS#1格式）
 
 生成 RSA 私钥命令如下（Windows 用户可以使用 Git 客户端）：
 
@@ -69,7 +67,7 @@ nWNn80THXeNv9gFWc0jOAdl4HwiHFopOdtvX/qPCWLqsFvdEkXY=
 -----END RSA PRIVATE KEY-----
 ```
 
-## 生成公钥
+## 生成公钥（默认PKCS#8格式）
 
 接着生成公钥，命令如下：
 
@@ -87,7 +85,7 @@ $ openssl rsa -in [rsa_private_key.pem] -out [rsa_public_key.pem] -pubout
 $ openssl rsa -in id_rsa.pem -out id_rsa_pub.pem -pubout
 ```
 
-对应的就产生了对应的公钥文件 id_rsa_pub：
+之后的就产生了对应的公钥文件 id_rsa_pub：
 
 ```bash
 $ ls
@@ -108,9 +106,13 @@ DwIDAQAB
 -----END PUBLIC KEY-----
 ```
 
-## 私钥转 PKCS8 格式（可选）
+|**Note**|
+|:-------|
+|openssl从私钥中提取公钥比较特殊，他导出的其实是pkcs8格式的公钥（可能是为了迎合 Java）。|
 
-PKCS全称就是公钥密码标准（[The Public-Key Cryptography Standards (PKCS）](https://baike.baidu.com/item/PKCS/1042350?fr=aladdin/PKCS/1042350%3Ffr%3Daladdin)），是大多数编程语言都遵循的标准。比如当使用 Java 开发语言时解析私钥就需要使用 `java.security.spec.PKCS8EncodedKeySpec` 类，而该类就要求私钥是 PKCS8 格式。
+## 私钥转 PKCS8 格式（Java使用）
+
+PKCS全称就是公钥密码标准（[The Public-Key Cryptography Standards (PKCS）](https://baike.baidu.com/item/PKCS/1042350?fr=aladdin/PKCS/1042350%3Ffr%3Daladdin)），如果你使用的是 Java 开发语言就需要将私钥转换为 PKCS8 格式。
 
 所以这步为可选操作，根据实际需要~
 
@@ -210,7 +212,50 @@ MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDbCaAas0PEVY8Rb+tNhG53UUjmwGYg
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wmgGrNDxFWPEW/rTYRud1FI5sBmIFU9Ac943UUQHIfizWC39j2ZaLbM0eJGAzeYnaHlcM/DUW+dMs9hT9QNgEwJaCeLJgcnROMuqwcu+fuVWtJqpGBOOkUDLfDpv6PQRlcM9V+odTcC3whxmZL7IW/L8XmSc5oIjA+AenLSioJC+mSyr3x3G+xxgKBGh7F2UfNC8SHO5KurtTasynTVMgsAboY+k+gTt9HkLMO6hWvtSq1wrocWeU2K4Lyg2Gx+XqnSvLy1xI9IWAbl1drHAdGRjPXOxn89suie+kR+hNGiMBXtFwykZ4AoKvJBNf8ZjmDQtrG4qhyM0MtzjzejDwIDAQAB
 ```
 
-# Java生成RSA密匙对
+# 关于RSA密钥的pkcs1与pkcs8格式互转
+
+先说一下区别：
+
+1. PKCS1是标准RSA私钥的格式规范（采用ASN1语法格式）。
+
+2. PKCS8是对加密后的PKCS1私钥进行了描述，等于描述+PKCS1私钥（同样采用ASN1语法格式）。
+
+通俗点讲吧，就是：PKCS1是一把钥匙，PKCS8就是把这个钥匙放到一个盒子里，并在盒子上贴个标签对这把钥匙做了说明，比如采用的是什么算法，密钥长度等，所以PKCS8不仅仅支持RSA算法，还支持其他算法的密钥。说白了，就是给这个钥匙捆绑了一个说明书，从而这个盒子不仅仅可装PKCS1的钥匙，还可以装其他类型的钥匙。
+
+另外，java中的加解密用的包，默认生成的是私钥pkcs1，公钥pkcs8。另外，openssl最早生成的公钥私钥默认都是pkcs1格式的，但是在后来的版本中，公钥默认为了pkcs8格式（私钥还是pkcs1格式，或许是为了迎合java吧，个人猜测）。
+
+## 将pkcs1格式的私钥转为pkcs8格式
+
+```bash
+openssl pkcs8 -topk8 -inform PEM -in id_rsa_cert.pem -outform PEM -nocrypt -out id_rsa_cert_pkcs8.pem
+```
+
+|**Note**|
+|:-------|
+|openssl的私钥默认是pkcs1结构的pem格式。|
+
+
+## 将PKCS8格式私钥再转换为PKCS1格式
+
+```bash
+openssl rsa -in id_rsa_cert_pkcs8.pem -out id_rsa_cert.pem
+```
+
+## 将pkcs8公钥转pkcs1公钥
+
+```bash
+openssl rsa -pubin -in rsa_pub_pkcs8.pem -RSAPublicKey_out -out rsa_pub_pkcs1.pem
+```
+
+## 将pkcs1公钥转换为pkcs8公钥
+
+```bash
+openssl rsa -RSAPublicKey_in -in pub_pkcs1.pem -pubout -out pub_pkcs8.pem
+```
+
+# 扩展
+
+## 使用Java生成RSA密匙对
 
 Java 生成密匙对比较简单，直接上码：
 
@@ -222,10 +267,13 @@ public static void main(String[] args) throws Exception {
 public static void genKeyPair() throws Exception {
 
     KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
+
     keyPairGen.initialize(2048); // 密匙长度
+
     KeyPair keyPair = keyPairGen.generateKeyPair();
-    RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-    RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
+
+    RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();     // pkcs1
+    RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate(); // pkcs8
 
     System.out.println("PrivateKey: \n" + encodeToString(privateKey.getEncoded()));
     System.out.println("PublicKey: \n" + encodeToString(publicKey.getEncoded()));
@@ -240,86 +288,53 @@ private static byte[] decodeToByte(String decoded) {
 }
 ```
 
-# Go 生成RSA密匙对
+## 使用 Go 生成RSA密匙对
 
 ```go
+package main
+
 import (
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
-	"os"
+	"fmt"
 )
 
-// GenerateRsaKeyPair generate rsa key-pair
-func GenerateRsaKeyPair(bits int, writeFilename string) (privateDer, publicDer []byte, err error) {
-	keyPair, err := rsa.GenerateKey(rand.Reader, bits)
-	if err != nil {
-		panic(err)
-	}
+func main() {
+	// 生成私钥
+	privateKey, _ := rsa.GenerateKey(rand.Reader, 2048)
 
-	privateDer, publicDer = _x509Der(keyPair)
+	// 私钥转换为 pkcs1
+	pkcs1Private := x509.MarshalPKCS1PrivateKey(privateKey)
+	// 提取 pkcs1 公钥
+	pkcs1Public := x509.MarshalPKCS1PublicKey(&privateKey.PublicKey)
 
-	if writeFilename != "" {
+	// 私钥转换为 pkcs8
+	pkcs8Private, _ := x509.MarshalPKCS8PrivateKey(privateKey)
 
-		if err := os.WriteFile(writeFilename, privateDer, 0700); err != nil {
-			return nil, nil, err
-		}
-
-		if err := os.WriteFile(writeFilename+".pub", publicDer, 0755); err != nil {
-			return nil, nil, err
-		}
-	}
-
-	return privateDer, publicDer, nil
-}
-
-// _x509Der transform rsa key-pair to x509 format
-func _x509Der(keyPair *rsa.PrivateKey) (privateDer, publicDer []byte) {
-
-	// DER 编码数据
-
-	privateDer = pem.EncodeToMemory(&pem.Block{
-		Type:    "DER(x509) PUBLIC KEY",
+	// 输出 pkcs1 私钥
+	pkcs1PrivateByte := pem.EncodeToMemory(&pem.Block{
+		Type:    "PKCS1 PRIVATE",
 		Headers: nil,
-		Bytes:   x509.MarshalPKCS1PrivateKey(keyPair),
+		Bytes:   pkcs1Private,
 	})
+	fmt.Println(string(pkcs1PrivateByte))
 
-	publicDer = pem.EncodeToMemory(&pem.Block{
-		Type:    "DER(x509) PUBLIC KEY",
+	// 输出 pkcs1 公钥
+	pkcs1PublicByte := pem.EncodeToMemory(&pem.Block{
+		Type:    "PKCS1 PUBLIC",
 		Headers: nil,
-		Bytes:   x509.MarshalPKCS1PublicKey(&keyPair.PublicKey),
+		Bytes:   pkcs1Public,
 	})
+	fmt.Println(string(pkcs1PublicByte))
 
-	return privateDer, publicDer
+	// 输出 pkcs8 公钥
+	pkcs8PrivateByte := pem.EncodeToMemory(&pem.Block{
+		Type:    "PKCS8 PRIVATE",
+		Headers: nil,
+		Bytes:   pkcs8Private,
+	})
+	fmt.Println(string(pkcs8PrivateByte))
 }
 ```
-
-测试代码：
-
-```go
-import (
-	"path/filepath"
-	"testing"
-)
-
-func TestGenerateRsaKeyPair(t *testing.T) {
-	abs, err := filepath.Abs(".")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	derDir := filepath.Join(abs, "der")
-
-	t.Log(abs)
-
-	priPEM, pubPEM, err := GenerateRsaKeyPair(4096, filepath.Join(derDir, "id.der"))
-	if err != nil {
-		panic(err)
-	}
-
-	t.Log(string(priPEM))
-	t.Log(string(pubPEM))
-}
-```
-
