@@ -10,17 +10,17 @@
 
 整个过程，只有使用A私钥签名的消息才能被验签成功。即使知道了消息内容，也无法伪造签名，防止消息被篡改。
 
-在实际场景中数据签名使用的都是各种 Hash*WithRSA（Hash\* 指的是各种 Hash 算法，如Md5、sha256），比如：Md5WithRSA、Sha256WithRSA。也就是说只要是 Hash 算法都能与RSA一起使用。
+需要特别强调的一点是：在实际场景中，数据签名通常是配合各种 Hash（如 MD4、MD5、SHA1、SHA256、SHA512）算法实现，也就是常见的 HashWithRSA（如 SHA256WithRSA）。也就是说，只要是 Hash 算法就可以 WithRSA（如 MD5withRSA）。另外 HashWithRSA 不是 Hash-Then-Rsa，这两者是有本质区别，千万不要理解错了。在 stackoverflow 上也有这个提问，见：[Difference between SHA256withRSA and SHA256 then RSA](https://stackoverflow.com/questions/33305800/difference-between-sha256withrsa-and-sha256-then-rsa)。
 
 |**Note**|
 |:------|
-|注意 Hash\*WithRSA 并不是 Hash-then-RSA，这是完全不同的算法。|
+|注意 HashWithRSA 并不是 Hash-then-RSA。|
 
 接下来就来看下 Go 以及 Java 如何实现数据签名和验签：
 
 # Go 数据签名以及验签
 
-数据签名和验签需要一个 rsa 密匙对，而使用 go 如何生成密匙对可以看下[RSA密匙对生成#使用 go 生成rsa密匙对](RSA密匙对生成.md#使用-go-生成rsa密匙对)中的代码示例，这里就直接拿来说用。
+数据签名和验签需要一个 rsa 密匙对，而使用 go 如何生成密匙对可以看下[RSA密匙对生成#使用 go 生成rsa密匙对](RSA密匙对生成.md#使用-go-生成rsa密匙对)中的代码示例，这里就直接使用前面生成的 pkcs1 私钥和 pkcs1 公钥做说明。
 
 **pkcs1 私钥：**
 
@@ -71,9 +71,9 @@ znz5V5SJFbJH1jGdZmcw8Y1PefFH1nXz9QIDAQAB
 
 在解析密匙对时一定要选择合适的格式，如私钥是 PKCS#8 格式，你不能使用 pkcs1 去解析，反之亦然。
 
-以 pkcs1 私钥为例，实际场景中主要有两种使用形式：一种是完整的 pkcs1 私钥内容（包含头信息），另一个则是去掉头信息以及换行符的内容体。根据这两种形式，在解析时也需要做不同的处理。
+以 pkcs1 私钥为例，实际场景中密匙数据有如下两种使用形式：一个是完整的 pkcs1 私钥内容（包含头 PEM header 信息），另一个则是去掉 PEM header 及换行符后的数据体。根据这两种形式，在解析时也需要做不同的处理。
 
-如果是修剪后的数据体，在加载时应该先进行 base64 解码，再进行解析：
+如果是第二种形式，在加载时应该先进行 base64 解码，然后再进行解析：
 
 ```go
 package main
@@ -106,7 +106,7 @@ func main() {
 }
 ```
 
-但如果你的私钥是完整的就需要换种解析方式：
+但如果你的私钥是第一种形式就需要换种解析方式，直接使用 `pem.Decode`：
 
 ```go
 package main
@@ -120,7 +120,7 @@ import (
 const (
 	pkcs1Private = `
 -----BEGIN RSA PRIVATE KEY-----
-.... 见上文 ....
+............. 略 .............
 -----END RSA PRIVATE KEY-----
 `
 )
@@ -158,7 +158,7 @@ import (
 const (
 	pkcs1Private = `
 -----BEGIN RSA PRIVATE KEY-----
-.... 略 ....
+............. 略 .............
 -----END RSA PRIVATE KEY-----
 `
 )
@@ -222,13 +222,13 @@ zgwr1zJ1UAXCUZqmrpvCssVo/gPzKdPiAl16Cgi7a7P4nI4rgArvOKXdRxpQQE0GzZE0Vrxu0k5Y1L2O
 const (
 	pkcs1Private = `
 -----BEGIN RSA PRIVATE KEY-----
-.... 略 ....
+............. 略 .............
 -----END RSA PRIVATE KEY-----
 `
 
 	pkcs1Public = `
 -----BEGIN RSA PUBLIC KEY-----
-.... 略 ....
+............. 略 .............
 -----END RSA PUBLIC KEY-----
 `
 )
@@ -286,7 +286,7 @@ func HashWithRsaSignVerify(publicKey string, hash crypto.Hash, data []byte, base
 
 # Java 数据签名以及验签
 
-Java 签名与验签与 Go 如初一则，这里使用的 rsa 密匙对来自[RSA密匙对生成#使用java生成rsa密匙对](RSA密匙对生成.md#使用java生成rsa密匙对)。
+Java 签名与验签与 Go 如出一辙，区别是 Java 加载的私钥必须是 PKCS#8 格式，公钥必须是 X.509 格式。这里就直接使用[RSA密匙对生成#使用java生成rsa密匙对](RSA密匙对生成.md#使用java生成rsa密匙对)中生成的 rsa 密匙做演示。
 
 直接上代码：
 
@@ -409,9 +409,9 @@ public enum HashAlgorithm {
 
 接下来我们来看下 Go 与 Java 生成的 rsa 消息签名如何互相验证。简单的说就是，Go 使用 Java 生成的密匙对，反之亦然！
 
-所谓的互相验证就是如何正确加载 rsa 密匙对。首先我们要明白一点的是 Java 标准库生成的私钥默认是 PKCS8 格式，公钥是 X.509 格式。用于加载和解析 rsa 私钥的类是 `java.security.spec.PKCS8EncodedKeySpec`，这个类解析的是 PKCS8 格式。加载私钥的类是 `java.security.spec.X509EncodedKeySpec`，显然公钥要求是 X.509 格式。
+所谓的互相验证就是如何正确加载 rsa 密匙对。首先我们要明白一点的是 Java 标准库生成的私钥格式默认是 PKCS8，公钥格式是 X.509。用于加载和解析 rsa 私钥的类是 `java.security.spec.PKCS8EncodedKeySpec`，这个类解析的是 PKCS8 格式。加载公钥的类是 `java.security.spec.X509EncodedKeySpec`，显然公钥要求是 X.509 格式。
 
-因此当 Java 加载 Go 生成的密匙对，只需要将私钥转换为 PKCS8，公钥转换为 X.509 即可！而这个转换在 [RSA密匙对生成#使用 go 生成rsa密匙对](RSA密匙对生成.md#使用-go-生成rsa密匙对) 中也有相关代码，因此这里就不做任何说明了。唯一要注意的是，Java 加载的内容需要去除首尾 Header 信息，并剔除数据体中的换行符。
+因此当 Java 加载 Go 生成的密匙对，只需要将私钥转换为 PKCS8，公钥转换为 X.509 即可！而这个转换在 [RSA密匙对生成#使用 go 生成rsa密匙对](RSA密匙对生成.md#使用-go-生成rsa密匙对) 中也有相关代码，因此这里就不做任何说明了。唯一要注意的是，Java 加载的内容需要去除首尾 PEM Header 信息，并剔除数据体中的换行符。
 
 那 Go 如何加载 Java 生成的密匙对呢？
 
