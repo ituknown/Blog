@@ -1,22 +1,20 @@
-生成 RSA 密匙对有许多中方式，而在操作系统中使用最多的就是大名鼎鼎的 `openssl`。如果你的操作系统还没有 openssl，就需要手动安装：
+生成 rsa 密匙对有许多中方式，而在操作系统中使用最多的就是大名鼎鼎的 `openssl`。如果你的操作系统还没有 openssl，就需要手动安装：
 
 Windows 用户需要到官网 [https://www.openssl.org](https://www.openssl.org) 进行下载安装。
 
-Unix-Like 操作系统只需要一条命令即可按照。可以点击链接查看各种发行版对应的安装命令：[https://command-not-found.com/openssl](https://command-not-found.com/openssl)
+Unix-Like 玩家可以直接使用默认的包管理工具进行安装。具体可以参考：[https://command-not-found.com/openssl](https://command-not-found.com/openssl)，这里提供了各种发行版对应的安装命令。
 
-# OpenSSL 生成 RSA 密匙对
+# openssl 生成 rsa 密匙对
 
 ## 生成私钥（默认PKCS#1格式）
 
 openssl 生成的私钥默认格式为 PKCS#1，命令如下：
 
 ```bash
-$ openssl genrsa -out rsa_private_key.pem rsa_length
+$ openssl genrsa -out id_rsa.pem rsa_length
 ```
 
-`rsa_private_key.pem` 是要生成的私钥文件名。
-
-`rsa_length` 则用于指定私钥，越长表示加密性越强（当前 1024 长度已经被证实可被破解）。
+`id_rsa.pem` 是要输出的私钥文件名，而 `rsa_length` 则用于指定私钥长度，越长表示加密性越强。
 
 |**Note**|
 |:-------|
@@ -71,17 +69,15 @@ nWNn80THXeNv9gFWc0jOAdl4HwiHFopOdtvX/qPCWLqsFvdEkXY=
 -----END RSA PRIVATE KEY-----
 ```
 
-## 生成公钥（默认X.509格式）
+## 导出公钥（默认X.509格式）
 
-从RSA私钥中提取公钥，命令如下：
+从 rsa 私钥中提取公钥，命令如下：
 
 ```bash
-$ openssl rsa -in rsa_private_key.pem -out rsa_public_key.pem -pubout
+$ openssl rsa -in id_rsa.pem -out id_rsa_pub.pem -pubout
 ```
 
-`rsa_private_key.pem` 就是之前生成的私钥的文件名（公钥生成规则是通过计算私钥数值，所以必须是你之前生成的私钥文件）。
-
-`rsa_public_key.pem` 表示要生成的公钥的文件名。
+`id_rsa.pem` 就是之前生成的私钥的文件名（公钥生成规则是通过计算私钥数值）。`id_rsa_pub.pem` 表示要导出的公钥的文件。
 
 **示例：**
 
@@ -119,10 +115,10 @@ PKCS全称就是公钥密码标准（[The Public-Key Cryptography Standards (PKC
 命令如下：
 
 ```bash
-$ openssl pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt > rsa_private_key_pkcs8.pem
+$ openssl pkcs8 -topk8 -inform PEM -in id_rsa.pem -outform PEM -nocrypt > id_rsa_pkcs8.pem
 ```
 
-其中 `rsa_private_key_pkcs8.pem` 就是要转换输出的 PSCK8 文件。
+其中 `id_rsa_pkcs8.pem` 就是要转换输出的 PSCK8 文件。
 
 **命令示例：**
 
@@ -186,7 +182,7 @@ MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDbCaAas0PEVY8Rb+tNhG53UUjmwGYg
 MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wmgGrNDxFWPEW/rTYRud1FI5sBmIFU9Ac943UUQHIfizWC39j2ZaLbM0eJGAzeYnaHlcM/DUW+dMs9hT9QNgEwJaCeLJgcnROMuqwcu+fuVWtJqpGBOOkUDLfDpv6PQRlcM9V+odTcC3whxmZL7IW/L8XmSc5oIjA+AenLSioJC+mSyr3x3G+xxgKBGh7F2UfNC8SHO5KurtTasynTVMgsAboY+k+gTt9HkLMO6hWvtSq1wrocWeU2K4Lyg2Gx+XqnSvLy1xI9IWAbl1drHAdGRjPXOxn89suie+kR+hNGiMBXtFwykZ4AoKvJBNf8ZjmDQtrG4qhyM0MtzjzejDwIDAQAB
 ```
 
-# 关于RSA密钥格式互转以及格式确认
+# 关于 rsa 密匙对格式互转及如何确认格式
 
 先说一下区别：
 
@@ -199,7 +195,7 @@ MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wmgGrNDxFWPEW/rTYRud1FI5sBmIFU9Ac94
 ## 将pkcs1格式的私钥转为pkcs8格式
 
 ```bash
-openssl pkcs8 -topk8 -inform PEM -in id_rsa_cert.pem -outform PEM -nocrypt -out id_rsa_cert_pkcs8.pem
+openssl pkcs8 -topk8 -inform PEM -in id_rsa.pem -outform PEM -nocrypt -out id_rsa_pkcs8.pem
 ```
 
 |**Note**|
@@ -210,19 +206,19 @@ openssl pkcs8 -topk8 -inform PEM -in id_rsa_cert.pem -outform PEM -nocrypt -out 
 ## 将PKCS8格式私钥再转换为PKCS1格式
 
 ```bash
-openssl rsa -in id_rsa_cert_pkcs8.pem -out id_rsa_cert.pem
+openssl rsa -in id_rsa_pkcs8.pem -out id_rsa.pem
 ```
 
 ## 将pkcs8公钥转pkcs1公钥
 
 ```bash
-openssl rsa -pubin -in rsa_pub_pkcs8.pem -RSAPublicKey_out -out rsa_pub_pkcs1.pem
+openssl rsa -pubin -in id_rsa_pub_pkcs8.pem -RSAPublicKey_out -out id_rsa_pub_pkcs1.pem
 ```
 
 ## 将pkcs1公钥转换为pkcs8公钥
 
 ```bash
-openssl rsa -RSAPublicKey_in -in pub_pkcs1.pem -pubout -out pub_pkcs8.pem
+openssl rsa -RSAPublicKey_in -in id_rsa_pub_pkcs1.pem -pubout -out id_rsa_pub_pkcs8.pem
 ```
 
 ## 如何确认密匙对文件格式
