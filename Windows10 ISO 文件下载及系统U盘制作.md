@@ -1,6 +1,10 @@
 # 前言
 
-微软官网提供了 windows10 系统对应的下载页面（如下表格），点击链接即可进入对应语言的下载页面：
+微软官网对支持的版本都提供了下载链接，可以点击链接 https://www.microsoft.com/zh-cn/software-download/ 进行查看：
+
+![system-version-select](http://blog-media.knowledge.ituknown.cn/DownloadWin10ISO/system-version-select.png)
+
+譬如下表格是 windows10 系统对应的下载页面，点击链接即可进入对应语言的下载页面：
 
 |**网页语言**|**下载链接**|
 |:----------|:---------|
