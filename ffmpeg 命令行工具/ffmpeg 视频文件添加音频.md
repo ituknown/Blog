@@ -205,8 +205,7 @@ video_with_mixing_audio.mp4
 ```bash
 ffmpeg \
 -i video_no_audio.mp4 \
--stream_loop -1 \
--i you.flac \
+-stream_loop -1 -i you.flac \
 -c:v copy \
 -shortest \
 -map 0:v \
