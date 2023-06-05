@@ -29,7 +29,13 @@ Input #0, flac, from 'M.Graveyard - you.flac':
 
 # 添加/修改 Metadata
 
-添加/修改流媒体文件的元数据信息可以借助 `-metadata` 参数实现，后面跟随对应的键值（标签）。如果要同时修改多个键值就需要指定多个 `-metadata`：
+添加/修改流媒体文件的元数据信息可以借助 `-metadata` 参数实现，后面跟随对应的键/值。基本语法如下：
+
+```bash
+$ ffmpeg -i inputfile -metadata title="Movie Title" -metadata year="2010" outputfile
+```
+
+比如修改音乐媒体文件的歌名和歌手：
 
 ```bash
 $ ffmpeg \
@@ -44,11 +50,11 @@ output.flac
 
 |**Note**|
 |:-------|
-|不同的流媒体文件，键值（标签）区别很大。如果你不知道对应的流媒体文件有哪些键值可以参考下FFmpeg官方文档或本文最后的[参考链接](#参考链接)。|
+|不同的流媒体文件，键/值区别很大。如果你不知道对应的流媒体文件有哪些键值可以参考下FFmpeg官方文档或本文最后的[参考链接](#参考链接)。|
 
 # 删除指定 Metadata
 
-删除指定 Metadata 与添加/修改如出一辙，使用空key即可（`key=`）。如删除 title 信息：
+删除指定 Metadata 与添加/修改如出一辙，使用空键即可（`key=`）。如删除 title 信息：
 
 ```bash
 $ ffmpeg \
