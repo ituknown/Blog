@@ -107,4 +107,10 @@ $ sudo systemctl status aria2
 
 --
 
+https://github.com/aria2/aria2
+
+https://aria2.github.io/manual/en/html/aria2c.html#options
+
+https://aria2.github.io/manual/en/html/aria2c.html#rpc-interface
+
 https://www.bilibili.com/read/cv16612773
