@@ -118,9 +118,9 @@ $ ffmpeg -i Mieruko-chan.chs.srt Mieruko-chan.chs.ass
 
 # FFmpeg 视频字幕操作
 
-## 视频添加软字幕
+## 视频添加软字幕（推荐）
 
-**mkv 添加 srt 字幕：**
+### mkv 添加 srt 字幕
 
 ```bash
 # mkv 添加软字幕
@@ -129,7 +129,7 @@ $ ffmpeg -i input.mkv -i subtitles.srt -c copy output.mkv
 $ ffmpeg -i input.mkv -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 ```
 
-**mkv 添加 ass 字幕：**
+### mkv 添加 ass 字幕
 
 ```bash
 # mkv 添加软字幕
@@ -138,7 +138,7 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c copy output.mkv
 $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
 ```
 
-**mp4 添加 srt 字幕**
+### mp4 添加 srt 字幕
 
 ```bash
 # mp4 添加软字幕
@@ -153,7 +153,7 @@ $ ffmpeg -i input.mp4 -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
 | :----------------------------------------------------------- |
 | 并非所有的容器都支持字幕流（软字幕），软字幕只有部分容器格式（如mkv）才支持，MP4/MOV等不支持。而且也只有部分播放器支持软字幕或者外挂字幕（如VLC、IINA播放器） |
 
-**扩展**
+### 扩展
 
 上面第二条示例命令中都使用了`-c:` 参数，这个参数的意思其实是对指定流指定具体编解码器：
 
@@ -188,7 +188,19 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s srt output.mkv
 
 许多飞利浦蓝光播放器、三星智能电视和其他独立播放器只能读取“MKV”文件中的“SRT”字幕流，所以一定根据需要使用。
 
-## 视频添加软字幕 - 多语言
+### 设置默认字幕
+
+mkv 添加 ass 字幕不会被设置为默认字幕（其他视频格式或字幕也可能存在该问题），因此在播放时必须在播放器中手动选择才会显示软字幕。
+
+一个好的办法是直接将该软字幕设置为默认字幕，这样在播放时就会自动显示了。具体可以使用 -disposition 参数，比如前面的mkv 添加 ass 字幕，直接将字幕设置为默认字幕：
+
+```bash
+$ ffmpeg -i input.mkv -i subtitles.ass -c copy -disposition:s:0 default output.mkv
+```
+
+其中 `s` 表示字幕，`0` 表示的是字幕索引。如果只有一个字幕时使用 0 就可以了~
+
+## 视频添加软字幕（推荐） - 多语言
 
 前面示例中只是添加一个字幕（即单语言），其实我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。缺点是，某些播放器可能不会自动显示字幕，需要手动选择指定语言才会显示。
 
@@ -273,6 +285,22 @@ Stream #0:4(cht): Subtitle: ass           # 第四个轨道是 cht 字幕, 编�
   Metadata:
     DURATION        : 00:23:39.930000000
 ```
+
+### 选择默认字幕
+
+与添加单软字幕一样，即使是多语言字幕也不会自动显示。如果想要显示默认语言也需要使用 -disposition 参数。比如将上面的中文繁体设置为默认字幕：
+
+```bash
+$ ffmpeg -i Mieruko-chan.mkv -i Mieruko-chan.chs.ass -i Mieruko-chan.cht.ass \
+-c:v copy -c:a copy -c:s copy \
+-map 0:v -map 0:a -map 1 -map 2 \
+-metadata:s:s:0 language=chs \
+-metadata:s:s:1 language=cht \
+-disposition:s:1 default \
+output.mkv
+```
+
+因为中文繁体是在第二个位置，所以索引要设置为 1。
 
 ## 视频添加硬字幕
 
