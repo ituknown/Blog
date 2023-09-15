@@ -168,53 +168,54 @@ ffmpeg -i faster_output.mp4 -i faster_audio.aac -c:v copy -c:a aac -map 0:v:0 -m
 
 使用 filter 过滤器实现音视频倍速播放是及其的简单。仅仅需要一条命令即可，下面直接使用命令说明，不在做多余的赘述：
 
-1. 使用 `setpts` 进行视频加速：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -filter:v "setpts=PTS/1.5" output.mp4
-   ```
+**使用 `setpts` 进行视频加速：**
 
-   这个命令会将视频的播放速度加快 1.5 倍。你可以根据需要调整 `setpts` 过滤器中的倍速比例（如放慢 0.5 倍）。
-<br/>
-2. 使用 `atempo` 进行音频加速：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -filter:a "atempo=1.5" -vn output.mp3
-   ```
+```bash
+ffmpeg -i input.mp4 -filter:v "setpts=PTS/1.5" output.mp4
+```
 
-   这个命令会将音频的播放速度加快 1.5 倍，并将其保存为 MP3 文件。
-<br/>
-3. 同时加速音频和视频：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -filter:v "setpts=PTS/1.5" -filter:a "atempo=1.5" output.mp4
-   ```
+这个命令会将视频的播放速度加快 1.5 倍。你可以根据需要调整 `setpts` 过滤器中的倍速比例（如放慢 0.5 倍）。
 
-   这个命令会同时加速音频和视频，以实现整体倍速播放。
-<br/>
-4. 使用 `-vf` 和 `-af` 组合加速音视频：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -vf "setpts=PTS/1.5" -af "atempo=1.5" output.mp4
-   ```
+**使用 `atempo` 进行音频加速：**
 
-   这个命令也是同时加速音频和视频的一种方式，但使用了 `-vf` 和 `-af` 选项。
-<br/>
-5. 使用 `-filter_complex` 进行更复杂的操作：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -filter_complex "[0:v]setpts=PTS/1.5[v];[0:a]atempo=1.5[a]" -map "[v]" -map "[a]" output.mp4
-   ```
+```bash
+ffmpeg -i input.mp4 -filter:a "atempo=1.5" -vn output.mp3
+```
 
-   这个命令使用了 `-filter_complex` 选项来分别加速视频和音频，然后将它们重新合并成一个输出文件。
-<br/>
-6. 使用 `setpts` 和 `atempo` 一起进行多次倍速播放：
-<br/>
-   ```bash
-   ffmpeg -i input.mp4 -filter:v "setpts=PTS/2.0" -filter:a "atempo=2.0" -vf "setpts=PTS/1.5" -af "atempo=1.5" output.mp4
-   ```
+这个命令会将音频的播放速度加快 1.5 倍，并将其保存为 MP3 文件。
 
-   这个命令示例中，视频会首先加速两倍，然后再减速回原始速度的 1.5 倍，最终实现原始速度的倍速播放。
-<br/>
+**同时加速音频和视频：**
 
-根据你的需求和具体情况，选择合适的方法来实现音视频的倍速播放。记得根据需要调整倍速比例以及输入和输出文件的文件名。
+```bash
+ffmpeg -i input.mp4 -filter:v "setpts=PTS/1.5" -filter:a "atempo=1.5" output.mp4
+```
+
+这个命令会同时加速音频和视频，以实现整体倍速播放。
+
+**使用 `-vf` 和 `-af` 组合加速音视频：**
+
+```bash
+ffmpeg -i input.mp4 -vf "setpts=PTS/1.5" -af "atempo=1.5" output.mp4
+```
+
+这个命令也是同时加速音频和视频的一种方式，但使用了 `-vf` 和 `-af` 选项。
+
+**使用 `-filter_complex` 进行更复杂的操作：**
+
+```bash
+ffmpeg -i input.mp4 -filter_complex "[0:v]setpts=PTS/1.5[v];[0:a]atempo=1.5[a]" -map "[v]" -map "[a]" output.mp4
+```
+
+这个命令使用了 `-filter_complex` 选项来分别加速视频和音频，然后将它们重新合并成一个输出文件。
+
+**使用 `setpts` 和 `atempo` 一起进行多次倍速播放：**
+
+```bash
+ffmpeg -i input.mp4 -filter:v "setpts=PTS/2.0" -filter:a "atempo=2.0" -vf "setpts=PTS/1.5" -af "atempo=1.5" output.mp4
+```
+
+这个命令示例中，视频会首先加速两倍，然后再减速回原始速度的 1.5 倍，最终实现原始速度的倍速播放。
+
+--
+
+上面这几个命令基本够小白玩家使用了。在实际使用时，根据你的需求和具体情况，选择合适的方法来实现音视频的倍速播放。记得根据需要调整倍速比例以及输入和输出文件的文件名。
