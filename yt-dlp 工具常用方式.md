@@ -428,12 +428,12 @@ $ yt-dlp --cookies cookies.txt -f https://www.bilibili.com/video/BV1AG4y1k7jX
 
 |**模板变量**|**说明**|
 |:----------|:------|
-|{title}|视频的标题|
-|{id}|视频的唯一标识符|
-|{uploader}|视频上传者的用户名|
-|{ext}|文件扩展名|
-|{playlist_index}|当前视频在播放列表中的索引|
-|{resolution}|视频分辨率|
+|`{title}`|视频的标题|
+|`{id}`|视频的唯一标识符（就是BV号）|
+|`{uploader}`|视频上传者的用户名|
+|`{ext}`|文件扩展名|
+|`{playlist_index}`|当前视频在播放列表中的索引|
+|`{resolution}`|视频分辨率|
 
 例如，如果你想将文件名设置为 “视频标题_上传者.ext”，可以使用以下命令：
 
@@ -478,27 +478,27 @@ $ yt-dlp -o "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/v
 
 |**模板变量**|**说明**|
 |:----------|:------|
-|{id}| 视频的唯一标识符。|
-|{title}| 视频的标题。|
-|{uploader}| 视频上传者的用户名。|
-|{uploader_id}| 视频上传者的唯一标识符。|
-|{channel}| 视频所属的频道名称。|
-|{channel_id}| 视频所属的频道唯一标识符。|
-|{upload_date}| 视频上传的日期（格式为 YYYYMMDD）。|
-|{duration}| 视频的时长，以秒为单位。|
-|{view_count}| 视频的观看次数。|
-|{like_count}| 视频的点赞数。|
-|{dislike_count}| 视频的踩数。|
-|{comment_count}| 视频的评论数。|
-|{thumbnail}| 视频的缩略图链接。|
-|{categories}| 视频的类别。|
-|{tags}| 视频的标签。|
-|{formats}| 视频的可用格式。|
-|{ext}| 文件扩展名。|
-|{playlist}| 视频所属的播放列表名称。|
-|{playlist_index}| 当前视频在播放列表中的索引。|
-|{autonumber}| 用于递增计数，通常与播放列表结合使用。|
-|{description}| 视频的描述。|
+|`{id}`| 视频的唯一标识符（就是BV号）|
+|`{title}`| 视频的标题|
+|`{uploader}`| 视频上传者的用户名|
+|`{uploader_id}`| 视频上传者的唯一标识符|
+|`{channel}`| 视频所属的频道名称|
+|`{channel_id}`| 视频所属的频道唯一标识符|
+|`{upload_date}`| 视频上传的日期（格式为 YYYYMMDD）|
+|`{duration}`| 视频的时长，以秒为单位|
+|`{view_count}`| 视频的观看次数|
+|`{like_count}`| 视频的点赞数|
+|`{dislike_count}`| 视频的踩数|
+|`{comment_count}`| 视频的评论数|
+|`{thumbnail}`| 视频的缩略图链接|
+|`{categories}`| 视频的类别|
+|`{tags}`| 视频的标签|
+|`{formats}`| 视频的可用格式|
+|`{ext}`| 文件扩展名|
+|`{playlist}`| 视频所属的播放列表名称|
+|`{playlist_index}`| 当前视频在播放列表中的索引|
+|`{autonumber}`| 用于递增计数，通常与播放列表结合使用|
+|`{description}`| 视频的描述|
 
 # 其他参数
 
