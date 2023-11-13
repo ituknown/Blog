@@ -420,6 +420,86 @@ www.bilibili.com	FALSE	/	FALSE	0	theme_style	light
 $ yt-dlp --cookies cookies.txt -f https://www.bilibili.com/video/BV1AG4y1k7jX
 ```
 
+# 使用模板变量自定义下载文件名
+
+`yt-dlp` 默认下载的文件名冗余信息特别多（如多余的番号ID信息），下载完成之后可能还需要多额外的重命名操作，总觉得特别麻烦。
+
+不过 yt-dlp 它内置了一些模板变量便于你来重新组织下载的文件名（是不是特别懂你~）。下面是一些常用的模板变量：
+
+|**模板变量**|**说明**|
+|:----------|:------|
+|{title}|视频的标题|
+|{id}|视频的唯一标识符|
+|{uploader}|视频上传者的用户名|
+|{ext}|文件扩展名|
+|{playlist_index}|当前视频在播放列表中的索引|
+|{resolution}|视频分辨率|
+
+例如，如果你想将文件名设置为 “视频标题_上传者.ext”，可以使用以下命令：
+
+```bash
+yt-dlp -o "%(title)s_%(uploader)s.%(ext)s" 视频链接
+```
+
+在实际下载中如果不确定自定义的文件名是否符合自己的要求，可以使用 `--skip-download --get-filename` 做输出测试。
+
+以《宇宙 第三季》为例，我重组的文件名格式为：“索引 文件名.扩展名”。另外，我额外的在索引前面加了一个字母 “P”。同时指定索引为两位数，如果不够两位数就使用 “0” 进行填充。命令如下：
+
+```bash
+$ yt-dlp --skip-download --get-filename -o "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/video/BV1vx411C7hk
+```
+
+输出的信息如下：
+
+```
+P01 宇宙 第三季【全12集】 p01 太空灾难.mp4
+P02 宇宙 第三季【全12集】 p02 平行宇宙.mp4
+P03 宇宙 第三季【全12集】 p03 光速.mp4
+P04 宇宙 第三季【全12集】 p04 太空性事.mp4
+P05 宇宙 第三季【全12集】 p05 陌生的面孔.mp4
+P06 宇宙 第三季【全12集】 p06 致命的彗星和流星.mp4
+P07 宇宙 第三季【全12集】 p07 太空生活.mp4
+P08 宇宙 第三季【全12集】 p08 阻止世界末日.mp4
+P09 宇宙 第三季【全12集】 p09 另一个地球.mp4
+P10 宇宙 第三季【全12集】 p10 怪异之最.mp4
+P11 宇宙 第三季【全12集】 p11 太空边缘.mp4
+P12 宇宙 第三季【全12集】 p12 宇宙现象.mp4
+```
+
+看起来已经符合我的要求了，之后就可以下载啦：
+
+```bash
+$ yt-dlp -o "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/video/BV1vx411C7hk
+```
+
+## 常用的模板变量
+
+下面是一些常用的模板变量，你可以根据需要自由组合这些变量来构建输出文件名的模板。要查看 yt-dlp 的完整模板变量列表和详细信息，你可以查看 yt-dlp 的官方文档（[https://github.com/yt-dlp/yt-dlp#output-template](https://github.com/yt-dlp/yt-dlp#output-template)）。文档通常包含有关每个变量的用法和示例。
+
+|**模板变量**|**说明**|
+|:----------|:------|
+|{id}| 视频的唯一标识符。|
+|{title}| 视频的标题。|
+|{uploader}| 视频上传者的用户名。|
+|{uploader_id}| 视频上传者的唯一标识符。|
+|{channel}| 视频所属的频道名称。|
+|{channel_id}| 视频所属的频道唯一标识符。|
+|{upload_date}| 视频上传的日期（格式为 YYYYMMDD）。|
+|{duration}| 视频的时长，以秒为单位。|
+|{view_count}| 视频的观看次数。|
+|{like_count}| 视频的点赞数。|
+|{dislike_count}| 视频的踩数。|
+|{comment_count}| 视频的评论数。|
+|{thumbnail}| 视频的缩略图链接。|
+|{categories}| 视频的类别。|
+|{tags}| 视频的标签。|
+|{formats}| 视频的可用格式。|
+|{ext}| 文件扩展名。|
+|{playlist}| 视频所属的播放列表名称。|
+|{playlist_index}| 当前视频在播放列表中的索引。|
+|{autonumber}| 用于递增计数，通常与播放列表结合使用。|
+|{description}| 视频的描述。|
+
 # 其他参数
 
 ## 查看支持的网站列表
