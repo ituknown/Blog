@@ -365,7 +365,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 -r, --limit-rate      MAX_RATE
 ```
 
-参数 `MAX_RATE` 就是你指定的每秒下载速度上限，如 50k、4.2M、1024G。
+参数 `MAX_RATE` 就是你指定的每秒下载速度上限，如 50K、4.2M、1024G。
 
 # 用户认证相关
 
