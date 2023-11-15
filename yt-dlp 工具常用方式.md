@@ -254,6 +254,33 @@ ERROR: unable to download video data: HTTP Error 403: Forbidden
 yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
+# 视频封面相关常用方式
+
+## 下载视频封面
+
+```bash
+yt-dlp --skip-download --write-thumbnail 视频链接
+```
+
+## 下载封面并且转为png
+
+某些视频网站默认下载下来是webp格式，如果想要转换成其他格式（如 png）可以加上 `--convert-thumbnail` 参数：
+
+```bash
+yt-dlp --skip-download --write-thumbnail --convert-thumbnail png 视频链接
+```
+
+## 内嵌视频封面
+
+经常看到某些视频的封面特别biu特否，但当你将视频下载下来时发现那个biu特否的封面没了~
+
+这个时候你可能需要使用使用 `--embed-thumbnail` 参数将封面嵌入到下载的视频文件中。
+
+示例：
+
+```bash
+yt-dlp --embed-thumbnail --output "output_file.mp4" "https://www.youtube.com/watch?v=VIDEO_ID"
+```
 
 # 字幕相关常用方式
 
