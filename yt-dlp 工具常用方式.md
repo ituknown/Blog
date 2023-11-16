@@ -623,3 +623,25 @@ WebM 影片格式其实是以 Matroska（即 MKV）容器格式为基础开发�
 WebM标准的网络视频更加偏向于开源并且是基于HTML5标准的。相比较而言，我发现同样是 1080p 的视频 WebM 要比 MP4 体积更小，更方便于网络传输，但两者的画面感我看不出有什么差异。
 
 虽然 WebM 有很多好处，但是 MP4 是现在主流的流媒体标准。有些流媒体播放器还不支持 WebM 视频格式，如英特尔对 WebM 的流媒体就存在兼容性问题。
+
+# 最佳实战
+
+## youtbe
+
+```bash
+yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=srt --sub-lang zh --write-thumbnail --convert-thumbnail png https://www.youtube.com/watch?v={视频Id}
+```
+
+## bilibili
+
+下载前先确定重组文件名是否 ok：
+
+```bash
+yt-dlp --skip-download --get-filename -o "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
+```
+
+执行下载：
+
+```bash
+yt-dlp --cookies cookies_svip.txt --embed-thumbnail -f bestvideo+bestaudio -o "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
+```
