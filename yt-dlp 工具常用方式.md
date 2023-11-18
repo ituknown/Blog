@@ -353,8 +353,15 @@ Lecture 13： Spanner [4eW5SWBi7vs].zh-Hans.vtt
 另外，我们也可以在下载视频时直接将自动生成的字幕文件内嵌到视频中，这里我选择将中/英文字幕直接内嵌到视频中：
 
 ```bash
-$ yt-dlp --write-auto-sub --sub-lang "en,zh-Hans" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
+$ yt-dlp --write-auto-sub --sub-lang "zh-Hans,en" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
 ```
+
+另外，如果你对字幕格式有特殊要求还可以使用 `--convert-subs` 将字幕转换为指定格式，以 ass 字幕格式为例：
+
+```bash
+$ yt-dlp --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
+```
+
 
 现在，当我们播放视频时就可以随意切换字幕了：
 
@@ -629,7 +636,7 @@ WebM标准的网络视频更加偏向于开源并且是基于HTML5标准的。�
 ## youtbe
 
 ```bash
-yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=srt --sub-lang zh --write-thumbnail --convert-thumbnail png https://www.youtube.com/watch?v={视频Id}
+yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub --write-thumbnail --convert-thumbnail png https://www.youtube.com/watch?v={视频Id}
 ```
 
 ## bilibili
