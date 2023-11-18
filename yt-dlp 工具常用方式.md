@@ -636,7 +636,7 @@ WebM标准的网络视频更加偏向于开源并且是基于HTML5标准的。�
 ## youtbe
 
 ```bash
-yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub --write-thumbnail --convert-thumbnail png https://www.youtube.com/watch?v={视频Id}
+yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub --write-thumbnail --convert-thumbnail png --embed-thumbnail https://www.youtube.com/watch?v={视频Id}
 ```
 
 ## bilibili
