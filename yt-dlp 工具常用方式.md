@@ -4,7 +4,6 @@
 
 在此之前，大家可能用的都是 youtube-dl，不可否认我也在用。但实在受不了 youtube-dl 的下载速度，当我知道 yt-dlp 后立马将 youtube-dl 抛弃了。
 
-
 yt-dlp 工具将 youtube-dl 与 youtube-dlc 做了整合，同时内部增加了多线程下载并做了一些定制化修改。我在使用过发现 yt-dlp 能将速度提到极致。
 
 下面以某国漫（[https://www.youtube.com/watch?v=lHvamusTCK0](https://www.youtube.com/watch?v=lHvamusTCK0)）为例，使用 youtube-dl 和 yt-dlp 的下载速度对比：
@@ -59,10 +58,9 @@ python3 -m pip install --no-deps -U yt-dlp
 
 对于 Windows 系统，推荐直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制程序包吧。
 
-|**注意**|
-|:------|
-|yt-dlp 在视频合成时基于 ffmpeg，虽然在程序包中有内置 ffmpeg。但还是推荐在操作系统上单独安装一次，防止视频下载后在进行合并音视频的出现未知错误。|
-
+| **注意** |
+| :------ |
+| yt-dlp 在视频合成时基于 ffmpeg，虽然在程序包中有内置 ffmpeg。但还是推荐在操作系统上单独安装一次，防止视频下载后在进行合并音视频的出现未知错误。 |
 
 # 音视频相关常用方式
 
@@ -83,7 +81,6 @@ yt-dlp https://www.youtube.com/watch?v=lHvamusTCK0
 需要特别强调了是：YouTube 上的视频采用音视频分离的方式。如果安装了 ffmpeg，yt-dlp 默认会下载质量最高的视频和音频并进行合并，这也是为什么在之前推荐单独安装 ffmpeg 的原因。
 
 默认情况下，yt-dlp 会自动下载适合的音视频进行合并（如果操作系统中有 ffmpeg 的话默认会下载质量最高的音视频），不过我们也可以借助 `-F` 和 `-f` 参数选择下载指定质量的音视频。
-
 
 ## 列出所有的音视频文件
 
