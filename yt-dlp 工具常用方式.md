@@ -26,15 +26,21 @@ yt-dlp 的 Github 仓库地址是：[https://github.com/yt-dlp/yt-dlp](https://g
 
 下面是类Unix（MacOS、Linux、BSD）操作系统使用 `curl`、`wget` 及 `aria2c` 三种下载工具的安装方式：
 
+curl：
+
 ```bash
 sudo curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o /usr/local/bin/yt-dlp
 sudo chmod a+rx /usr/local/bin/yt-dlp
 ```
 
+wget：
+
 ```bash
 sudo wget https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -O /usr/local/bin/yt-dlp
 sudo chmod a+rx /usr/local/bin/yt-dlp
 ```
+
+aria2c：
 
 ```bash
 sudo aria2c https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp --dir /usr/local/bin -o yt-dlp
@@ -58,8 +64,8 @@ python3 -m pip install --no-deps -U yt-dlp
 
 对于 Windows 系统，推荐直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制程序包吧。
 
-| **注意** |
-| :------ |
+| **注意**                                                                             |
+| :--------------------------------------------------------------------------------- |
 | yt-dlp 在视频合成时基于 ffmpeg，虽然在程序包中有内置 ffmpeg。但还是推荐在操作系统上单独安装一次，防止视频下载后在进行合并音视频的出现未知错误。 |
 
 # 音视频相关常用方式
