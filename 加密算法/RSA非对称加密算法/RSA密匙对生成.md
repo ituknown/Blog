@@ -74,9 +74,9 @@ private_key.pem  public_key.pem
 
 ## 私钥转 PKCS8 格式
 
-PKCS#8 格式是一种更通用的私钥格式标准（如果你使用的是 Java、C# 开发语言就需要将私钥转换为 PKCS8 格式），但相比 PKCS#1 更加通用,可以表示任意类型的私钥，不仅限于 RSA。
+PKCS#8 格式是一种更通用的私钥格式标准（如果你使用的是 Java、C# 开发语言就需要将私钥转换为 PKCS8 格式），相比 PKCS#1 更加通用，可以表示任意类型的私钥，不仅限于 RSA。
 
-特别说明：如果你的 openssl 版本大于或等于 3.0，那么生成的私钥本身就是 PKCS#8 标准格式，无需再执行格式转换！
+特别说明：<ul>如果你的 openssl 版本大于或等于 3.0，那么生成的私钥本身就是 PKCS#8 标准格式，无需再执行格式转换！</ul>
 
 命令如下：
 
@@ -135,10 +135,10 @@ openssl rsa -in private_key.pem -outform DER -out private_key.der
 openssl pkcs8 -topk8 -inform PEM -in private_key.pem -outform PEM -nocrypt -out private_key_pkcs8.pem
 ```
 
-## PKCS#1 转 PKCS#8（DER 格式）
+## PKCS#8 转 DER
 
 ```bash
-openssl pkcs8 -topk8 -inform PEM -in private_key.pem -outform DER -nocrypt -out private_key_pkcs8.der
+openssl pkcs8 -topk8 -in private_key.pem -outform DER -out private_key_pkcs8.der
 ```
 
 # 公钥为什么不需要做格式转换
