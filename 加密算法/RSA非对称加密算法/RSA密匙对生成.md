@@ -8,26 +8,40 @@ Unix-Like 玩家可以直接使用默认的包管理工具进行安装。具体�
 
 # OpenSSL 生成 RSA 密钥对
 
-## 生成私钥（默认PKCS#1格式）
+## 生成私钥
 
 ```bash
 $ openssl genrsa -out private_key.pem length
 ```
 
-`openssl genrsa` 命令默认生成的是 PKCS#1 标准 PEM 格式的 RSA 私钥。PKCS#1 格式是最早的 RSA 私钥格式标准。PEM (Privacy-Enhanced Mail) 是一种常见的密钥和证书格式，它使用 Base64 编码的 ASCII 文本表示密钥和证书，并且通常以 .pem 作为文件扩展名。PEM 格式的私钥文件通常以 -----BEGIN RSA PRIVATE KEY----- 开头，以 -----END RSA PRIVATE KEY----- 结尾。
-
 `private_key.pem` 是要输出的私钥文件名，而 `length` 则用于指定私钥长度（如 1024、2048），越长表示加密性越强。
 
-该命令生成的 RSA 私钥是 PEM 格式。
+PEM (Privacy-Enhanced Mail) 是一种常见的密钥和证书格式，它使用 Base64 编码的 ASCII 文本表示密钥和证书，并且通常以 .pem 作为文件扩展名。
+
+需要特别说明说明的一点是，openssl 在 3.0 之前 `openssl genrsa` 命令默认生成的私钥文件是 PKCS#1 标准格式。但是从 3.0 开始，默认生成的是 PKCS#8 标准格式。
+
+如何区分生成的私钥是 PKCS#1 标准还是 PKCS#8 标准呢？只需要打开生成的私钥文件，看开头和结尾内容标识即可：
+
+PKCS#1 标准文件内容开头和结尾标识：
+
+```
+-----BEGIN RSA PRIVATE KEY-----
+.....
+-----END RSA PRIVATE KEY-----
+```
+
+PKCS#8 标准文件内容开头和结尾标识：
+
+```
+-----BEGIN PRIVATE KEY-----
+.....
+-----END PRIVATE KEY-----
+```
 
 **示例：**
 
 ```bash
 $ openssl genrsa -out private_key.pem 2048
-Generating RSA private key, 2048 bit long modulus
-.......................+++
-............................................................................................................................+++
-e is 65537 (0x10001)
 ```
 
 命令执行完成之后就会看到在当前目录下多了一个 private_key.pem 私钥文件：
@@ -36,6 +50,10 @@ e is 65537 (0x10001)
 $ ls
 private_key.pem
 ```
+
+如果私钥文件内容以 “-----BEGIN RSA PRIVATE KEY-----” 开头，“-----END RSA PRIVATE KEY-----” 结尾，说明私钥是 PKCS#1 标准。
+
+如果私钥文件内容以 “-----BEGIN PRIVATE KEY-----” 开头，“-----END PRIVATE KEY-----” 结尾，说明私钥是 PKCS#8 标准。
 
 ## 导出公钥（默认X.509格式）
 
@@ -56,9 +74,9 @@ private_key.pem  public_key.pem
 
 ## 私钥转 PKCS8 格式
 
-PKCS#8 格式是一种更通用的私钥格式标准（如果你使用的是 Java、C# 开发语言就需要将私钥转换为 PKCS8 格式）。私钥以 -----BEGIN PRIVATE KEY----- 开头, -----END PRIVATE KEY----- 结尾。这种格式也是 DER 编码的 ASN.1 结构, 但相比 PKCS#1 更加通用,可以表示任意类型的私钥,不仅限于 RSA。
+PKCS#8 格式是一种更通用的私钥格式标准（如果你使用的是 Java、C# 开发语言就需要将私钥转换为 PKCS8 格式），但相比 PKCS#1 更加通用,可以表示任意类型的私钥，不仅限于 RSA。
 
-所以这步为可选操作，根据实际需要~
+特别说明：如果你的 openssl 版本大于或等于 3.0，那么生成的私钥本身就是 PKCS#8 标准格式，无需再执行格式转换！
 
 命令如下：
 
@@ -233,3 +251,5 @@ func main() {
 # 参考资料
 
 https://www.cryptosys.net/pki/rsakeyformats.html
+
+https://stackoverflow.com/questions/10783366/how-to-generate-pkcs1-rsa-keys-in-pem-format
