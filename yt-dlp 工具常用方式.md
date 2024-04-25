@@ -546,7 +546,11 @@ WebM标准的网络视频更加偏向于开源并且是基于HTML5标准的。�
 ## youtbe
 
 ```bash
-yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub --write-thumbnail --convert-thumbnail png --embed-thumbnail https://www.youtube.com/watch?v={视频Id}
+yt-dlp -c \
+-f bestvideo+bestaudio \
+--write-thumbnail --convert-thumbnail png --embed-thumbnail \
+--write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub \
+视频链接
 ```
 
 ## bilibili
@@ -554,11 +558,11 @@ yt-dlp -f "bestvideo+bestaudio" --write-auto-sub --convert-subs=ass --sub-lang "
 下载前先确定重组文件名是否 ok：
 
 ```bash
-yt-dlp --skip-download --get-filename -o "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
+yt-dlp --print "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
 ```
 
 执行下载：
 
 ```bash
-yt-dlp --cookies cookies_svip.txt --embed-thumbnail -f bestvideo+bestaudio -o "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
+yt-dlp --cookies cookies_svip.txt -c --embed-thumbnail -f bestvideo+bestaudio -o "P%(playlist_index)02d｜%(title)s.%(ext)s" 视频链接
 ```
