@@ -19,7 +19,7 @@ Mieruko-chan.mkv
 
 不过有些视频播放器不会自动加载同级目录下的字幕文件，因此就需要手动选择（点击加载字幕按钮选择本地字幕文件）。
 
-## 软字幕
+## 软字幕（内挂字幕）
 
 软字幕也叫内挂字幕、封装字幕、内封字幕，字幕流等，就是把前面的外挂字幕的字幕文件嵌入到视频中作为流的一部分，这样在播放视频时同样的会自动显示字幕。
 
@@ -71,35 +71,35 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 硬字幕缺点也很明显：后期不可以编辑、不可去除字幕。另外，也无法使用 `ffprobe` 查询字幕流信息。
 
-# 字幕格式以及转换
-
-## 常见字幕格式
+# 常见字幕格式
 
 不同的字幕文件有其对应的格式（针对外挂字幕和软字幕），常见的字幕格式有：
 
-**SRT（SubRip Text，标准外挂字幕格式）**
+## SRT（SubRip Text，标准外挂字幕格式）
 
 其制作规范简单，一句时间一句字幕，只包含文字和时间码，没有样式，显示效果由播放器决定，不同的播放器显示出的效果可能差别很大（下面是 srt 字幕文件内容示例）。
 
 ![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
-**ASS（Advanced Sub Station，高级外挂字幕格式）**
+## ASS（Advanced Sub Station，高级外挂字幕格式）
 
 用以实现比传统字幕诸如srt等格式更为复杂的功能，ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Events]`、`[Fonts]` 以及 `[Graphics]`。支持样式、字体、字幕定位、淡入淡出、简单的特效。如果不缺字体，不同的播放器显示效果基本一致（下面是 srt 字幕文件内容示例）。
 
 ![subtitles-ass-example-wX57qkv4M136SDPOFB.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
 
-**WebVTT （Web Video Text Tracks）字幕格式**
+总的来说，想要字幕带特效，选 ASS 准没错~
+
+## WebVTT （Web Video Text Tracks）字幕格式
 
 WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一个 `.vtt` 结尾的纯文本文件。不过某些播放器无法正常加载，需要将 vtt 转为 srt 格式（下面是 vtt 字幕文件内容示例）。
 
 ![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
 
-**Sbv 字幕格式**
+## Sbv 字幕格式
 
 Youtube的字幕格式，它可以通过youtube自动生成字幕文件，文件后缀 `.sbv`。
 
-## 字幕格式转换
+# 字幕格式转换
 
 字幕转换比较简单，可以直接使用 `ffmpeg` 命令实现 ass、srt、vtt 等字幕格式的相互转换。示例：
 
@@ -116,44 +116,24 @@ $ ffmpeg -i Mieruko-chan.chs.srt Mieruko-chan.chs.ass
 # 其他同理...
 ```
 
-# FFmpeg 视频字幕操作
+# 视频添加软字幕（推荐）
 
-## 视频添加软字幕（推荐）
-
-### mkv 添加 srt 字幕
+基本命令如下：
 
 ```bash
-# mkv 添加软字幕
-$ ffmpeg -i input.mkv -i subtitles.srt -c copy output.mkv
-# 或
-$ ffmpeg -i input.mkv -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
+ffmpeg -i video_file -i subtitles_file -c copy output_video_file
+ffmpeg -i video_file -i subtitles_file -c:v copy -c:a copy -c:s copy output_video_file
 ```
 
-### mkv 添加 ass 字幕
+其中 video_file 可以是任意视频容器文件，如 mkv、mp4。subtitles_file 可以是任意字幕文件，如 ass、srt。
 
-```bash
-# mkv 添加软字幕
-$ ffmpeg -i input.mkv -i subtitles.ass -c copy output.mkv
-# 或
-$ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s copy output.mkv
-```
-
-### mp4 添加 srt 字幕
-
-```bash
-# mp4 添加软字幕
-$ ffmpeg -i input.mp4 -i subtitles.srt -c copy output.mkv
-# 或
-$ ffmpeg -i input.mp4 -i subtitles.srt -c:v copy -c:a copy -c:s copy output.mkv
-```
-
-添加软字幕的原理和流程就跟给视频添加音频一样，这个过程不需要重新编解码，所以速度非常快。
+添加字幕不需要对视频、字幕做重新编码处理，直接使用 `-c copy` 参数即可，所以速度会非常快。
 
 | **Note**                                                     |
 | :----------------------------------------------------------- |
 | 并非所有的容器都支持字幕流（软字幕），软字幕只有部分容器格式（如mkv）才支持，MP4/MOV等不支持。而且也只有部分播放器支持软字幕或者外挂字幕（如VLC、IINA播放器） |
 
-### 扩展
+## 关于编解码器
 
 上面第二条示例命令中都使用了`-c:` 参数，这个参数的意思其实是对指定流指定具体编解码器：
 
@@ -188,21 +168,113 @@ $ ffmpeg -i input.mkv -i subtitles.ass -c:v copy -c:a copy -c:s srt output.mkv
 
 许多飞利浦蓝光播放器、三星智能电视和其他独立播放器只能读取“MKV”文件中的“SRT”字幕流，所以一定根据需要使用。
 
-### 设置默认字幕
+## 设置默认字幕
 
-mkv 添加 ass 字幕不会被设置为默认字幕（其他视频格式或字幕也可能存在该问题），因此在播放时必须在播放器中手动选择才会显示软字幕。
+使用 `ffmpeg` 给视频添加字幕，默认情况下新添加的字幕轨道可能会被设置为未激活状态（即默认不显示）。导致的问题就是使用播放器播放时默认不显示字幕，必须手动在字幕设置中选择才会显示。
 
-一个好的办法是直接将该软字幕设置为默认字幕，这样在播放时就会自动显示了。具体可以使用 -disposition 参数，比如前面的mkv 添加 ass 字幕，直接将字幕设置为默认字幕：
+要想实现字幕默认显示效果，在添加字幕时，需要给字幕轨道设置一些元数据标签（特别是 `title` 和 `default` 标签）。这个过程通过 `-metadata` 选项来实现。命令示例：
 
-```bash
-$ ffmpeg -i input.mkv -i subtitles.ass -c copy -disposition:s:0 default output.mkv
+```
+ffmpeg \
+-i video_file \
+-i subtitles_file \
+-c copy \
+-map 0 \
+-map 1 \
+-metadata:s:s:0 handler_name="Subtitles" \
+-metadata:s:s:0 title="字幕描述" \
+-metadata:s:s:0 disposition:default=1 \
+output_video_file
 ```
 
 其中 `s` 表示字幕，`0` 表示的是字幕索引。如果只有一个字幕时使用 0 就可以了~
 
-## 视频添加软字幕（推荐） - 多语言
+下面是 metadata 说明：
 
-前面示例中只是添加一个字幕（即单语言），其实我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。缺点是，某些播放器可能不会自动显示字幕，需要手动选择指定语言才会显示。
+| **元素据标签**               | **释意**                                                              |
+| :---------------------- | :------------------------------------------------------------------ |
+| `handler_name`          | 这个标签通常用来标识媒体流的类型，是一个内部名称，主要用于播放器内部逻辑，如决定如何处理该流。如果是字幕则固定为 Subtitles。 |
+| `title`                 | 这个标签是用来给人看的，通常设置的是字幕语言说明（如简中、简中英）。                                  |
+| `disposition:default=1` | 这个选项是关键，它将该字幕轨道设置为默认显示                                              |
+
+**特别说明：** 不同的视频播放器处理默认字幕的方式可能不同。一些播放器可能会忽略 `disposition:default` 元数据，所以如果字幕仍然没有自动显示，就只能手动选择了~
+
+## 常用元数据标签
+
+除了 `title` 和 `handler_name` 之外，`ffmpeg` 支持多种元数据标签来描述和控制媒体流的行为。以下是一些常见的元数据标签及其用途：
+
+1、**language**：指定语言代码，用于描述流的语言，如 `"eng"`、`"zh-Hans"` 等
+
+```
+-metadata:s:s:0 language=eng
+```
+
+不过语言代码并没有严格显示，可以自定义，比如 chs 表示简中，cht 表示繁中。不过如果想使用标准的语言代码可以参考如下资料：
+
+[https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes)
+
+[https://registry-page.isdcf.com/languages/](https://registry-page.isdcf.com/languages/)
+
+2、**disposition:default**：设置是否作为默认轨道启用。`1` 表示启用，`0` 表示禁用
+
+```
+-metadata:s:s:0 disposition:default=1
+```
+
+3、**disposition:dub**：设置是否作为配音轨道。`1` 表示启用，`0` 表示禁用。
+
+```
+-metadata:s:s:0 disposition:dub=0
+```
+
+4、**disposition:original**：设置是否为原始轨道。`1` 表示启用，`0` 表示禁用。
+
+```
+-metadata:s:s:0 disposition:original=0
+```
+
+5、**disposition:comment**：设置是否为评论轨道。`1` 表示启用，`0` 表示禁用。
+
+```
+-metadata:s:s:0 disposition:comment=0
+```
+
+6、**disposition:lyrics**：设置是否为歌词轨道。`1` 表示启用，`0` 表示禁用。
+
+```
+-metadata:s:s:0 disposition:lyrics=0
+```
+
+7、**disposition:karaoke**：设置是否为卡拉OK轨道。`1` 表示启用，`0` 表示禁用。
+
+```
+-metadata:s:s:0 disposition:karaoke=0
+```
+
+8、**tags**：可以用来设置任意的标签信息，用于描述轨道的其他特性。
+
+```
+-metadata:s:s:0 tags=foo=bar
+```
+
+
+下面是一个完整的例子，其中包含了多个元数据标签：
+
+```bash
+ffmpeg -i input.mkv -i input.ass -c copy -map 0 -map 1 \ 
+-metadata:s:s:0 handler_name="Subtitles" \ 
+-metadata:s:s:0 title="English Subtitles" \ 
+-metadata:s:s:0 language=eng \ 
+-metadata:s:s:0 disposition:default=1 \ 
+-metadata:s:s:0 disposition:comment=0 \ 
+-metadata:s:s:0 disposition:lyrics=0 \ 
+-metadata:s:s:0 tags=foo=bar \ 
+output.mkv
+```
+
+# 视频添加软字幕 - 多语言
+
+前面示例中只是添加一个字幕（即单语言），其实我们也可以对一个视频添加多个语言的字幕，比如添加简体中文、英文以及繁体中文。
 
 比如我有一个视频文件 Mieruko-chan.mkv，并且有两个 ass 字幕文件：
 
@@ -213,23 +285,34 @@ Mieruko-chan.cht.ass  # 中文繁体
 Mieruko-chan.mkv      # mkv视频文件
 ```
 
-如果想将两个 ass 字幕同时添加到 mkv 视频中，可以使用下面的命令：
+如果想将两个 ass 字幕同时添加到 mkv 视频中（并将中文繁体设置为默认字幕），可以使用下面的命令：
 
 ```bash
-$ ffmpeg -i Mieruko-chan.mkv -i Mieruko-chan.chs.ass -i Mieruko-chan.cht.ass \
+$ ffmpeg -i Mieruko-chan.mkv \
+-i Mieruko-chan.chs.ass \
+-i Mieruko-chan.cht.ass \
 -c:v copy -c:a copy -c:s copy \
 -map 0:v -map 0:a -map 1 -map 2 \
+-metadata:s:s:0 handler_name="Subtitles" \ 
+-metadata:s:s:0 title="简体中文" \
 -metadata:s:s:0 language=chs \
+-metadata:s:s:1 handler_name="Subtitles" \ 
+-metadata:s:s:1 title="繁体中文" \
 -metadata:s:s:1 language=cht \
+-metadata:s:s:1 disposition:default=1 \ 
 output.mkv
 ```
 
-前三行前面都已经介绍过，没什么好说的。主要是看如下几行：
+这些参数没什么好说的。主要是看如下几行：
 
 ```bash
+-c:v copy -c:a copy -c:s copy \
 -map 0:v -map 0:a -map 1 -map 2 \
+
 -metadata:s:s:0 language=chs \
+
 -metadata:s:s:1 language=cht \
+-metadata:s:s:1 disposition:default=1 \ 
 ```
 
 `-map` 是轨道参数，一个 `map` 就是一个轨道。如果只有一个字幕，就不需要这个参数（前面就没使用）。在这个例子中：
@@ -245,11 +328,8 @@ output.mkv
 
 -metadata:s:s:0 language=chs 第一条字幕的语言设置为中文简体
 -metadata:s:s:1 language=cht 第二条字幕的语言设置为中文繁体
+-metadata:s:s:1 disposition:default=1 将第二条字幕设置为默认语言
 ```
-
-| **Note**                                                     |
-| :----------------------------------------------------------- |
-| 语言不能写错或自定义，只能设置成固定的缩写。比如 chs 表示中文简体、cht 表示中文繁体。 |
 
 之后使用 `ffprobe` 看下最终输出的视频的流信息：
 
@@ -257,52 +337,17 @@ output.mkv
 $ ffprobe output.mkv
 
 ...
-
-Stream #0:1(jpn): Audio: flac, 48000 Hz, stereo, s32 (24 bit) (default)
-  Metadata:
-    BPS-eng         : 1417173
-    DURATION-eng    : 00:23:41.090000000
-    NUMBER_OF_FRAMES-eng: 16654
-    NUMBER_OF_BYTES-eng: 251741460
-    _STATISTICS_WRITING_APP-eng: mkvmerge v48.0.0 ('Fortress Around Your Heart') 64-bit
-    _STATISTICS_WRITING_DATE_UTC-eng: 2022-05-04 21:36:50
-    _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-    DURATION        : 00:23:41.090000000
-Stream #0:2(jpn): Audio: aac (LC), 48000 Hz, stereo, fltp
-  Metadata:
-    BPS-eng         : 190019
-    DURATION-eng    : 00:23:41.098000000
-    NUMBER_OF_FRAMES-eng: 66614
-    NUMBER_OF_BYTES-eng: 33754594
-    _STATISTICS_WRITING_APP-eng: mkvmerge v48.0.0 ('Fortress Around Your Heart') 64-bit
-    _STATISTICS_WRITING_DATE_UTC-eng: 2022-05-04 21:36:50
-    _STATISTICS_TAGS-eng: BPS DURATION NUMBER_OF_FRAMES NUMBER_OF_BYTES
-    DURATION        : 00:23:41.098000000
 Stream #0:3(chs): Subtitle: ass (default) # 第三个轨道是 chs 字幕, 编码格式为 ass
   Metadata:
     DURATION        : 00:23:39.930000000
+    ....
 Stream #0:4(cht): Subtitle: ass           # 第四个轨道是 cht 字幕, 编码格式为 ass
   Metadata:
     DURATION        : 00:23:39.930000000
+    ....
 ```
 
-### 选择默认字幕
-
-与添加单软字幕一样，即使是多语言字幕也不会自动显示。如果想要显示默认语言也需要使用 -disposition 参数。比如将上面的中文繁体设置为默认字幕：
-
-```bash
-$ ffmpeg -i Mieruko-chan.mkv -i Mieruko-chan.chs.ass -i Mieruko-chan.cht.ass \
--c:v copy -c:a copy -c:s copy \
--map 0:v -map 0:a -map 1 -map 2 \
--metadata:s:s:0 language=chs \
--metadata:s:s:1 language=cht \
--disposition:s:1 default \
-output.mkv
-```
-
-因为中文繁体是在第二个位置，所以索引要设置为 1。
-
-## 视频添加硬字幕
+# 视频添加硬字幕
 
 <u>实际上并不推荐使用硬字幕，但这里也需要说下</u>。要在视频流上面加上字幕，需要使用一个叫做 `subtitles` 的滤镜。要使用这个滤镜，在命令中写上 `-vf subtitles=字幕文件名` 。另外，如果文件名包含空格或其他特殊字符，需要使用英文引号包起来： `-vf subtitles="字幕 文件名"`。
 
@@ -348,21 +393,9 @@ $ ffmpeg -i input.mkv -vf ass=subtitles.ass output.mp4
 
 关于 `ass` 滤镜的说明见官网文档：[http://ffmpeg.org/ffmpeg-all.html#ass](https://p3terx.com/go/aHR0cDovL2ZmbXBlZy5vcmcvZmZtcGVnLWFsbC5odG1sI2Fzcw)
 
-| **Note**                                                     |
-| :----------------------------------------------------------- |
+| **Note**                                                                                                        |
+| :-------------------------------------------------------------------------------------------------------------- |
 | 在实际使用中发现 `ass` 和 `subtitles` 最终效果并无区别，但 `ass` 只能使用 ASS 字幕文件，不可以直接使用容器中的字幕流，所以直接使用 `subtitles` 即可，省去了手动提取和转换的过程。 |
-
-## 提取视频字幕
-
-提取视频字幕只针对软字幕，硬字幕无法提取。命令如下：
-
-```bash
-$ ffmpeg -i input.mkv output.srt
-```
-
-| **Note**                                                     |
-| :----------------------------------------------------------- |
-| 例子中生成的是 srt 格式的，可以任意生成所需的格式，改一下扩展名即可（如 ass 格式）。 |
 
 # 参考链接
 

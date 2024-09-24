@@ -6,7 +6,7 @@
 
 这个图片是我抽象化的一个mkv格式的视频文件，该文件有一个视频流，两个音频流，两个字幕流。图片中流的顺序就是之后演示的顺序。
 
-使用 FFMPEG 提取视频文件中的流主要有两种命令形式。一种是最简单的 `-xn` 参数：
+使用 FFMPEG 提取视频文件中的流主要有两种命令形式。一种是最简单的 `-{x}n` 参数：
 
 $$
 -[v|a|s]:n
@@ -14,9 +14,9 @@ $$
 
 其中 v 表示 video（即视频），a 表示 audio（即音频），s 表示 subtitle（即字幕）。而后面的 n 表示 no，即不输出的意思。也就是说 `-vn` 表示不输出视频，`-an` 表示不输出音频，`-sn` 表示不输出字幕。用起来很简单，但是不够强大，这个之后来说明。
 
-另一种则是使用 `-map` 参数做映射。这种形式可以做任何事，但是比较繁琐...
+另一种则是使用 `-map` 参数做映射。这种形式可以做任何事，但是比较繁琐，不咋推荐...
 
-# 使用 `-xn` 实现流提取
+# 使用 `-xn` 实现流提取（推荐）
 
 `-xn` 用起来很简单，只需要指定不输出哪些信息即可：
 
@@ -29,6 +29,7 @@ ffmpeg \
 -i input.mkv \
 -an \
 -sn \
+-c copy \
 output.mkv
 ```
 
@@ -47,6 +48,7 @@ ffmpeg \
 -i input.mkv \
 -vn \
 -sn \
+-c copy \
 output.m4a
 ```
 
@@ -65,6 +67,7 @@ ffmpeg \
 -i input.mkv \
 -vn \
 -an \
+-c copy \
 output.srt
 ```
 
@@ -93,6 +96,7 @@ Error initializing output stream 0:1 --
 ffmpeg \
 -i input.mkv \
 -map 0:v \
+-c copy \
 output.mkv
 ```
 
@@ -108,6 +112,7 @@ output.mkv
 ffmpeg \
 -i input.mkv \
 -map 0:a \
+-c copy \
 output.m4a
 ```
 
@@ -117,6 +122,7 @@ output.m4a
 ffmpeg \
 -i input.mkv \
 -map 0:a:0 \
+-c copy \
 output.m4a
 ```
 
@@ -127,7 +133,8 @@ output.m4a
 ```bash
 ffmpeg \
 -i input.mkv \
--map 0:a:0 \
+-map 0:a:1 \
+-c copy \
 output.m4a
 ```
 
@@ -140,6 +147,7 @@ ffmpeg \
 -i input.mkv \
 -map 0:a:0 \
 -map 0:a:1 \
+-c copy \
 output.m4a
 ```
 
@@ -155,6 +163,7 @@ output.m4a
 ffmpeg \
 -i input.mkv \
 -map 0:s:0 \
+-c copy \
 output.srt
 ```
 
@@ -164,6 +173,7 @@ output.srt
 ffmpeg \
 -i input.mkv \
 -map 0:s:1 \
+-c copy \
 output.srt
 ```
 
@@ -179,7 +189,8 @@ output.srt
 ffmpeg \
 -i video.mp4 \
 -map 0:a \
--y output.mp3
+-y \
+output.mp3
 ```
 
 ## 从 MP4 中导出 WAV
@@ -188,7 +199,8 @@ ffmpeg \
 ffmpeg \
 -i video.mp4 \
 -map 0:a \
--y output.wav
+-y \
+output.wav
 ```
 
 ## 从 MKV 中导出 MP3
@@ -197,7 +209,8 @@ ffmpeg \
 ffmpeg \
 -i video.mkv \
 -map 0:a \
--y output.mp3
+-y \
+output.mp3
 ```
 
 ## 从 MKV 中导出 WAV
@@ -206,8 +219,12 @@ ffmpeg \
 ffmpeg \
 -i video.mkv \
 -map 0:a \
--y output.wav
+-y \
+output.wav
 ```
+
+
+> 猜猜这几个格式转换命令中，我为啥没加 `-c copy`？
 
 # 扩展
 
