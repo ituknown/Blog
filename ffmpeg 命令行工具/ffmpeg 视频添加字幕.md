@@ -19,11 +19,9 @@ Mieruko-chan.mkv
 
 不过有些视频播放器不会自动加载同级目录下的字幕文件，因此就需要手动选择（点击加载字幕按钮选择本地字幕文件）。
 
-## 软字幕（内挂字幕）
+## 内挂字幕（软字幕）
 
-软字幕也叫内挂字幕、封装字幕、内封字幕，字幕流等，就是把前面的外挂字幕的字幕文件嵌入到视频中作为流的一部分，这样在播放视频时同样的会自动显示字幕。
-
-但是如果一个视频有多个字幕流（比如上图中有两个外挂字幕），那么在播放时还需要手动选择对应的字幕流。
+内挂字幕也叫软字幕、封装字幕、内封字幕，字幕流等。就是把前面的外挂字幕的字幕文件嵌入到视频中作为流的一部分，在播放视频时可以随意切换字幕。
 
 一个完整的视频一般包括视频流、音频流和字幕流。字幕流就是将软字幕嵌入到视频中作为流使用，后期可以使用相关工具提取字幕流或者编辑以及删除等操作（通常而言，推荐使用软字幕）。
 
@@ -77,21 +75,31 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 ## SRT（SubRip Text，标准外挂字幕格式）
 
-其制作规范简单，一句时间一句字幕，只包含文字和时间码，没有样式，显示效果由播放器决定，不同的播放器显示出的效果可能差别很大（下面是 srt 字幕文件内容示例）。
+其制作规范简单，一句时间一句字幕，只包含文字和时间码，没有样式。显示效果由播放器决定，不同的播放器显示出的效果可能差别很大。SRT 字幕是兼容性最好也是最通用的字幕。
+
+下面是 srt 字幕文件内容示例：
 
 ![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
 ## ASS（Advanced Sub Station，高级外挂字幕格式）
 
-用以实现比传统字幕诸如srt等格式更为复杂的功能，ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Events]`、`[Fonts]` 以及 `[Graphics]`。支持样式、字体、字幕定位、淡入淡出、简单的特效。如果不缺字体，不同的播放器显示效果基本一致（下面是 srt 字幕文件内容示例）。
+ass 字幕比传统格式（如srt）字幕更强大，支持设置样式、字体、字幕定位、淡入淡出、简单的特效。
 
-![subtitles-ass-example-wX57qkv4M136SDPOFB.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
+因为可以设置样式，导致该字幕兼容性并不好。比如设置的字幕字体不存在，播放器无法正常解析样式表都会导致字幕无法正常显示。但如果不缺字体，不同的播放器显示效果将会基本一致！
 
 总的来说，想要字幕带特效，选 ASS 准没错~
 
+ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Events]`、`[Fonts]` 以及 `[Graphics]`。
+
+下面是 srt 字幕文件内容示例：
+
+![subtitles-ass-example-wX57qkv4M136SDPOFB.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
+
 ## WebVTT （Web Video Text Tracks）字幕格式
 
-WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一个 `.vtt` 结尾的纯文本文件。不过某些播放器无法正常加载，需要将 vtt 转为 srt 格式（下面是 vtt 字幕文件内容示例）。
+WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一个 `.vtt` 结尾的纯文本文件。不过某些播放器无法正常加载，需要将 vtt 转为 srt 格式。
+
+下面是 vtt 字幕文件内容示例：
 
 ![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](http://blog-media.knowledge.ituknown.cn/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
 
