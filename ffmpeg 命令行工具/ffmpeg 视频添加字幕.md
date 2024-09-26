@@ -195,7 +195,7 @@ ffmpeg \
 output_video_file
 ```
 
-其中 `s` 表示字幕，`0` 表示的是字幕索引。如果只有一个字幕时使用 0 就可以了~
+其中第一个 `s` 表示流，第二个 `s` 表示字幕（相应的视频流使用 `v`，音频流使用 `a`）。`0` 表示的是字幕流索引。如果只有一个字幕时使用 0 就可以了~
 
 下面是 metadata 说明：
 
@@ -205,7 +205,29 @@ output_video_file
 | `title`                 | 这个标签是用来给人看的，通常设置的是字幕语言说明（如简中、简中英）。                                  |
 | `disposition:default=1` | 这个选项是关键，它将该字幕轨道设置为默认显示                                              |
 
-**特别说明：** 不同的视频播放器处理默认字幕的方式可能不同。一些播放器可能会忽略 `disposition:default` 元数据，所以如果字幕仍然没有自动显示，就只能手动选择了~
+**特别说明：** 不同的视频播放器处理默认字幕的方式可能不同。一些播放器可能会忽略 `disposition:default` 元数据，所以在处理时最好再加一个参数：
+
+```
+-disposition:s:0 default 指定第一个字幕流为默认显示字幕。
+```
+
+完整命令如下：
+
+```
+ffmpeg \
+-i video_file \
+-i subtitles_file \
+-c copy \
+-map 0 \
+-map 1 \
+-metadata:s:s:0 handler_name="Subtitles" \
+-metadata:s:s:0 title="字幕描述" \
+-metadata:s:s:0 disposition:default=1 \
+-disposition:s:0 default \
+output_video_file
+```
+
+如果在播放时还是默认不显示指定的字幕的话，那就没法了，只能手动选择了~
 
 ## 常用元数据标签
 
@@ -277,6 +299,7 @@ ffmpeg -i input.mkv -i input.ass -c copy -map 0 -map 1 \
 -metadata:s:s:0 disposition:comment=0 \ 
 -metadata:s:s:0 disposition:lyrics=0 \ 
 -metadata:s:s:0 tags=foo=bar \ 
+-disposition:s:0 default \
 output.mkv
 ```
 
@@ -304,10 +327,12 @@ $ ffmpeg -i Mieruko-chan.mkv \
 -metadata:s:s:0 handler_name="Subtitles" \ 
 -metadata:s:s:0 title="简体中文" \
 -metadata:s:s:0 language=chs \
+-metadata:s:s:1 disposition:default=0 \ 
 -metadata:s:s:1 handler_name="Subtitles" \ 
 -metadata:s:s:1 title="繁体中文" \
 -metadata:s:s:1 language=cht \
 -metadata:s:s:1 disposition:default=1 \ 
+-disposition:s:1 default \
 output.mkv
 ```
 
@@ -321,6 +346,7 @@ output.mkv
 
 -metadata:s:s:1 language=cht \
 -metadata:s:s:1 disposition:default=1 \ 
+-disposition:s:1 default \
 ```
 
 `-map` 是轨道参数，一个 `map` 就是一个轨道。如果只有一个字幕，就不需要这个参数（前面就没使用）。在这个例子中：
@@ -337,6 +363,8 @@ output.mkv
 -metadata:s:s:0 language=chs 第一条字幕的语言设置为中文简体
 -metadata:s:s:1 language=cht 第二条字幕的语言设置为中文繁体
 -metadata:s:s:1 disposition:default=1 将第二条字幕设置为默认语言
+
+-disposition:s:1 default 防止某些播放器忽略 metadata:disposition 标签, 做一个保险设置
 ```
 
 之后使用 `ffprobe` 看下最终输出的视频的流信息：
