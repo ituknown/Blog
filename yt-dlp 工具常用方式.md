@@ -56,10 +56,10 @@ brew install yt-dlp
 如果你使用 Pip 可以使用下面命令进行安装：
 
 ```bash
-python3 -m pip install -U yt-dlp
+pip3 install -U yt-dlp
 
 # 可选依赖安装
-python3 -m pip install --no-deps -U yt-dlp
+pip3 install --no-deps -U yt-dlp
 ```
 
 对于 Windows 系统，推荐直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制程序包吧。
@@ -68,7 +68,7 @@ python3 -m pip install --no-deps -U yt-dlp
 | :--------------------------------------------------------------------------------- |
 | yt-dlp 在视频合成时基于 ffmpeg，虽然在程序包中有内置 ffmpeg。但还是推荐在操作系统上单独安装一次，防止视频下载后在进行合并音视频的出现未知错误。 |
 
-# 音视频相关常用方式
+# 音视频下载
 
 ## 默认方式下载命令
 
@@ -163,7 +163,7 @@ bestvideo 形式默认会自动选择 webm 格式，因此我们可以使用下�
 -f bestvideo[ext=mp4]/bestvideo[ext=webm]+bestaudio[ext=m4a]/bestaudio[ext=webm]
 ```
 
-### 音视频文件合并
+## 音视频文件合并
 
 有时候使用 `-f` 参数指定具体音视频文件虽然下载完成了，但是不会自动合并，比如使用下面的命令：
 
@@ -208,10 +208,9 @@ yt-dlp https://www.youtube.com/playlist?list=PLpljE1hzFbZZMIEUSB_XL7UKr3iAwq7X_
 --playlist-items ITEM_SPEC      下载播放列表里的特定选集. 如 --playlist-items 1,3,5,7-10, 就会下载 1,3,5,7,8,9,10 集
 ```
 
-|**Note**|
-|:-------|
-|在下载播放列表指定集之前可以先使用 `-F` 参数看下有哪些选集|
-
+| **Note**                         |
+| :------------------------------- |
+| 在下载播放列表指定集之前可以先使用 `-F` 参数看下有哪些选集 |
 
 ## 断点续传
 
@@ -232,12 +231,12 @@ ERROR: unable to download video data: HTTP Error 403: Forbidden
 yt-dlp -c -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
-# 视频封面相关常用方式
+# 视频封面
 
 ## 下载视频封面
 
 ```bash
-yt-dlp --skip-download --write-thumbnail 视频链接
+yt-dlp --skip-download --write-thumbnail [视频链接]
 ```
 
 ## 下载封面并且转为png
@@ -245,7 +244,7 @@ yt-dlp --skip-download --write-thumbnail 视频链接
 某些视频网站默认下载下来是webp格式，如果想要转换成其他格式（如 png）可以加上 `--convert-thumbnail` 参数：
 
 ```bash
-yt-dlp --skip-download --write-thumbnail --convert-thumbnail png 视频链接
+yt-dlp --skip-download --write-thumbnail --convert-thumbnail png [视频链接]
 ```
 
 ## 内嵌视频封面
@@ -260,7 +259,7 @@ yt-dlp --skip-download --write-thumbnail --convert-thumbnail png 视频链接
 yt-dlp --embed-thumbnail --output "output_file.mp4" "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-# 字幕相关常用方式
+# 视频字幕
 
 有些 Youtube 视频字幕也是分离的，所以对于某些视频来说我们还需要下载下对应的字幕。字幕主要有下面这些参数：
 
@@ -304,7 +303,6 @@ tk       Turkmen               vtt, ttml, srv3, srv2, srv1, json3
 
 比如我下载自动生成的中文和英文字幕文件：
 
-
 ```bash
 $ yt-dlp --write-auto-sub --sub-lang "zh-Hans,en" --skip-download https://www.youtube.com/watch\?v\=4eW5SWBi7vs
 
@@ -337,14 +335,13 @@ $ yt-dlp --write-auto-sub --sub-lang "zh-Hans,en" --embed-sub https://www.youtub
 $ yt-dlp --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub https://www.youtube.com/watch?v=4eW5SWBi7vs
 ```
 
-
 现在，当我们播放视频时就可以随意切换字幕了：
 
 ![yt-dlp-embed-subtitle-to-video](http://blog-media.knowledge.ituknown.cn/yt-dlp/yt-dlp-embed-subtitle-to-video.png)
 
-# 网络相关常用方式
+# 网络设置
 
-## 设置网络代理
+## 设置代理
 
 既然下载 Youtube 上的视频怎们能少的了代理呢？
 
@@ -358,7 +355,7 @@ $ yt-dlp --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub
 yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
-## 设置网络超时时间
+## 超时时间
 
 另外还可以设置连接超时时间：
 
@@ -366,7 +363,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 --socket-timeout SECONDS
 ```
 
-## 限制最大下载速度
+## 限制下载速度
 
 如果在上班时偷偷使用 yt-dlp 下载 Youtube 上的视频，每秒几十兆几十兆的下载很容易被网管监控到。所以聪明的做法应该限制一下 yt-dlp 的最大下载速度：
 
@@ -376,7 +373,7 @@ yt-dlp --proxy sockss://127.0.0.1:8889 -f 137+140 https://www.youtube.com/watch?
 
 参数 `MAX_RATE` 就是你指定的每秒下载速度上限，如 50K、4.2M、1024G。
 
-# 用户认证相关
+# 用户认证
 
 `yt-dlp` 提供了通用的网络协议认证方式（即指定用户和密码），参数如下：
 
@@ -487,7 +484,7 @@ $ yt-dlp -o "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/v
 |`{autonumber}`| 用于递增计数，通常与播放列表结合使用|
 |`{description}`| 视频的描述|
 
-# 其他参数
+# 其他
 
 ## 查看支持的网站列表
 
@@ -529,6 +526,12 @@ ID EXT RESOLUTION │  FILESIZE  TBR PROTO │ VCODEC            VBR ACODEC     
 
 ```bash
 yt-dlp -U
+```
+
+如果使用的pip安装，可以直接使用下面命令升级：
+
+```
+pip3 install -U yt-dlp
 ```
 
 # 什么是 WebM 格式
