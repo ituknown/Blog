@@ -126,7 +126,7 @@ ffmpeg \
 output.m4a
 ```
 
-<img alt="-map0:a:0.png" src="https://ituknown.cn/blog-media/FFmpeg/StreamExtract/-map0:a:0.png" height=250>
+<img alt="-map0:a:0.png" src="https://ituknown.cn/blog-media/FFmpeg/StreamExtract/-map0a0.png" height=250>
 
 或导出序号为 1 的音频流：
 
@@ -138,7 +138,7 @@ ffmpeg \
 output.m4a
 ```
 
-<img alt="-map0:a:1.png" src="https://ituknown.cn/blog-media/FFmpeg/StreamExtract/-map0:a:1.png" height=250>
+<img alt="-map0:a:1.png" src="https://ituknown.cn/blog-media/FFmpeg/StreamExtract/-map0a1.png" height=250>
 
 当然，也可以显示指定导出多个音频流：
 
