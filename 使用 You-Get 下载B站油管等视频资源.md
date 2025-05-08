@@ -124,7 +124,7 @@ B 站上有些视频是只有大会员才有权限观看的，`you-get` 没法�
 
 我们只需要使用大会员账号登录后借助 [EditThisCookie](https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg) 等这类能够获取并下载网站 cookies 的工具，将 cookies 下载到本地文件即可：
 
-![EditThisCookieImportCookies-1650165791YByGBoHQ](https://ituknown.cn/blog-media/You-Get/EditThisCookieImportCookies-1650165791YByGBoHQ.png)
+![EditThisCookieImportCookies-1650165791YByGBoHQ](https://ituknown.org/blog-media/You-Get/EditThisCookieImportCookies-1650165791YByGBoHQ.png)
 
 
 比如下载后的 cookies 文件名为：cookies.txt。然后使用 `-c` 或 `--cookies` 参数指定该文件即可下载大会员视频了：

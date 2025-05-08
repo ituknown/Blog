@@ -15,7 +15,7 @@ Mieruko-chan.mkv
 
 当使用视频播放器打开 Mieruko-chan.mkv 文件时，通常会自动加载同级目录下的两个字幕文件，也就有一种 “视频带字幕” 的错觉，这其实是视频播放器的功能（如下图）：
 
-![select-outside-subtitles-cA6tCrw9ODW03BS5K8.png](https://ituknown.cn/blog-media/FFmpeg/subtitles/select-outside-subtitles-cA6tCrw9ODW03BS5K8.png)
+![select-outside-subtitles-cA6tCrw9ODW03BS5K8.png](https://ituknown.org/blog-media/FFmpeg/subtitles/select-outside-subtitles-cA6tCrw9ODW03BS5K8.png)
 
 不过有些视频播放器不会自动加载同级目录下的字幕文件，因此就需要手动选择（点击加载字幕按钮选择本地字幕文件）。
 
@@ -79,7 +79,7 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 下面是 srt 字幕文件内容示例：
 
-![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](https://ituknown.cn/blog-media/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
+![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
 ## ASS（Advanced Sub Station，高级外挂字幕格式）
 
@@ -93,7 +93,7 @@ ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Eve
 
 下面是 srt 字幕文件内容示例：
 
-![subtitles-ass-example-wX57qkv4M136SDPOFB.png](https://ituknown.cn/blog-media/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
+![subtitles-ass-example-wX57qkv4M136SDPOFB.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
 
 ## WebVTT （Web Video Text Tracks）字幕格式
 
@@ -101,7 +101,7 @@ WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一�
 
 下面是 vtt 字幕文件内容示例：
 
-![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](https://ituknown.cn/blog-media/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
+![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
 
 ## Sbv 字幕格式
 
