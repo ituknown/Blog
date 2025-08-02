@@ -24,6 +24,10 @@
 
 - [ffmpeg 视频添加字幕](ffmpeg%20视频添加字幕.md)
 
+- [ffmpeg 视频添加封面](ffmpeg%20视频添加封面.md)
+
 - [ffmpeg 提取音视频及字幕](ffmpeg%20提取音视频及字幕.md)
 
 - [ffmpeg 音视频倍速播放](ffmpeg%20音视频倍速播放.md)
+
+- [ffmpeg 使用 N 卡加速编解码](ffmpeg%20使用%20N%20卡加速编解码.md)
