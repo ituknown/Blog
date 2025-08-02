@@ -10,15 +10,17 @@
 
 - [如何确认视频文件流媒体信息](如何确认视频文件流媒体信息.md)
 
-- [ffmpeg 命令常用方式](ffmpeg%20命令常用方式.md)
+- [ffmpeg 安装](ffmpeg%20安装.md)
 
 - [ffprobe 查看媒体文件头信息](ffprobe%20查看媒体文件头信息.md)
+
+- [ffmpeg 截取视频](ffmpeg%20截取视频.md)
 
 - [ffmpeg 的 map 参数](ffmpeg%20的%20map%20参数.md)
 
 - [ffmpeg 合并多个视频文件](ffmpeg%20合并多个视频文件.md)
 
-- [ffmpeg 流媒体 Metadata](ffmpeg%20流媒体%20Metadata.md)
+- [ffmpeg 修改流媒体 Metadata](ffmpeg%20修改流媒体%20Metadata.md)
 
 - [ffmpeg 视频添加音频](ffmpeg%20视频添加音频.md)
 
