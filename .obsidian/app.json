@@ -17,5 +17,6 @@
   "foldIndent": false,
   "showIndentGuide": false,
   "newLinkFormat": "relative",
-  "attachmentFolderPath": "./"
+  "attachmentFolderPath": "./",
+  "defaultViewMode": "source"
 }

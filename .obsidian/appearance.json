@@ -4,7 +4,7 @@
   "textFontFamily": "Roboto Slab,IBM Plex Mono",
   "monospaceFontFamily": "IBM Plex Mono",
   "nativeMenus": true,
-  "translucency": true,
+  "translucency": false,
   "cssTheme": "GitHub Theme",
   "baseFontSize": 16,
   "baseFontSizeAction": false,
