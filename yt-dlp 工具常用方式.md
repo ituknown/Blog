@@ -8,7 +8,7 @@ yt-dlp 工具将 youtube-dl 与 youtube-dlc 做了整合，同时内部增加了
 
 下面以某国漫（[https://www.youtube.com/watch?v=lHvamusTCK0](https://www.youtube.com/watch?v=lHvamusTCK0)）为例，使用 youtube-dl 和 yt-dlp 的下载速度对比：
 
-![yt-dlp-vs-youtube-dl-1645151899Jfx19M](https://ituknown.org/blog-media/yt-dlp/yt-dlp-vs-youtube-dl-1645151899Jfx19M.png)
+![yt-dlp-vs-youtube-dl-1645151899Jfx19M](https://media.ituknown.org/blog-media/yt-dlp/yt-dlp-vs-youtube-dl-1645151899Jfx19M.png)
 
 很明显，yt-dlp 的下载速度将 youtube-dl 甩了几条街。
 
@@ -24,7 +24,7 @@ yt-dlp 的 Github 仓库地址是：[https://github.com/yt-dlp/yt-dlp](https://g
 
 在仓库的 README 说明中有介绍各种操作系统（Unix/Mac/Windows）的安装方式。另外，也可以直接到 [releases](https://github.com/yt-dlp/yt-dlp/releases) 页面下载二进制安装包进行安装。
 
-下面是类Unix（MacOS、Linux、BSD）操作系统使用 `curl`、`wget` 及 `aria2c` 三种下载工具的安装方式：
+下面是类Unix（MacOS、Linux、BSD）操作系统使用 `curl` 、 `wget` 及 `aria2c` 三种下载工具的安装方式：
 
 curl：
 
@@ -98,14 +98,13 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 
 输出示例：
 
-![yt-dlp-v-F-1645153235ABnGuv](https://ituknown.org/blog-media/yt-dlp/yt-dlp-v-F-1645153235ABnGuv.png)
+![yt-dlp-v-F-1645153235ABnGuv](https://media.ituknown.org/blog-media/yt-dlp/yt-dlp-v-F-1645153235ABnGuv.png)
 
 注意看输出示例中的 VCODEC 栏信息，共分为三类，分别是 images、audio only 和 videi only。也就是说 Youtube 上的视频是音视频分开的。如果你仅仅下载 video only 文件是只有画面没有声音，只下载 audio only 文件则只有声音没有画面。因此在下载时需要同时下载一个 audio only 文件和一个 video only 文件（yt-dlp 默认下载方式会自动下载音视频文件）。
 
 另外，video only 文件分为两类流媒体格式，分别是 mp4 和 webm。webm 是谷歌推出的流媒体格式，与 mp4 区别不大，可以参考文章最后的 webm 文件说明。
 
 输出栏中还有一列 ID 字段，这个是流媒体文件标识，如果想要下载指定的质量的流媒体就需要使用 `-f` 参数指定该 ID（下面会进行说明）。
-
 
 ## 下载指定音视频文件
 
@@ -121,7 +120,7 @@ yt-dlp -F https://www.youtube.com/watch?v=lHvamusTCK0
 yt-dlp -f 137 https://www.youtube.com/watch?v=lHvamusTCK0
 ```
 
-另外，`-f` 参数可同时指定下载多个文件，也可以指定范围下载文件。示例：
+另外， `-f` 参数可同时指定下载多个文件，也可以指定范围下载文件。示例：
 
 ```log
 -f 399,137,248: 下载指定文件
@@ -184,7 +183,7 @@ bestaudio.m4a
 ffmpeg -i bestvide.mp4 -i bestaudio.m4a -c:a copy -c:v copy output.mp4
 ```
 
-其中 `bestvide.mp4` 就是你下载后的视频文件，`bestaudio.m4a` 是你下载后的音频文件，而最后的 `output.mp4` 就是你合并之后输出的文件了。
+其中 `bestvide.mp4` 就是你下载后的视频文件， `bestaudio.m4a` 是你下载后的音频文件，而最后的 `output.mp4` 就是你合并之后输出的文件了。
 
 ## 下载播放列表
 
@@ -274,7 +273,7 @@ yt-dlp --embed-thumbnail --output "output_file.mp4" "https://www.youtube.com/wat
 --skip-download           不下载视频(适用于仅下载字幕时使用)
 ```
 
-下面的示例都以 [MIT 6.824: Distributed Systems](https://www.youtube.com/channel/UC_7WrbZTCODu1o_kfUMq88g) 第十三节课（`https://www.youtube.com/watch?v=4eW5SWBi7vs`）为例做说明。
+下面的示例都以 [MIT 6.824: Distributed Systems](https://www.youtube.com/channel/UC_7WrbZTCODu1o_kfUMq88g) 第十三节课（ `https://www.youtube.com/watch?v=4eW5SWBi7vs` ）为例做说明。
 
 **特别强调：** `--write-auto-sub` 参数用于下载自动生成的字幕文件，意思就是某些视频本身没有字幕，但是 youtube 比较牛逼，可以自动生成多语言字幕。对于这种本身没有字幕的视频我们就可以借助 `--write-auto-sub` 参数来实现字幕下载。因此，在下载 youtube 视频时推荐都加上 `--write-auto-sub` 参数。
 
@@ -337,7 +336,7 @@ $ yt-dlp --write-auto-sub --convert-subs=ass --sub-lang "zh-Hans,en" --embed-sub
 
 现在，当我们播放视频时就可以随意切换字幕了：
 
-![yt-dlp-embed-subtitle-to-video](https://ituknown.org/blog-media/yt-dlp/yt-dlp-embed-subtitle-to-video.png)
+![yt-dlp-embed-subtitle-to-video](https://media.ituknown.org/blog-media/yt-dlp/yt-dlp-embed-subtitle-to-video.png)
 
 # 网络设置
 
@@ -416,12 +415,12 @@ $ yt-dlp --cookies cookies.txt -f https://www.bilibili.com/video/BV1AG4y1k7jX
 
 |**模板变量**|**说明**|
 |:----------|:------|
-|`{title}`|视频的标题|
-|`{id}`|视频的唯一标识符（就是BV号）|
-|`{uploader}`|视频上传者的用户名|
-|`{ext}`|文件扩展名|
-|`{playlist_index}`|当前视频在播放列表中的索引|
-|`{resolution}`|视频分辨率|
+| `{title}` |视频的标题|
+| `{id}` |视频的唯一标识符（就是BV号）|
+| `{uploader}` |视频上传者的用户名|
+| `{ext}` |文件扩展名|
+| `{playlist_index}` |当前视频在播放列表中的索引|
+| `{resolution}` |视频分辨率|
 
 例如，如果你想将文件名设置为 “视频标题_上传者.ext”，可以使用以下命令：
 
@@ -431,7 +430,7 @@ yt-dlp -o "%(title)s_%(uploader)s.%(ext)s" 视频链接
 
 在实际下载中如果不确定自定义的文件名是否符合自己的要求，可以使用 `--print` 或 `--skip-download --get-filename` 做输出测试。
 
-以《宇宙 第三季》为例，我重组的文件名格式为：“索引 文件名.扩展名”。另外，我额外的在索引前面加了一个字母 “P”。同时指定索引为两位数，如果不够两位数就使用 “0” 进行填充。命令如下：
+以《宇宙 第三季》为例，我重组的文件名格式为：“索引 文件名. 扩展名”。另外，我额外的在索引前面加了一个字母 “P”。同时指定索引为两位数，如果不够两位数就使用 “0” 进行填充。命令如下：
 
 ```bash
 $ yt-dlp --print "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/video/BV1vx411C7hk
@@ -461,28 +460,28 @@ $ yt-dlp -o "P%(playlist_index)02d %(title)s.%(ext)s" https://www.bilibili.com/v
 
 |**模板变量**|**说明**|
 |:----------|:------|
-|`{id}`| 视频的唯一标识符（就是BV号）|
-|`{title}`| 视频的标题|
-|`{uploader}`| 视频上传者的用户名|
-|`{uploader_id}`| 视频上传者的唯一标识符|
-|`{channel}`| 视频所属的频道名称|
-|`{channel_id}`| 视频所属的频道唯一标识符|
-|`{upload_date}`| 视频上传的日期（格式为 YYYYMMDD）|
-|`{duration}`| 视频的时长，以秒为单位|
-|`{view_count}`| 视频的观看次数|
-|`{like_count}`| 视频的点赞数|
-|`{dislike_count}`| 视频的踩数|
-|`{comment_count}`| 视频的评论数|
-|`{thumbnail}`| 视频的缩略图链接|
-|`{categories}`| 视频的类别|
-|`{tags}`| 视频的标签|
-|`{formats}`| 视频的可用格式|
-|`{ext}`| 文件扩展名|
-|`{playlist}`| 视频所属的播放列表名称|
-|`{playlist_index}`| 当前视频在播放列表中的索引|
-|`{webpage_url}`| 当前视频对应网页链接|
-|`{autonumber}`| 用于递增计数，通常与播放列表结合使用|
-|`{description}`| 视频的描述|
+| `{id}` | 视频的唯一标识符（就是BV号）|
+| `{title}` | 视频的标题|
+| `{uploader}` | 视频上传者的用户名|
+| `{uploader_id}` | 视频上传者的唯一标识符|
+| `{channel}` | 视频所属的频道名称|
+| `{channel_id}` | 视频所属的频道唯一标识符|
+| `{upload_date}` | 视频上传的日期（格式为 YYYYMMDD）|
+| `{duration}` | 视频的时长，以秒为单位|
+| `{view_count}` | 视频的观看次数|
+| `{like_count}` | 视频的点赞数|
+| `{dislike_count}` | 视频的踩数|
+| `{comment_count}` | 视频的评论数|
+| `{thumbnail}` | 视频的缩略图链接|
+| `{categories}` | 视频的类别|
+| `{tags}` | 视频的标签|
+| `{formats}` | 视频的可用格式|
+| `{ext}` | 文件扩展名|
+| `{playlist}` | 视频所属的播放列表名称|
+| `{playlist_index}` | 当前视频在播放列表中的索引|
+| `{webpage_url}` | 当前视频对应网页链接|
+| `{autonumber}` | 用于递增计数，通常与播放列表结合使用|
+| `{description}` | 视频的描述|
 
 # 其他
 
@@ -522,7 +521,6 @@ ID EXT RESOLUTION │  FILESIZE  TBR PROTO │ VCODEC            VBR ACODEC     
 那现在我下载课程还不轻而易举？
 
 ## 升级 yt-dlp
-
 
 ```bash
 yt-dlp -U

@@ -14,8 +14,8 @@ $ sudo apt install aria2 -y
 
 aria2 的配置文件默认存储在如下两个位置：
 
-- $HOME/.aria2/aria2.conf（优先级最高）
-- $XDG_CONFIG_HOME/aria2/aria2.conf
+* $HOME/.aria2/aria2.conf（优先级最高）
+* $XDG_CONFIG_HOME/aria2/aria2.conf
 
 aria2 在启动时会自动按顺序读取这两处配置，另外我们也可以在启动时使用 `--conf-path=` 参数指定自定义的配置文件。
 
@@ -101,9 +101,9 @@ $ sudo systemctl enable --now aria2
 $ sudo systemctl status aria2
 ```
 
-如下图所示，出现 <span style="color: #3F953A;">active (running) </span> 表示成功启用（另外还能看到 rpc 端口号 6800）：
+如下图所示，出现 <span style="color: #3F953A; ">active (running) </span> 表示成功启用（另外还能看到 rpc 端口号 6800）：
 
-![systemctl-status-aria2.service.png](https://ituknown.org/blog-media/aria2/systemctl-status-aria2.service.png)
+![systemctl-status-aria2.service.png](https://media.ituknown.org/blog-media/aria2/systemctl-status-aria2.service.png)
 
 --
 

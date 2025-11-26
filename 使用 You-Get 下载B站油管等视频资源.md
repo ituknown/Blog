@@ -13,6 +13,7 @@
 You-Get Github 仓库地址是：[https://github.com/soimort/you-get](https://github.com/soimort/you-get)
 
 除此之外，还至此选择清晰度下载~
+
 # 安装
 
 以 Mac 为例, 使用 `brew` 下载即可：
@@ -26,7 +27,9 @@ $ brew install you-get
 安装成功后可以使用 `--help` 命令查看有关帮助信息。
 
 下面以 B站 视频 [《中国惊奇先生》](https://www.bilibili.com/bangumi/play/ss10086/) 为例：
+
 # 下载 B站视频
+
 《中国惊奇先生》B站链接为 [https://www.bilibili.com/bangumi/play/ss10086](https://www.bilibili.com/bangumi/play/ss10086)。
 
 在下载之前先使用 `you-get` 查看视频信息，命令如下：
@@ -35,8 +38,8 @@ $ brew install you-get
 $ you-get -i [url] --debug
 ```
 
-- `-i` 是用于查看视频信息
-- `--debug` 是使用 Debug 输出信息（可选）
+* `-i` 是用于查看视频信息
+* `--debug` 是使用 Debug 输出信息（可选）
 
 下面使用该命令进行查看视频资源信息：
 
@@ -114,8 +117,7 @@ $ you-get --format=flv [url] -o ~/Download -O 中国惊奇先生.mp4
 
 # 下载B站大会员视频
 
-B 站上有些视频是只有大会员才有权限观看的，`you-get` 没法直接下载这类视频。不过该用具提供了可以添加 cookies 参数：
-
+B 站上有些视频是只有大会员才有权限观看的， `you-get` 没法直接下载这类视频。不过该用具提供了可以添加 cookies 参数：
 
 ```
 -c COOKIES_FILE, --cookies COOKIES_FILE
@@ -124,8 +126,7 @@ B 站上有些视频是只有大会员才有权限观看的，`you-get` 没法�
 
 我们只需要使用大会员账号登录后借助 [EditThisCookie](https://chrome.google.com/webstore/detail/editthiscookie/fngmhnnpilhplaeedifhccceomclgfbg) 等这类能够获取并下载网站 cookies 的工具，将 cookies 下载到本地文件即可：
 
-![EditThisCookieImportCookies-1650165791YByGBoHQ](https://ituknown.org/blog-media/You-Get/EditThisCookieImportCookies-1650165791YByGBoHQ.png)
-
+![EditThisCookieImportCookies-1650165791YByGBoHQ](https://media.ituknown.org/blog-media/You-Get/EditThisCookieImportCookies-1650165791YByGBoHQ.png)
 
 比如下载后的 cookies 文件名为：cookies.txt。然后使用 `-c` 或 `--cookies` 参数指定该文件即可下载大会员视频了：
 
@@ -135,7 +136,7 @@ $ you-get -c cookies.txt --format=flv [大会员视频链接]
 
 # 使用 Docker
 
-有的时候会觉得直接在机器上安装 `you-get` 不太方便（比如工作电脑？），所以这个时候使用 docker 就显得很有必要的。`you-get` docker 镜像仓库地址是（非作者）：
+有的时候会觉得直接在机器上安装 `you-get` 不太方便（比如工作电脑？），所以这个时候使用 docker 就显得很有必要的。 `you-get` docker 镜像仓库地址是（非作者）：
 
 https://hub.docker.com/r/kmdgeek/you-get
 
@@ -172,7 +173,7 @@ Downloading 中国惊奇先生.mp4 ...
 
 如果你以为 **You-Get** 仅仅只能下载视频资源你就 **图样图深破** 了
 
-- 下载图片？
+* 下载图片？
 
 ```bash
 $ you-get -i https://stallman.org/rms.jpg

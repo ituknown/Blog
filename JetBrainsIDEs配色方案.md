@@ -14,28 +14,26 @@ Preferences > Editor > Color Scheme > General
 
 # IDEs 默认 Dark 主题
 
-将 Background 修改为 `1E1E1E`，突出编辑区代码。效果如下：
+将 Background 修改为 `1E1E1E` ，突出编辑区代码。效果如下：
 
-![DefaultDark-1E1E1E-1651024826l7iZke](https://ituknown.org/blog-media/IDEsEditorColorScheme/DefaultDark-1E1E1E-1651024826l7iZke.png)
-
+![DefaultDark-1E1E1E-1651024826l7iZke](https://media.ituknown.org/blog-media/IDEsEditorColorScheme/DefaultDark-1E1E1E-1651024826l7iZke.png)
 
 # One Dark Theme 插件
 
-One Dark 主题虽然很好看，但是默认的编辑器区域背景色太晃眼。所以我一般会 Background 修改为 `21252B`：
+One Dark 主题虽然很好看，但是默认的编辑器区域背景色太晃眼。所以我一般会 Background 修改为 `21252B` ：
 
-![OneDark-21252B-1651024832RFmsko](https://ituknown.org/blog-media/IDEsEditorColorScheme/OneDark-21252B-1651024832RFmsko.png)
-
+![OneDark-21252B-1651024832RFmsko](https://media.ituknown.org/blog-media/IDEsEditorColorScheme/OneDark-21252B-1651024832RFmsko.png)
 
 # Visual Studio Code Dark Plus 插件
 
 同样的，vs 主题我也特别喜欢。不过对于编辑区域背景色我还是喜欢微调一下，通常会使用两种背景色，分别如下：
 
-- 使用 `1E1E1E` Background：
+* 使用 `1E1E1E` Background：
 
-![VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ](https://ituknown.org/blog-media/IDEsEditorColorScheme/VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ.png)
+![VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ](https://media.ituknown.org/blog-media/IDEsEditorColorScheme/VSCodeDarkPlus-1E1E1E-1651024836CvwUgJ.png)
 
-- 使用 `242425` Background：
+* 使用 `242425` Background：
 
-![VSCodeDarkPlus-242425-1651024841cJlW2C](https://ituknown.org/blog-media/IDEsEditorColorScheme/VSCodeDarkPlus-242425-1651024841cJlW2C.png)
+![VSCodeDarkPlus-242425-1651024841cJlW2C](https://media.ituknown.org/blog-media/IDEsEditorColorScheme/VSCodeDarkPlus-242425-1651024841cJlW2C.png)
 
 这两个背景色的唯一区别就是编辑区域是否与左侧边栏保持同步颜色。

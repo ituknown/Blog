@@ -15,7 +15,7 @@ Mieruko-chan.mkv
 
 当使用视频播放器打开 Mieruko-chan.mkv 文件时，通常会自动加载同级目录下的两个字幕文件，也就有一种 “视频带字幕” 的错觉，这其实是视频播放器的功能（如下图）：
 
-![select-outside-subtitles-cA6tCrw9ODW03BS5K8.png](https://ituknown.org/blog-media/FFmpeg/subtitles/select-outside-subtitles-cA6tCrw9ODW03BS5K8.png)
+![select-outside-subtitles-cA6tCrw9ODW03BS5K8.png](https://media.ituknown.org/blog-media/FFmpeg/subtitles/select-outside-subtitles-cA6tCrw9ODW03BS5K8.png)
 
 不过有些视频播放器不会自动加载同级目录下的字幕文件，因此就需要手动选择（点击加载字幕按钮选择本地字幕文件）。
 
@@ -79,7 +79,7 @@ Stream #0:2: Subtitle: ass  #### 这个就是字幕流
 
 下面是 srt 字幕文件内容示例：
 
-![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
+![subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png](https://media.ituknown.org/blog-media/FFmpeg/subtitles/subtitles-srt-example-xZ0R2hL64qWDkH81gu1.png)
 
 ## ASS（Advanced Sub Station，高级外挂字幕格式）
 
@@ -89,11 +89,11 @@ ass 字幕比传统格式（如srt）字幕更强大，支持设置样式、字�
 
 总的来说，想要字幕带特效，选 ASS 准没错~
 
-ass 字幕文件通常包含五部分：`[Script Info]`、`[v4+ Styles]`、`[Events]`、`[Fonts]` 以及 `[Graphics]`。
+ass 字幕文件通常包含五部分： `[Script Info]` 、 `[v4+ Styles]` 、 `[Events]` 、 `[Fonts]` 以及 `[Graphics]` 。
 
 下面是 srt 字幕文件内容示例：
 
-![subtitles-ass-example-wX57qkv4M136SDPOFB.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
+![subtitles-ass-example-wX57qkv4M136SDPOFB.png](https://media.ituknown.org/blog-media/FFmpeg/subtitles/subtitles-ass-example-wX57qkv4M136SDPOFB.png)
 
 ## WebVTT （Web Video Text Tracks）字幕格式
 
@@ -101,11 +101,11 @@ WebVTT是通过HTML5中的 元素来标记额外的文本轨道资源，是一�
 
 下面是 vtt 字幕文件内容示例：
 
-![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](https://ituknown.org/blog-media/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
+![subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png](https://media.ituknown.org/blog-media/FFmpeg/subtitles/subtitles-vtt-example-gK2G401Y97Hsyw5LRW.png)
 
 ## Sbv 字幕格式
 
-Youtube的字幕格式，它可以通过youtube自动生成字幕文件，文件后缀 `.sbv`。
+Youtube的字幕格式，它可以通过youtube自动生成字幕文件，文件后缀 `.sbv` 。
 
 # 字幕格式转换
 
@@ -143,11 +143,11 @@ ffmpeg -i video_file -i subtitles_file -c:v copy -c:a copy -c:s copy output_vide
 
 ## 关于编解码器
 
-上面第二条示例命令中都使用了`-c:` 参数，这个参数的意思其实是对指定流指定具体编解码器：
+上面第二条示例命令中都使用了 `-c:` 参数，这个参数的意思其实是对指定流指定具体编解码器：
 
-- `-c:v`：选择视频流编解码器
-- `-c:a`：选择音频流编解码器
-- `-c:s`：选择字幕流编解码器
+* `-c:v`：选择视频流编解码器
+* `-c:a`：选择音频流编解码器
+* `-c:s`：选择字幕流编解码器
 
 `copy` 表示选择对应流默认编解码器。以 `-c:s copy` 为例，如果字幕文件是 ass，那么对应的就是 ass 编解码器：
 
@@ -195,14 +195,14 @@ ffmpeg \
 output_video_file
 ```
 
-其中第一个 `s` 表示流，第二个 `s` 表示字幕（相应的视频流使用 `v`，音频流使用 `a`）。`0` 表示的是字幕流索引。如果只有一个字幕时使用 0 就可以了~
+其中第一个 `s` 表示流，第二个 `s` 表示字幕（相应的视频流使用 `v` ，音频流使用 `a` ）。 `0` 表示的是字幕流索引。如果只有一个字幕时使用 0 就可以了~
 
 下面是 metadata 说明：
 
 | **元素据标签**               | **释意**                                                              |
 | :---------------------- | :------------------------------------------------------------------ |
-| `handler_name`          | 这个标签通常用来标识媒体流的类型，是一个内部名称，主要用于播放器内部逻辑，如决定如何处理该流。如果是字幕则固定为 Subtitles。 |
-| `title`                 | 这个标签是用来给人看的，通常设置的是字幕语言说明（如简中、简中英）。                                  |
+| `handler_name` | 这个标签通常用来标识媒体流的类型，是一个内部名称，主要用于播放器内部逻辑，如决定如何处理该流。如果是字幕则固定为 Subtitles。 |
+| `title` | 这个标签是用来给人看的，通常设置的是字幕语言说明（如简中、简中英）。                                  |
 | `disposition:default=1` | 这个选项是关键，它将该字幕轨道设置为默认显示                                              |
 
 **特别说明：** 不同的视频播放器处理默认字幕的方式可能不同。一些播放器可能会忽略 `disposition:default` 元数据，所以在处理时最好再加一个参数：
@@ -231,9 +231,9 @@ output_video_file
 
 ## 常用元数据标签
 
-除了 `title` 和 `handler_name` 之外，`ffmpeg` 支持多种元数据标签来描述和控制媒体流的行为。以下是一些常见的元数据标签及其用途：
+除了 `title` 和 `handler_name` 之外， `ffmpeg` 支持多种元数据标签来描述和控制媒体流的行为。以下是一些常见的元数据标签及其用途：
 
-1、**language**：指定语言代码，用于描述流的语言，如 `"eng"`、`"zh-Hans"` 等
+1、**language**：指定语言代码，用于描述流的语言，如 `"eng"` 、 `"zh-Hans"` 等
 
 ```
 -metadata:s:s:0 language=eng
@@ -245,37 +245,37 @@ output_video_file
 
 [https://registry-page.isdcf.com/languages/](https://registry-page.isdcf.com/languages/)
 
-2、**disposition:default**：设置是否作为默认轨道启用。`1` 表示启用，`0` 表示禁用
+2、**disposition:default**：设置是否作为默认轨道启用。 `1` 表示启用， `0` 表示禁用
 
 ```
 -metadata:s:s:0 disposition:default=1
 ```
 
-3、**disposition:dub**：设置是否作为配音轨道。`1` 表示启用，`0` 表示禁用。
+3、**disposition:dub**：设置是否作为配音轨道。 `1` 表示启用， `0` 表示禁用。
 
 ```
 -metadata:s:s:0 disposition:dub=0
 ```
 
-4、**disposition:original**：设置是否为原始轨道。`1` 表示启用，`0` 表示禁用。
+4、**disposition:original**：设置是否为原始轨道。 `1` 表示启用， `0` 表示禁用。
 
 ```
 -metadata:s:s:0 disposition:original=0
 ```
 
-5、**disposition:comment**：设置是否为评论轨道。`1` 表示启用，`0` 表示禁用。
+5、**disposition:comment**：设置是否为评论轨道。 `1` 表示启用， `0` 表示禁用。
 
 ```
 -metadata:s:s:0 disposition:comment=0
 ```
 
-6、**disposition:lyrics**：设置是否为歌词轨道。`1` 表示启用，`0` 表示禁用。
+6、**disposition:lyrics**：设置是否为歌词轨道。 `1` 表示启用， `0` 表示禁用。
 
 ```
 -metadata:s:s:0 disposition:lyrics=0
 ```
 
-7、**disposition:karaoke**：设置是否为卡拉OK轨道。`1` 表示启用，`0` 表示禁用。
+7、**disposition:karaoke**：设置是否为卡拉OK轨道。 `1` 表示启用， `0` 表示禁用。
 
 ```
 -metadata:s:s:0 disposition:karaoke=0
@@ -286,7 +286,6 @@ output_video_file
 ```
 -metadata:s:s:0 tags=foo=bar
 ```
-
 
 下面是一个完整的例子，其中包含了多个元数据标签：
 
@@ -357,7 +356,6 @@ output.mkv
 -map 1   表示第三个轨道使用第二个文件建立
 -map 2   表示第四个轨道使用第三个文件建立
 
-
 -metadata:s:s: 是字幕参数, 要与输入文件的顺序保持一致:
 
 -metadata:s:s:0 language=chs 第一条字幕的语言设置为中文简体
@@ -385,11 +383,11 @@ Stream #0:4(cht): Subtitle: ass           # 第四个轨道是 cht 字幕, 编�
 
 # 视频添加硬字幕
 
-<u>实际上并不推荐使用硬字幕，但这里也需要说下</u>。要在视频流上面加上字幕，需要使用一个叫做 `subtitles` 的滤镜。要使用这个滤镜，在命令中写上 `-vf subtitles=字幕文件名` 。另外，如果文件名包含空格或其他特殊字符，需要使用英文引号包起来： `-vf subtitles="字幕 文件名"`。
+<u>实际上并不推荐使用硬字幕，但这里也需要说下</u>。要在视频流上面加上字幕，需要使用一个叫做 `subtitles` 的滤镜。要使用这个滤镜，在命令中写上 `-vf subtitles=字幕文件名` 。另外，如果文件名包含空格或其他特殊字符，需要使用英文引号包起来： `-vf subtitles="字幕 文件名"` 。
 
 ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入到视频帧中，这个过程需要重新编解码操作视频流，所以速度非常非常的慢。
 
-**将外挂字幕文件嵌入到  `output.mkv`：**
+**将外挂字幕文件嵌入到 `output.mkv` ：**
 
 使用 `subtitles` 滤镜为视频添加字幕（将字幕合成到视频流中，输出文件中不含字幕流）：
 
@@ -397,9 +395,9 @@ ffmpeg 最终都会将字幕格式先转换成 ass 字幕流再将字幕嵌入�
 $ ffmpeg -i input.mkv -vf subtitles=subtitles.srt output.mkv
 ```
 
-**将另一个视频的软字幕流嵌入到 `output.mp4`：**
+**将另一个视频的软字幕流嵌入到 `output.mp4` ：**
 
-视频流为 `input.mkv`，字幕流从 `other.mkv` 中提取，并嵌入到 `output.mp4` 文件：
+视频流为 `input.mkv` ，字幕流从 `other.mkv` 中提取，并嵌入到 `output.mp4` 文件：
 
 ```bash
 $ ffmpeg -i input.mkv -vf subtitles=other.mkv output.mp4
@@ -411,7 +409,7 @@ $ ffmpeg -i input.mkv -vf subtitles=other.mkv output.mp4
 $ ffmpeg -i input.mkv -vf subtitles=input.mkv output.mp4
 ```
 
-**将视频的指定字幕流嵌入到 `output.mp4`： **
+**将视频的指定字幕流嵌入到 `output.mp4` ： **
 
 比如视频 `input.mkv` 有两个软字幕流，将第二个字幕流嵌入到 `output.mp4` 文件：
 
@@ -437,7 +435,7 @@ $ ffmpeg -i input.mkv -vf ass=subtitles.ass output.mp4
 
 [视频中的硬字幕、软字幕和外挂字幕，怎么分别？](https://zhuanlan.zhihu.com/p/138387967)
 
-[如何使用 FFmpeg 进行视频转码:字幕](https://wiki.fiveyellowmice.com/wiki/如何使用_FFmpeg_进行视频转码:字幕)
+[如何使用 FFmpeg 进行视频转码: 字幕](https://wiki.fiveyellowmice.com/wiki/如何使用_FFmpeg_进行视频转码: 字幕)
 
 [使用FFmpeg将字幕文件集成到视频文件](http://www.yaosansi.com/post/ffmpeg-burn-subtitles-into-video/)
 

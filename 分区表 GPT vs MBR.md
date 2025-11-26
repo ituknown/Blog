@@ -52,17 +52,17 @@ gtp不在有分区的概念，所有CDEF盘都在一段信息中存储。可以�
 
 使用快捷键 win+R 打开命令提示符，输入 `msinfo32` 并点击确认：
 
-![msinfo32-1673242441xDDNU8SPCS.png](https://ituknown.org/blog-media/GPTvsMBR/msinfo32-1673242441xDDNU8SPCS.png)
+![msinfo32-1673242441xDDNU8SPCS.png](https://media.ituknown.org/blog-media/GPTvsMBR/msinfo32-1673242441xDDNU8SPCS.png)
 
 然后在右侧找到 “BIOS模式” 行，查看其是 “传统” 还是 “UEFI”（传统表示的就是 BIOS）。
 
 UEFI 示例：
 
-![sysinfo-uefi-1673319414qK0cbuV5.png](https://ituknown.org/blog-media/GPTvsMBR/sysinfo-uefi-1673319414qK0cbuV5.png)
+![sysinfo-uefi-1673319414qK0cbuV5.png](https://media.ituknown.org/blog-media/GPTvsMBR/sysinfo-uefi-1673319414qK0cbuV5.png)
 
 传统BIOS 示例：
 
-![sysinfo-bios-1673242395plN1tppTTo.png](https://ituknown.org/blog-media/GPTvsMBR/sysinfo-bios-1673242395plN1tppTTo.png)
+![sysinfo-bios-1673242395plN1tppTTo.png](https://media.ituknown.org/blog-media/GPTvsMBR/sysinfo-bios-1673242395plN1tppTTo.png)
 
 | **NOTE**                                             |
 |:-----------------------------------------------------|
@@ -86,11 +86,11 @@ UEFI 示例：
 
 使用快捷键 win+R 打开命令提示符，输入 `diskpart` 并点击确认来启动 diskpart 实用程序命令行工具：
 
-![diskpart-16732558517qAstK6w.png](https://ituknown.org/blog-media/GPTvsMBR/diskpart-16732558517qAstK6w.png)
+![diskpart-16732558517qAstK6w.png](https://media.ituknown.org/blog-media/GPTvsMBR/diskpart-16732558517qAstK6w.png)
 
 然后，在命令行中键入 `list disk` 命令，然后按 Enter：
 
-![wincmd-list-disk-1673319250sP9z52y4.png](https://ituknown.org/blog-media/GPTvsMBR/wincmd-list-disk-1673319250sP9z52y4.png)
+![wincmd-list-disk-1673319250sP9z52y4.png](https://media.ituknown.org/blog-media/GPTvsMBR/wincmd-list-disk-1673319250sP9z52y4.png)
 
 在上面的示例中，注意看“Gpt”列信息。如果有符号 `*` 则表示该行对应的磁盘使用的是 GPT 分区类型，否者就是 MBR。比如我这里有符号 `*` 就表示 GPT 分区类型。
 
@@ -123,11 +123,11 @@ $ sudo parted /dev/sda print
 
 使用快捷键 win+R 打开命令提示符，输入 `diskpart` 并点击确认来启动 diskpart 实用程序命令行工具：
 
-![diskpart-16732558517qAstK6w.png](https://ituknown.org/blog-media/GPTvsMBR/diskpart-16732558517qAstK6w.png)
+![diskpart-16732558517qAstK6w.png](https://media.ituknown.org/blog-media/GPTvsMBR/diskpart-16732558517qAstK6w.png)
 
 使用 `list disk` 命令确认下当前磁盘分区（比如我这里是 GPT）：
 
-![wincmd-list-disk-1673319250sP9z52y4.png](https://ituknown.org/blog-media/GPTvsMBR/wincmd-list-disk-1673319250sP9z52y4.png)
+![wincmd-list-disk-1673319250sP9z52y4.png](https://media.ituknown.org/blog-media/GPTvsMBR/wincmd-list-disk-1673319250sP9z52y4.png)
 
 想要修改磁盘分区只需使用 `convert` 命令修改为目标分区即可。
 
@@ -143,7 +143,7 @@ convert mbr
 convert gpt
 ```
 
-![win-convert-disktable-1673704205sR286tjh.png](https://ituknown.org/blog-media/GPTvsMBR/win-convert-disktable-1673704205sR286tjh.png)
+![win-convert-disktable-1673704205sR286tjh.png](https://media.ituknown.org/blog-media/GPTvsMBR/win-convert-disktable-1673704205sR286tjh.png)
 
 因为演示，我这里就不去真正的执行了~
 
@@ -169,7 +169,6 @@ New disk label type? msdos
 Warning: The existing disk label on /dev/sda will be destroyed and all data on this disk will be lost. Do you want to continue?
 Yes/No? yes
 ```
-
 
 **特别说明：** 按照习惯来说MBR格式在 Linux 下通常称作dos，如果在“New disk label type?”后输入dos或者mbr会提示无效命令，这时候要用 `help mktable` 查看帮助信息来确认MBR分区在 parted 命令中具体的名称，示例：
 
